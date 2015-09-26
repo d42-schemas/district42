@@ -1,0 +1,20 @@
+{
+  "folders":
+  [
+    {
+      "path": "."
+    }
+  ],
+  "settings":
+  {
+    "tab_size": 2
+  },
+  "build_systems":
+  [
+    {
+      "name": "Python Build System",
+      "working_dir": "$project_path",
+      "cmd": ["python3.5", "$file"]
+    }
+  ]
+}
