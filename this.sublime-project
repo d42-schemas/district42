@@ -14,7 +14,7 @@
     {
       "name": "Python Build System",
       "working_dir": "$project_path",
-      "cmd": ["python3.5", "$file"]
+      "cmd": ["python3.4", "$file"]
     }
   ]
 }

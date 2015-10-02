@@ -1,0 +1,2 @@
+class DeclarationError(Exception):
+  pass
