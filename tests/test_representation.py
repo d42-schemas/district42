@@ -1,21 +1,19 @@
 import unittest
 import district42.json_schema as schema
+from representation_testcase import RepresentationTestCase
 
 
-class TestRepresentation(unittest.TestCase):
-
-  def assertRepr(self, _schema, _repr):
-    return self.assertEqual(repr(_schema), _repr)
+class TestRepresentation(RepresentationTestCase):
   
-  def test_null_type_repr(self):
+  def test_null_type_representation(self):
     self.assertRepr(schema.null, 'schema.null')
 
-  def test_boolean_type_repr(self):
+  def test_boolean_type_representation(self):
     self.assertRepr(schema.boolean,          'schema.boolean')
     self.assertRepr(schema.boolean(True),    'schema.boolean(True)')
     self.assertRepr(schema.boolean.nullable, 'schema.boolean.nullable')
 
-  def test_number_type_repr(self):
+  def test_number_type_representation(self):
     self.assertRepr(schema.number,               'schema.number')
     self.assertRepr(schema.number(42),           'schema.number(42)')
     self.assertRepr(schema.number(3.14),         'schema.number(3.14)')
@@ -28,7 +26,7 @@ class TestRepresentation(unittest.TestCase):
     self.assertRepr(schema.number.multiple(5),   'schema.number.multiple(5)')
     self.assertRepr(schema.number.nullable,      'schema.number.nullable')
 
-  def test_integer_type_repr(self):
+  def test_integer_type_representation(self):
     self.assertRepr(schema.integer,               'schema.integer')
     self.assertRepr(schema.integer(42),           'schema.integer(42)')
     self.assertRepr(schema.integer.min(0),        'schema.integer.min(0)')
@@ -40,7 +38,7 @@ class TestRepresentation(unittest.TestCase):
     self.assertRepr(schema.integer.multiple(5),   'schema.integer.multiple(5)')
     self.assertRepr(schema.integer.nullable,      'schema.integer.nullable')
 
-  def test_float_type_repr(self):
+  def test_float_type_representation(self):
     self.assertRepr(schema.float,                   'schema.float')
     self.assertRepr(schema.float(3.14),             'schema.float(3.14)')
     self.assertRepr(schema.float.min(0.0),          'schema.float.min(0.0)')
@@ -51,7 +49,7 @@ class TestRepresentation(unittest.TestCase):
     self.assertRepr(schema.float.zero,              'schema.float.zero')
     self.assertRepr(schema.float.nullable,          'schema.float.nullable')
 
-  def test_string_type_repr(self):
+  def test_string_type_representation(self):
     self.assertRepr(schema.string,                      'schema.string')
     self.assertRepr(schema.string('banana'),            "schema.string('banana')")
     self.assertRepr(schema.string.length(32),           'schema.string.length(32)')
@@ -65,7 +63,7 @@ class TestRepresentation(unittest.TestCase):
     self.assertRepr(schema.string.uppercase,            'schema.string.uppercase')
     self.assertRepr(schema.string.nullable,             'schema.string.nullable')
 
-  def test_array_type_repr(self):
+  def test_array_type_representation(self):
     self.assertRepr(schema.array,              'schema.array')
     self.assertRepr(schema.array.nullable,     'schema.array.nullable')
     self.assertRepr(schema.array([]),          'schema.array([])')
@@ -135,7 +133,7 @@ class TestRepresentation(unittest.TestCase):
       "})"
     )
   
-  def test_array_of_type_repr(self):
+  def test_array_of_type_representation(self):
     self.assertRepr(schema.array_of(schema.number),
                    'schema.array_of(schema.number)')
 
@@ -157,7 +155,7 @@ class TestRepresentation(unittest.TestCase):
       "}))"
     )
 
-  def test_object_type_repr(self):
+  def test_object_type_representation(self):
     self.assertRepr(schema.object,              'schema.object')
     self.assertRepr(schema.object.nullable,     'schema.object.nullable')
     self.assertRepr(schema.object.length(1),    'schema.object.length(1)')
@@ -190,30 +188,30 @@ class TestRepresentation(unittest.TestCase):
       "})"
     )
 
-  def test_any_type_repr(self):
+  def test_any_type_representation(self):
     self.assertRepr(schema.any,          'schema.any')
     self.assertRepr(schema.any.nullable, 'schema.any.nullable')
 
-  def test_any_of_type_repr(self):
+  def test_any_of_type_representation(self):
     self.assertRepr(schema.any_of(schema.integer, schema.string.numeric),
                    'schema.any_of(schema.integer, schema.string.numeric)')
 
     self.assertRepr(schema.any_of(schema.integer(0), schema.integer(1)).nullable,
                    'schema.any_of(schema.integer(0), schema.integer(1)).nullable')
 
-  def test_one_of_type_repr(self):
+  def test_one_of_type_representation(self):
     self.assertRepr(schema.one_of(schema.integer, schema.string.numeric),
                    'schema.one_of(schema.integer, schema.string.numeric)')
 
     self.assertRepr(schema.one_of(schema.integer(0), schema.integer(1)).nullable,
                    'schema.one_of(schema.integer(0), schema.integer(1)).nullable')
 
-  def test_enum_type_repr(self):
+  def test_enum_type_representation(self):
     self.assertRepr(schema.enum(1, 2, 3),       'schema.enum(1, 2, 3)')
     self.assertRepr(schema.enum('a', 'b', 'c'), "schema.enum('a', 'b', 'c')")
     self.assertRepr(schema.enum(0, 1).nullable, 'schema.enum(0, 1).nullable')
 
-  def test_undefined_type_repr(self):
+  def test_undefined_type_representation(self):
     self.assertRepr(schema.undefined, 'schema.undefined')
 
 
