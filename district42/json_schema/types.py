@@ -50,10 +50,12 @@ class Null(SchemaType):
 
 
 class Boolean(Nullable, Valuable, SchemaType):
+  
   _valuable_types = [bool]
 
 
 class Integer(Nullable, Valuable, Comparable, SchemaType):
+
   _valuable_types = [int]
 
   @property
@@ -80,6 +82,7 @@ class Integer(Nullable, Valuable, Comparable, SchemaType):
 
 
 class Float(Nullable, Valuable, Comparable, SchemaType):
+
   _valuable_types = [float]
 
   @property
@@ -102,6 +105,7 @@ class Float(Nullable, Valuable, Comparable, SchemaType):
 
 
 class Number(Nullable, Valuable, Comparable, SchemaType):
+
   _valuable_types = [int, float]
 
   @property
@@ -136,6 +140,7 @@ class Number(Nullable, Valuable, Comparable, SchemaType):
 
 
 class String(Nullable, Valuable, Subscriptable, Emptyable, SchemaType):
+
   _valuable_types = [str]
 
   def pattern(self, pattern):
