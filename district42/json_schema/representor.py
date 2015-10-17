@@ -56,6 +56,8 @@ class Representor(AbstractVisitor):
       res += '.zero'
     elif 'value' in schema._params:
       res += '({})'.format(schema._params['value'])
+    elif 'unsigned' in schema._params:
+      res += '.unsigned'
     elif 'positive' in schema._params:
       res += '.positive' if schema._params['positive'] else '.non_positive'
     elif 'negative' in schema._params:

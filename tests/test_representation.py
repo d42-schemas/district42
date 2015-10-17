@@ -24,6 +24,7 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.number.non_positive,  'schema.number.non_positive')
     self.assertRepr(schema.number.negative,      'schema.number.negative')
     self.assertRepr(schema.number.non_negative,  'schema.number.non_negative')
+    self.assertRepr(schema.number.unsigned,      'schema.number.unsigned')
     self.assertRepr(schema.number.zero,          'schema.number.zero')
     self.assertRepr(schema.number.multiple(5),   'schema.number.multiple(5)')
     self.assertRepr(schema.number.timestamp,     'schema.number.timestamp')
