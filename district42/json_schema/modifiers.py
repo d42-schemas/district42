@@ -56,3 +56,9 @@ class Emptyable:
     self._params['empty'] = True
     self._params['length'] = 0
     return self
+
+  @property
+  def non_empty(self):
+    self._params['empty'] = False
+    self._params['min_length'] = 1
+    return self

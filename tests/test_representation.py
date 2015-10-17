@@ -54,6 +54,7 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.string.length(32),           'schema.string.length(32)')
     self.assertRepr(schema.string.length(1, 64),        'schema.string.length(1, 64)')
     self.assertRepr(schema.string.empty,                'schema.string.empty')
+    self.assertRepr(schema.string.non_empty,            'schema.string.non_empty')
     self.assertRepr(schema.string.pattern(r'[0-9\-_]'), "schema.string.pattern(r'[0-9\-_]')")
     self.assertRepr(schema.string.alphabetic,           'schema.string.alphabetic')
     self.assertRepr(schema.string.numeric,              'schema.string.numeric')
@@ -69,6 +70,7 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.array.length(10),   'schema.array.length(10)')
     self.assertRepr(schema.array.length(1, 2), 'schema.array.length(1, 2)')
     self.assertRepr(schema.array.empty,        'schema.array.empty')
+    self.assertRepr(schema.array.non_empty,    'schema.array.non_empty')
 
     self.assertRepr(schema.array([schema.integer(0), schema.integer(1)]),
                    'schema.array([schema.integer(0), schema.integer(1)])')
@@ -160,6 +162,7 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.object.length(1),    'schema.object.length(1)')
     self.assertRepr(schema.object.length(0, 1), 'schema.object.length(0, 1)')
     self.assertRepr(schema.object.empty,        'schema.object.empty')
+    self.assertRepr(schema.object.non_empty,    'schema.object.non_empty')
     
     self.assertRepr(
       schema.object({

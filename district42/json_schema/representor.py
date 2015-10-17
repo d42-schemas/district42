@@ -97,7 +97,7 @@ class Representor(AbstractVisitor):
       res += '.uppercase'
 
     if 'empty' in schema._params:
-      res += '.empty'
+      res += '.empty' if schema._params['empty'] else '.non_empty'
     elif 'length' in schema._params:
       res += '.length({})'.format(schema._params['length'])
     elif 'min_length' in schema._params and 'max_length' in schema._params:
@@ -141,7 +141,7 @@ class Representor(AbstractVisitor):
         res += '({})'.format(item.accept(self))
 
     if 'empty' in schema._params:
-      res += '.empty'
+      res += '.empty' if schema._params['empty'] else '.non_empty'
     elif 'length' in schema._params:
       res += '.length({})'.format(schema._params['length'])
     elif 'min_length' in schema._params and 'max_length' in schema._params:
@@ -181,7 +181,7 @@ class Representor(AbstractVisitor):
       res += ',\n'.join(keys) + '\n' + (' ' * indent) + '})'
 
     if 'empty' in schema._params:
-      res += '.empty'
+      res += '.empty' if schema._params['empty'] else '.non_empty'
     elif 'length' in schema._params:
       res += '.length({})'.format(schema._params['length'])
     elif 'min_length' in schema._params and 'max_length' in schema._params:
