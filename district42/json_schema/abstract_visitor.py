@@ -1,4 +1,5 @@
 class AbstractVisitor:
+
   def visit_null(self, schema, *args, **kwargs):
     raise NotImplementedError()
 
@@ -6,12 +7,6 @@ class AbstractVisitor:
     raise NotImplementedError()
 
   def visit_number(self, schema, *args, **kwargs):
-    raise NotImplementedError()
-
-  def visit_integer(self, schema, *args, **kwargs):
-    raise NotImplementedError()
-
-  def visit_float(self, schema, *args, **kwargs):
     raise NotImplementedError()
 
   def visit_string(self, schema, *args, **kwargs):

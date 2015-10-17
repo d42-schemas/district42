@@ -26,7 +26,6 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.number.multiple(5),   'schema.number.multiple(5)')
     self.assertRepr(schema.number.nullable,      'schema.number.nullable')
 
-  def test_integer_type_representation(self):
     self.assertRepr(schema.integer,               'schema.integer')
     self.assertRepr(schema.integer(42),           'schema.integer(42)')
     self.assertRepr(schema.integer.min(0),        'schema.integer.min(0)')
@@ -38,7 +37,6 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.integer.multiple(5),   'schema.integer.multiple(5)')
     self.assertRepr(schema.integer.nullable,      'schema.integer.nullable')
 
-  def test_float_type_representation(self):
     self.assertRepr(schema.float,                   'schema.float')
     self.assertRepr(schema.float(3.14),             'schema.float(3.14)')
     self.assertRepr(schema.float.min(0.0),          'schema.float.min(0.0)')

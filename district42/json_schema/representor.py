@@ -42,7 +42,12 @@ class Representor(AbstractVisitor):
     return res
 
   def visit_number(self, schema):
-    res = 'schema.number'
+    if 'integer' in schema._params and schema._params['integer']:
+      res = 'schema.integer'
+    elif 'float' in schema._params and schema._params['float']:
+      res = 'schema.float'
+    else:
+      res = 'schema.number'
 
     if 'zero' in schema._params:
       res += '.zero'
@@ -61,55 +66,6 @@ class Representor(AbstractVisitor):
 
     if 'multiple' in schema._params:
       res += '.multiple({})'.format(schema._params['multiple'])
-
-    if 'nullable' in schema._params:
-      res += '.nullable'
-
-    return res
-
-  def visit_integer(self, schema):
-    res = 'schema.integer'
-
-    if 'zero' in schema._params:
-      res += '.zero'
-    elif 'value' in schema._params:
-      res += '({})'.format(schema._params['value'])
-    elif 'positive' in schema._params:
-      res += '.positive'
-    elif 'negative' in schema._params:
-      res += '.negative'
-    elif 'min_value' in schema._params and 'max_value' in schema._params:
-      res += '.between({}, {})'.format(schema._params['min_value'], schema._params['max_value'])
-    elif 'min_value' in schema._params:
-      res += '.min({})'.format(schema._params['min_value'])
-    elif 'max_value' in schema._params:
-      res += '.max({})'.format(schema._params['max_value'])
-
-    if 'multiple' in schema._params:
-      res += '.multiple({})'.format(schema._params['multiple'])
-
-    if 'nullable' in schema._params:
-      res += '.nullable'
-
-    return res
-
-  def visit_float(self, schema):
-    res = 'schema.float'
-
-    if 'zero' in schema._params:
-      res += '.zero'
-    elif 'value' in schema._params:
-      res += '({})'.format(schema._params['value'])
-    elif 'positive' in schema._params:
-      res += '.positive'
-    elif 'negative' in schema._params:
-      res += '.negative'
-    elif 'min_value' in schema._params and 'max_value' in schema._params:
-      res += '.between({}, {})'.format(schema._params['min_value'], schema._params['max_value'])
-    elif 'min_value' in schema._params:
-      res += '.min({})'.format(schema._params['min_value'])
-    elif 'max_value' in schema._params:
-      res += '.max({})'.format(schema._params['max_value'])
 
     if 'nullable' in schema._params:
       res += '.nullable'

@@ -54,84 +54,47 @@ class Boolean(Nullable, Valuable, SchemaType):
   _valuable_types = [bool]
 
 
-class Integer(Nullable, Valuable, Comparable, SchemaType):
-
-  _valuable_types = [int]
-
-  @property
-  def positive(self):
-    self._params['positive'] = True
-    self._params['min_value'] = 1
-    return self
-
-  @property
-  def negative(self):
-    self._params['negative'] = True
-    self._params['max_value'] = -1
-    return self
-
-  @property
-  def zero(self):
-    self._params['zero'] = True
-    self._params['value'] = 0
-    return self
-
-  def multiple(self, base):
-    self._params['multiple'] = base
-    return self
-
-
-class Float(Nullable, Valuable, Comparable, SchemaType):
-
-  _valuable_types = [float]
-
-  @property
-  def positive(self):
-    self._params['positive'] = True
-    self._params['min_value'] = 1.0
-    return self
-
-  @property
-  def negative(self):
-    self._params['negative'] = True
-    self._params['max_value'] = -1.0
-    return self
-
-  @property
-  def zero(self):
-    self._params['zero'] = True
-    self._params['value'] = 0.0
-    return self
-
-
 class Number(Nullable, Valuable, Comparable, SchemaType):
 
   _valuable_types = [int, float]
 
   @property
   def integer(self):
-    return Integer()
+    self._params['integer'] = True
+    self._valuable_types = [int]
+    return self
 
   @property
   def float(self):
-    return Float()
+    self._params['float'] = True
+    self._valuable_types = [float]
+    return self
 
   @property
   def positive(self):
     self._params['positive'] = True
-    self._params['min_value'] = 1
+    if 'float' in self._params and self._params['float']:
+      self._params['min_value'] = 1.0
+    else:
+      self._params['min_value'] = 1
     return self
 
   @property
   def negative(self):
     self._params['negative'] = True
-    self._params['max_value'] = -1
+    if 'float' in self._params and self._params['float']:
+      self._params['max_value'] = -1.0
+    else:
+      self._params['max_value'] = -1
     return self
 
   @property
   def zero(self):
     self._params['zero'] = True
-    self._params['value'] = 0
+    if 'float' in self._params and self._params['float']:
+      self._params['value'] = 0.0
+    else:
+      self._params['value'] = 0
     return self
 
   def multiple(self, base):
