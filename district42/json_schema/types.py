@@ -193,8 +193,16 @@ class Array(Nullable, Subscriptable, Emptyable, SchemaType):
 
 class ArrayOf(Nullable, Subscriptable, SchemaType):
   
-  def __call__(self, items_schema):
-    self._params['items_schema'] = items_schema
+  def __call__(self, predicate_or_items_schema):
+    if 'unique' in self._params:
+      self._params['predicate'] = predicate_or_items_schema
+    else:
+      self._params['items_schema'] = predicate_or_items_schema
+    return self
+
+  @property
+  def unique(self):
+    self._params['unique'] = True
     return self
 
 

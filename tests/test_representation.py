@@ -169,6 +169,12 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.array_of(schema.number).max_length(10),
                    'schema.array_of(schema.number).max_length(10)')
 
+    self.assertRepr(schema.array_of(schema.string).unique,
+                   'schema.array_of(schema.string).unique')
+
+    self.assertRepr(schema.array_of(schema.string).unique(lambda a, b: a != b),
+                   'schema.array_of(schema.string).unique(<predicate>)')
+
     self.assertRepr(
       schema.array_of(schema.object({
         'id': schema.string.numeric
