@@ -49,6 +49,9 @@ class Representor(AbstractVisitor):
     else:
       res = 'schema.number'
 
+    if 'timestamp' in schema._params:
+      res += '.timestamp'
+
     if 'zero' in schema._params:
       res += '.zero'
     elif 'value' in schema._params:

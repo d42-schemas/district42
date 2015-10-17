@@ -97,6 +97,11 @@ class Number(Nullable, Valuable, Comparable, SchemaType):
       self._params['value'] = 0
     return self
 
+  @property
+  def timestamp(self):
+    self._params['timestamp'] = True
+    return self
+
   def multiple(self, base):
     self._params['multiple'] = base
     return self
