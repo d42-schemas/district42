@@ -57,9 +57,9 @@ class Representor(AbstractVisitor):
     elif 'value' in schema._params:
       res += '({})'.format(schema._params['value'])
     elif 'positive' in schema._params:
-      res += '.positive'
+      res += '.positive' if schema._params['positive'] else '.non_positive'
     elif 'negative' in schema._params:
-      res += '.negative'
+      res += '.negative' if schema._params['negative'] else '.non_negative'
     elif 'min_value' in schema._params and 'max_value' in schema._params:
       res += '.between({}, {})'.format(schema._params['min_value'], schema._params['max_value'])
     elif 'min_value' in schema._params:

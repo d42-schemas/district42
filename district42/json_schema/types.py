@@ -80,12 +80,30 @@ class Number(Nullable, Valuable, Comparable, SchemaType):
     return self
 
   @property
+  def non_positive(self):
+    self._params['positive'] = False
+    if 'float' in self._params and self._params['float']:
+      self._params['max_value'] = 0.0
+    else:
+      self._params['max_value'] = 0
+    return self
+
+  @property
   def negative(self):
     self._params['negative'] = True
     if 'float' in self._params and self._params['float']:
       self._params['max_value'] = -1.0
     else:
       self._params['max_value'] = -1
+    return self
+
+  @property
+  def non_negative(self):
+    self._params['negative'] = False
+    if 'float' in self._params and self._params['float']:
+      self._params['min_value'] = 0.0
+    else:
+      self._params['min_value'] = 0
     return self
 
   @property
