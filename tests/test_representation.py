@@ -175,6 +175,15 @@ class TestRepresentation(RepresentationTestCase):
 
     self.assertRepr(
       schema.object({
+        'id': schema.integer.positive
+      }).strict,
+      "schema.object({" + "\n" +
+      "  'id': schema.integer.positive" + "\n" +
+      "}).strict"
+    )
+
+    self.assertRepr(
+      schema.object({
         'attrs': schema.object({
           'height': schema.float,
           'width': schema.float

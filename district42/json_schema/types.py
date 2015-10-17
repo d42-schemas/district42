@@ -172,7 +172,12 @@ class Object(Nullable, Subscriptable, Emptyable, SchemaType):
   def __init__(self):
     super().__init__()
     self._params['keys'] = {}
-  
+
+  @property
+  def strict(self):
+    self._params['strict'] = True
+    return self
+
   def __call__(self, keys):
     self._params['keys'] = self.__roll_out(keys)
     return self
