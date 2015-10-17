@@ -139,6 +139,11 @@ class String(Nullable, Valuable, Subscriptable, Emptyable, SchemaType):
     return self
 
   @property
+  def uri(self):
+    self._params['uri'] = True
+    return self
+
+  @property
   def alphabetic(self):
     self._params['alphabetic'] = True
     return self

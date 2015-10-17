@@ -85,6 +85,8 @@ class Representor(AbstractVisitor):
 
     if 'pattern' in schema._params:
       res += '.pattern(r\'{}\')'.format(schema._params['pattern'])
+    elif 'uri' in schema._params:
+      res += '.uri'
 
     if 'alphabetic' in schema._params:
       res += '.alphabetic'
