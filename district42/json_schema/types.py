@@ -166,8 +166,16 @@ class String(Nullable, Valuable, Subscriptable, Emptyable, SchemaType):
 
 class Array(Nullable, Subscriptable, Emptyable, SchemaType):
   
-  def __call__(self, items):
-    self._params['items'] = items
+  def __call__(self, predicate_or_items):
+    if 'unique' in self._params:
+      self._params['predicate'] = predicate_or_items
+    else:
+      self._params['items'] = predicate_or_items
+    return self
+
+  @property
+  def unique(self):
+    self._params['unique'] = True
     return self
 
   def contains(self, item):

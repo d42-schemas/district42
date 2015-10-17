@@ -157,6 +157,9 @@ class Representor(AbstractVisitor):
     elif 'max_length' in schema._params:
       res += '.max_length({})'.format(schema._params['max_length'])
 
+    if 'unique' in schema._params:
+      res += '.unique(<predicate>)' if 'predicate' in schema._params else '.unique'
+
     if 'nullable' in schema._params:
       res += '.nullable'
 
