@@ -53,6 +53,8 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.string('banana'),            "schema.string('banana')")
     self.assertRepr(schema.string.length(32),           'schema.string.length(32)')
     self.assertRepr(schema.string.length(1, 64),        'schema.string.length(1, 64)')
+    self.assertRepr(schema.string.min_length(1),        'schema.string.min_length(1)')
+    self.assertRepr(schema.string.max_length(128),      'schema.string.max_length(128)')
     self.assertRepr(schema.string.empty,                'schema.string.empty')
     self.assertRepr(schema.string.non_empty,            'schema.string.non_empty')
     self.assertRepr(schema.string.pattern(r'[0-9\-_]'), "schema.string.pattern(r'[0-9\-_]')")
@@ -64,13 +66,15 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.string.nullable,             'schema.string.nullable')
 
   def test_array_type_representation(self):
-    self.assertRepr(schema.array,              'schema.array')
-    self.assertRepr(schema.array.nullable,     'schema.array.nullable')
-    self.assertRepr(schema.array([]),          'schema.array([])')
-    self.assertRepr(schema.array.length(10),   'schema.array.length(10)')
-    self.assertRepr(schema.array.length(1, 2), 'schema.array.length(1, 2)')
-    self.assertRepr(schema.array.empty,        'schema.array.empty')
-    self.assertRepr(schema.array.non_empty,    'schema.array.non_empty')
+    self.assertRepr(schema.array,                'schema.array')
+    self.assertRepr(schema.array.nullable,       'schema.array.nullable')
+    self.assertRepr(schema.array([]),            'schema.array([])')
+    self.assertRepr(schema.array.length(10),     'schema.array.length(10)')
+    self.assertRepr(schema.array.length(1, 2),   'schema.array.length(1, 2)')
+    self.assertRepr(schema.array.min_length(1),  'schema.array.min_length(1)')
+    self.assertRepr(schema.array.max_length(10), 'schema.array.max_length(10)')
+    self.assertRepr(schema.array.empty,          'schema.array.empty')
+    self.assertRepr(schema.array.non_empty,      'schema.array.non_empty')
 
     self.assertRepr(schema.array([schema.integer(0), schema.integer(1)]),
                    'schema.array([schema.integer(0), schema.integer(1)])')
@@ -147,6 +151,12 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.array_of(schema.number).length(1, 10),
                    'schema.array_of(schema.number).length(1, 10)')
 
+    self.assertRepr(schema.array_of(schema.number).min_length(1),
+                   'schema.array_of(schema.number).min_length(1)')
+
+    self.assertRepr(schema.array_of(schema.number).max_length(10),
+                   'schema.array_of(schema.number).max_length(10)')
+
     self.assertRepr(
       schema.array_of(schema.object({
         'id': schema.string.numeric
@@ -157,12 +167,14 @@ class TestRepresentation(RepresentationTestCase):
     )
 
   def test_object_type_representation(self):
-    self.assertRepr(schema.object,              'schema.object')
-    self.assertRepr(schema.object.nullable,     'schema.object.nullable')
-    self.assertRepr(schema.object.length(1),    'schema.object.length(1)')
-    self.assertRepr(schema.object.length(0, 1), 'schema.object.length(0, 1)')
-    self.assertRepr(schema.object.empty,        'schema.object.empty')
-    self.assertRepr(schema.object.non_empty,    'schema.object.non_empty')
+    self.assertRepr(schema.object,               'schema.object')
+    self.assertRepr(schema.object.nullable,      'schema.object.nullable')
+    self.assertRepr(schema.object.length(1),     'schema.object.length(1)')
+    self.assertRepr(schema.object.length(0, 1),  'schema.object.length(0, 1)')
+    self.assertRepr(schema.object.min_length(1), 'schema.object.min_length(1)')
+    self.assertRepr(schema.object.max_length(1), 'schema.object.max_length(1)')
+    self.assertRepr(schema.object.empty,         'schema.object.empty')
+    self.assertRepr(schema.object.non_empty,     'schema.object.non_empty')
     
     self.assertRepr(
       schema.object({

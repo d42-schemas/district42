@@ -102,6 +102,10 @@ class Representor(AbstractVisitor):
       res += '.length({})'.format(schema._params['length'])
     elif 'min_length' in schema._params and 'max_length' in schema._params:
       res += '.length({}, {})'.format(schema._params['min_length'], schema._params['max_length'])
+    elif 'min_length' in schema._params:
+      res += '.min_length({})'.format(schema._params['min_length'])
+    elif 'max_length' in schema._params:
+      res += '.max_length({})'.format(schema._params['max_length'])
 
     if 'nullable' in schema._params:
       res += '.nullable'
@@ -146,6 +150,10 @@ class Representor(AbstractVisitor):
       res += '.length({})'.format(schema._params['length'])
     elif 'min_length' in schema._params and 'max_length' in schema._params:
       res += '.length({}, {})'.format(schema._params['min_length'], schema._params['max_length'])
+    elif 'min_length' in schema._params:
+      res += '.min_length({})'.format(schema._params['min_length'])
+    elif 'max_length' in schema._params:
+      res += '.max_length({})'.format(schema._params['max_length'])
 
     if 'nullable' in schema._params:
       res += '.nullable'
@@ -165,6 +173,10 @@ class Representor(AbstractVisitor):
       res += '.length({})'.format(schema._params['length'])
     elif 'min_length' in schema._params and 'max_length' in schema._params:
       res += '.length({}, {})'.format(schema._params['min_length'], schema._params['max_length'])
+    elif 'min_length' in schema._params:
+      res += '.min_length({})'.format(schema._params['min_length'])
+    elif 'max_length' in schema._params:
+      res += '.max_length({})'.format(schema._params['max_length'])
 
     if 'nullable' in schema._params:
       res += '.nullable'
@@ -186,6 +198,10 @@ class Representor(AbstractVisitor):
       res += '.length({})'.format(schema._params['length'])
     elif 'min_length' in schema._params and 'max_length' in schema._params:
       res += '.length({}, {})'.format(schema._params['min_length'], schema._params['max_length'])
+    elif 'min_length' in schema._params:
+      res += '.min_length({})'.format(schema._params['min_length'])
+    elif 'max_length' in schema._params:
+      res += '.max_length({})'.format(schema._params['max_length'])
 
     if 'strict' in schema._params:
       res += '.strict'

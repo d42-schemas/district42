@@ -48,6 +48,14 @@ class Subscriptable:
 
     return self
 
+  def min_length(self, value):
+    self._params['min_length'] = value
+    return self
+
+  def max_length(self, value):
+    self._params['max_length'] = value
+    return self
+
 
 class Emptyable:
 
