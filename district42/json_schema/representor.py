@@ -49,9 +49,6 @@ class Representor(AbstractVisitor):
     else:
       res = 'schema.number'
 
-    if 'timestamp' in schema._params:
-      res += '.timestamp'
-
     if 'zero' in schema._params:
       res += '.zero'
     elif 'value' in schema._params:
@@ -110,6 +107,32 @@ class Representor(AbstractVisitor):
       res += '.min_length({})'.format(schema._params['min_length'])
     elif 'max_length' in schema._params:
       res += '.max_length({})'.format(schema._params['max_length'])
+
+    if 'nullable' in schema._params:
+      res += '.nullable'
+
+    return res
+
+  def visit_timestamp(self, schema):
+    res = 'schema.timestamp'
+
+    if 'value' in schema._params:
+      res += '({})'.format(repr(schema._params['value']))
+
+    if 'unix' in schema._params:
+      res += '.unix'
+    elif 'iso' in schema._params:
+      res += '.iso'
+    elif 'format' in schema._params:
+      res += '.format({})'.format(repr(schema._params['format']))
+
+    if 'min_value' in schema._params and 'max_value' in schema._params:
+      res += '.between({}, {})'.format(repr(schema._params['min_value']),
+                                       repr(schema._params['max_value']))
+    elif 'min_value' in schema._params:
+      res += '.min({})'.format(repr(schema._params['min_value']))
+    elif 'max_value' in schema._params:
+      res += '.max({})'.format(repr(schema._params['max_value']))
 
     if 'nullable' in schema._params:
       res += '.nullable'

@@ -27,7 +27,6 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.number.unsigned,      'schema.number.unsigned')
     self.assertRepr(schema.number.zero,          'schema.number.zero')
     self.assertRepr(schema.number.multiple(5),   'schema.number.multiple(5)')
-    self.assertRepr(schema.number.timestamp,     'schema.number.timestamp')
     self.assertRepr(schema.number.nullable,      'schema.number.nullable')
 
     self.assertRepr(schema.integer,               'schema.integer')
@@ -72,6 +71,35 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.string.lowercase,            'schema.string.lowercase')
     self.assertRepr(schema.string.uppercase,            'schema.string.uppercase')
     self.assertRepr(schema.string.nullable,             'schema.string.nullable')
+
+  def test_timestamp_type_representation(self):
+    self.assertRepr(schema.timestamp,             'schema.timestamp')
+    self.assertRepr(schema.timestamp.unix,        'schema.timestamp.unix')
+    self.assertRepr(schema.timestamp.iso,         'schema.timestamp.iso')
+    self.assertRepr(schema.timestamp(1445444940), 'schema.timestamp(1445444940)')
+
+    self.assertRepr(schema.timestamp('21-10-2015 04:29 pm'),
+                   "schema.timestamp('21-10-2015 04:29 pm')")
+
+    self.assertRepr(schema.timestamp('21-10-2015 04:29 pm').unix,
+                   "schema.timestamp('21-10-2015 04:29 pm').unix")
+
+    self.assertRepr(schema.timestamp('21-10-2015 04:29 pm').iso,
+                   "schema.timestamp('21-10-2015 04:29 pm').iso")
+
+    self.assertRepr(schema.timestamp.min('an hour ago'),
+                   "schema.timestamp.min('an hour ago')")
+    
+    self.assertRepr(schema.timestamp.max('now'),
+                   "schema.timestamp.max('now')")
+
+    self.assertRepr(schema.timestamp.between('2 weeks ago', '1 week ago'),
+                   "schema.timestamp.between('2 weeks ago', '1 week ago')")
+
+    self.assertRepr(schema.timestamp.format('%Y-%m-%d %H:%M:%S'),
+                   "schema.timestamp.format('%Y-%m-%d %H:%M:%S')")
+
+    self.assertRepr(schema.timestamp.nullable, 'schema.timestamp.nullable')
 
   def test_array_type_representation(self):
     self.assertRepr(schema.array,                'schema.array')

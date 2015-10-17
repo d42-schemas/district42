@@ -169,6 +169,25 @@ class String(Nullable, Valuable, Subscriptable, Emptyable, SchemaType):
     return self
 
 
+class Timestamp(Nullable, Valuable, Comparable, SchemaType):
+
+  _valuable_types = [int, str]
+  
+  @property
+  def unix(self):
+    self._params['unix'] = True
+    return self
+
+  @property
+  def iso(self):
+    self._params['iso'] = True
+    return self
+
+  def format(self, timestamp_format):
+    self._params['format'] = timestamp_format
+    return self
+
+
 class Array(Nullable, Subscriptable, Emptyable, SchemaType):
   
   def __call__(self, predicate_or_items):

@@ -12,6 +12,9 @@ class AbstractVisitor:
   def visit_string(self, schema, *args, **kwargs):
     raise NotImplementedError()
 
+  def visit_timestamp(self, schema, *args, **kwargs):
+    raise NotImplementedError()
+
   def visit_array(self, schema, *args, **kwargs):
     raise NotImplementedError()
 

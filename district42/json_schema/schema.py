@@ -30,7 +30,11 @@ class Schema:
   @property
   def string(self):
     return String()
-  
+
+  @property
+  def timestamp(self):
+    return Timestamp()
+
   @property
   def array(self):
     return Array()

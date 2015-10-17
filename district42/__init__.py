@@ -19,6 +19,7 @@ json_schema.types.Null = Null
 json_schema.types.Boolean = Boolean
 json_schema.types.Number = Number
 json_schema.types.String = String
+json_schema.types.Timestamp = Timestamp
 json_schema.types.Array = Array
 json_schema.types.ArrayOf = ArrayOf
 json_schema.types.Object = Object
