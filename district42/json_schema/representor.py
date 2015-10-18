@@ -26,6 +26,9 @@ class Representor(AbstractVisitor):
       keys.append("{}'{}': {}".format(' ' * indent, key, _repr))
     return keys
 
+  def __to_iso_format(self, timestamp):
+    return timestamp.datetime.isoformat()
+
   def visit_null(self, schema):
     res = 'schema.null'
     return res
@@ -117,22 +120,20 @@ class Representor(AbstractVisitor):
     res = 'schema.timestamp'
 
     if 'value' in schema._params:
-      res += '({})'.format(repr(schema._params['value']))
+      res += '({})'.format(repr(self.__to_iso_format(schema._params['value'])))
 
-    if 'unix' in schema._params:
-      res += '.unix'
-    elif 'iso' in schema._params:
+    if 'iso' in schema._params:
       res += '.iso'
     elif 'format' in schema._params:
       res += '.format({})'.format(repr(schema._params['format']))
 
     if 'min_value' in schema._params and 'max_value' in schema._params:
-      res += '.between({}, {})'.format(repr(schema._params['min_value']),
-                                       repr(schema._params['max_value']))
+      res += '.between({}, {})'.format(repr(self.__to_iso_format(schema._params['min_value'])),
+                                       repr(self.__to_iso_format(schema._params['max_value'])))
     elif 'min_value' in schema._params:
-      res += '.min({})'.format(repr(schema._params['min_value']))
+      res += '.min({})'.format(repr(self.__to_iso_format(schema._params['min_value'])))
     elif 'max_value' in schema._params:
-      res += '.max({})'.format(repr(schema._params['max_value']))
+      res += '.max({})'.format(repr(self.__to_iso_format(schema._params['max_value'])))
 
     if 'nullable' in schema._params:
       res += '.nullable'

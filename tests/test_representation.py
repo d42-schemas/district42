@@ -73,28 +73,25 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.string.nullable,             'schema.string.nullable')
 
   def test_timestamp_type_representation(self):
-    self.assertRepr(schema.timestamp,             'schema.timestamp')
-    self.assertRepr(schema.timestamp.unix,        'schema.timestamp.unix')
-    self.assertRepr(schema.timestamp.iso,         'schema.timestamp.iso')
-    self.assertRepr(schema.timestamp(1445444940), 'schema.timestamp(1445444940)')
+    self.assertRepr(schema.timestamp,     'schema.timestamp')
+    self.assertRepr(schema.timestamp.iso, 'schema.timestamp.iso')
 
     self.assertRepr(schema.timestamp('21-10-2015 04:29 pm'),
-                   "schema.timestamp('21-10-2015 04:29 pm')")
-
-    self.assertRepr(schema.timestamp('21-10-2015 04:29 pm').unix,
-                   "schema.timestamp('21-10-2015 04:29 pm').unix")
+                   "schema.timestamp('2015-10-21T16:29:00+00:00')")
 
     self.assertRepr(schema.timestamp('21-10-2015 04:29 pm').iso,
-                   "schema.timestamp('21-10-2015 04:29 pm').iso")
+                   "schema.timestamp('2015-10-21T16:29:00+00:00').iso")
 
-    self.assertRepr(schema.timestamp.min('an hour ago'),
-                   "schema.timestamp.min('an hour ago')")
+    self.assertRepr(schema.timestamp.min('01/01/2015'),
+                   "schema.timestamp.min('2015-01-01T00:00:00+00:00')")
     
-    self.assertRepr(schema.timestamp.max('now'),
-                   "schema.timestamp.max('now')")
+    self.assertRepr(schema.timestamp.max('01/01/2015'),
+                   "schema.timestamp.max('2015-01-01T00:00:00+00:00')")
 
-    self.assertRepr(schema.timestamp.between('2 weeks ago', '1 week ago'),
-                   "schema.timestamp.between('2 weeks ago', '1 week ago')")
+    self.assertRepr(
+      schema.timestamp.between('01/01/2015', '21/10/2015'),
+      "schema.timestamp.between('2015-01-01T00:00:00+00:00', '2015-10-21T00:00:00+00:00')"
+    )
 
     self.assertRepr(schema.timestamp.format('%Y-%m-%d %H:%M:%S'),
                    "schema.timestamp.format('%Y-%m-%d %H:%M:%S')")

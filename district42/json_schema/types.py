@@ -1,4 +1,5 @@
 import re
+import delorean
 from copy import deepcopy
 from .modifiers import *
 
@@ -166,11 +167,23 @@ class String(Nullable, Valuable, Subscriptable, Emptyable, SchemaType):
 
 class Timestamp(Nullable, Valuable, Comparable, SchemaType):
 
-  _valuable_types = [int, str]
-  
-  @property
-  def unix(self):
-    self._params['unix'] = True
+  _valuable_types = [str]
+
+  def __call__(self, value):
+    self._params['value'] = delorean.parse(value)
+    return self
+
+  def min(self, value):
+    self._params['min_value'] = delorean.parse(value)
+    return self
+
+  def max(self, value):
+    self._params['max_value'] = delorean.parse(value)
+    return self
+
+  def between(self, min_value, max_value):
+    self._params['min_value'] = delorean.parse(min_value)
+    self._params['max_value'] = delorean.parse(max_value)
     return self
 
   @property
