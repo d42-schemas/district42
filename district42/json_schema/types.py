@@ -232,10 +232,6 @@ class ArrayOf(Nullable, Subscriptable, SchemaType):
 
 class Object(Nullable, Subscriptable, Emptyable, SchemaType):
 
-  def __init__(self):
-    super().__init__()
-    self._params['keys'] = {}
-
   @property
   def strict(self):
     self._params['strict'] = True

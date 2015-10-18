@@ -215,6 +215,7 @@ class TestRepresentation(RepresentationTestCase):
 
   def test_object_type_representation(self):
     self.assertRepr(schema.object,               'schema.object')
+    self.assertRepr(schema.object({}),           'schema.object({})')
     self.assertRepr(schema.object.nullable,      'schema.object.nullable')
     self.assertRepr(schema.object.length(1),     'schema.object.length(1)')
     self.assertRepr(schema.object.length(0, 1),  'schema.object.length(0, 1)')

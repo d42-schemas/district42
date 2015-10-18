@@ -219,11 +219,14 @@ class Representor(AbstractVisitor):
   def visit_object(self, schema, indent = 0):
     res = 'schema.object'
 
-    if len(schema._params['keys']) > 0:
-      res += '({\n'
-      sorted_items = sorted(schema._params['keys'].items())
-      keys = self.__get_object_keys(sorted_items, indent + 2)
-      res += ',\n'.join(keys) + '\n' + (' ' * indent) + '})'
+    if 'keys' in schema._params:
+      if len(schema._params['keys']) > 0:
+        res += '({\n'
+        sorted_items = sorted(schema._params['keys'].items())
+        keys = self.__get_object_keys(sorted_items, indent + 2)
+        res += ',\n'.join(keys) + '\n' + (' ' * indent) + '})'
+      else:
+        res += '({})'
 
     if 'empty' in schema._params:
       res += '.empty' if schema._params['empty'] else '.non_empty'
