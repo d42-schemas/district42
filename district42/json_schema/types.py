@@ -210,7 +210,7 @@ class Array(Nullable, Subscriptable, Emptyable, SchemaType):
     return self
 
 
-class ArrayOf(Nullable, Subscriptable, SchemaType):
+class ArrayOf(Nullable, Subscriptable, Emptyable, SchemaType):
   
   def __call__(self, predicate_or_items_schema):
     if 'unique' in self._params:

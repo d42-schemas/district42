@@ -186,6 +186,12 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.array_of(schema.boolean).nullable,
                    'schema.array_of(schema.boolean).nullable')
 
+    self.assertRepr(schema.array_of(schema.number).empty,
+                   'schema.array_of(schema.number).empty')
+
+    self.assertRepr(schema.array_of(schema.number).non_empty,
+                   'schema.array_of(schema.number).non_empty')
+
     self.assertRepr(schema.array_of(schema.number).length(2),
                    'schema.array_of(schema.number).length(2)')
 
