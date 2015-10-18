@@ -120,11 +120,6 @@ class Number(Nullable, Valuable, Comparable, SchemaType):
     self._params['unsigned'] = True
     return self.non_negative
 
-  @property
-  def timestamp(self):
-    self._params['timestamp'] = True
-    return self
-
   def multiple(self, base):
     self._params['multiple'] = base
     return self
