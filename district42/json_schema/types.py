@@ -252,6 +252,9 @@ class Object(Nullable, Subscriptable, Emptyable, SchemaType):
   def __add__(self, keys):
     return self.extend(keys)
 
+  def items(self):
+    return self._params['keys'].items()
+
   def __contains__(self, composite_key):
     parts = composite_key.split('.')
     if len(parts) == 1:
