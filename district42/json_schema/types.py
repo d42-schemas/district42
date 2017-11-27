@@ -227,6 +227,7 @@ class Array(Nullable, Subscriptable, Emptyable, SchemaType):
       self._params['predicate'] = predicate_or_items
     else:
       super().__check_type__(predicate_or_items, [list])
+      super().__check_types__(predicate_or_items, [SchemaType])
       self._params['items'] = predicate_or_items
     return self
 
