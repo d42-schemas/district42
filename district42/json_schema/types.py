@@ -1,6 +1,8 @@
 import re
-import delorean
 from copy import deepcopy
+
+import delorean
+
 from .modifiers import *
 
 

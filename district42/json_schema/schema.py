@@ -1,4 +1,6 @@
 from copy import deepcopy
+
+from .errors import DeclarationError
 from .types import *
 
 
@@ -6,6 +8,26 @@ class Schema:
 
   def ref(self, schema):
     return deepcopy(schema)
+
+  def from_native(self, value):
+    if value is None:
+      return self.null
+
+    datatype = type(value)
+    if datatype is bool:
+      return self.boolean(value)
+    elif datatype is int:
+      return self.integer(value)
+    elif datatype is float:
+      return self.float(value)
+    elif datatype is str:
+      return self.string(value)
+    elif datatype is list:
+      return self.array([self.from_native(elem) for elem in value])
+    elif datatype is dict:
+      return self.object({k: self.from_native(v) for k, v in value.items()})
+
+    raise DeclarationError('Unknown type "{}"'.format(datatype))
 
   @property
   def null(self):

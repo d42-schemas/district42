@@ -1,5 +1,5 @@
-from .types import Array, Object
 from .abstract_visitor import AbstractVisitor
+from .types import Array, Object
 
 
 class Representor(AbstractVisitor):
