@@ -300,8 +300,7 @@ class Object(Nullable, Subscriptable, Emptyable, SchemaType):
   def __roll_out(self, keys):
     new_keys = {}
     for composite_key, val in keys.items():
-      if not isinstance(val, SchemaType):
-        raise DeclarationError('Value must be an instance of "SchemaType", instance of {} "{}" given'.format(type(val), val))
+      super().__check_type__(val, [SchemaType])
       parts = composite_key.split('.')
       key = parts[0]
       if key[-1] == '?':
