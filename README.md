@@ -26,6 +26,13 @@ BlogPost = schema.object({
 $ pip3 install district42
 ```
 
+### Tests
+
+```sh
+$ python3 setup.py install
+$ python3 -m unittest tests
+```
+
 ### See Also
 
 - [valeera](https://github.com/nikitanovosibirsk/valeera) - Validator for district42 schema

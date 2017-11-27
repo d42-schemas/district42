@@ -289,7 +289,3 @@ class TestRepresentation(RepresentationTestCase):
 
   def test_undefined_type_representation(self):
     self.assertRepr(schema.undefined, 'schema.undefined')
-
-
-if __name__ == '__main__':
-  unittest.main()
