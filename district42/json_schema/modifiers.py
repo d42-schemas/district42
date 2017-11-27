@@ -12,8 +12,7 @@ class Nullable:
 class Valuable:
 
   def __call__(self, value):
-    if type(value) not in self._valuable_types: 
-      raise DeclarationError()
+    super().__check_type__(value, self._valuable_types)
     self._params['value'] = value
     return self
 
@@ -39,7 +38,7 @@ class Subscriptable:
   def length(self, *args):
     if not (1 <= len(args) <= 2):
       raise DeclarationError()
-    
+
     if len(args) == 1:
       self._params['length'] = args[0]
     else:
