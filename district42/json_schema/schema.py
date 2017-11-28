@@ -1,7 +1,8 @@
 from copy import deepcopy
 
-from .errors import DeclarationError
-from .types import *
+from ..errors import DeclarationError
+from .types import (Any, AnyOf, Array, ArrayOf, Boolean, Enum, Null, Number,
+                    Object, OneOf, SchemaType, String, Timestamp, Undefined)
 
 
 class Schema:

@@ -1,5 +1,5 @@
-from .errors import DeclarationError
-from .helpers import check_type
+from ..errors import DeclarationError
+from ..helpers import check_type
 
 
 class Nullable:

@@ -3,8 +3,8 @@ from copy import deepcopy
 
 import delorean
 
-from .helpers import check_type, check_types
-from .modifiers import *
+from ..helpers import check_type, check_types
+from .modifiers import Comparable, Emptyable, Nullable, Subscriptable, Valuable
 
 
 class SchemaType:

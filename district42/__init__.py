@@ -2,15 +2,14 @@ from argparse import Namespace
 from .json_schema.schema import Schema as JsonSchema
 from .json_schema.abstract_visitor import AbstractVisitor
 from .json_schema.representor import Representor
-from .json_schema.errors import DeclarationError
-from .json_schema.types import *
-from .json_schema.modifiers import *
+from .json_schema.types import (Any, AnyOf, Array, ArrayOf, Boolean, Enum, Null, Number,
+                                Object, OneOf, SchemaType, String, Timestamp, Undefined)
+from .json_schema.modifiers import (Comparable, Emptyable, Nullable, Subscriptable, Valuable)
 
 
 json_schema = JsonSchema()
 json_schema.AbstractVisitor = AbstractVisitor
 json_schema.Representor = Representor
-json_schema.DeclarationError = DeclarationError
 json_schema.types = Namespace()
 json_schema.modifiers = Namespace()
 
