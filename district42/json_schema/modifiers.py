@@ -1,4 +1,5 @@
 from .errors import DeclarationError
+from .helpers import check_type
 
 
 class Nullable:
@@ -12,7 +13,7 @@ class Nullable:
 class Valuable:
 
   def __call__(self, value):
-    super().__check_type__(value, self._valuable_types)
+    assert check_type(value, self._valuable_types)
     self._params['value'] = value
     return self
 

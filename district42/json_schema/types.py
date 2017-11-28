@@ -3,7 +3,7 @@ from copy import deepcopy
 
 import delorean
 
-from .errors import DeclarationError
+from .helpers import check_type, check_types
 from .modifiers import *
 
 
@@ -25,27 +25,6 @@ class SchemaType:
     for attr, val in self.__dict__.items():
       setattr(clone, attr, deepcopy(val, memo))
     return clone
-
-  def __check_type__(self, value, expected_types):
-    for expected_type in expected_types:
-      if isinstance(value, expected_type):
-        return expected_type
-    if len(expected_types) == 2:
-      message = 'Value "{value}" must be an instance of {type1} or {type2}, instance of {actual_type} given'
-    elif len(expected_types) == 1:
-      message = 'Value "{value}" must be an instance of {type1}, instance of {actual_type} given'
-    else:
-      message = 'Value "{value}" must be an instance of {types}, instance of {actual_type} given'
-    raise DeclarationError(message.format(
-      value=value,
-      type1=expected_types[0],
-      type2=expected_types[-1],
-      types=tuple(expected_types),
-      actual_type=type(value)
-    ))
-
-  def __check_types__(self, values, expected_types):
-    return all(self.__check_type__(value, expected_types) for value in values)
 
   @property
   def required(self):
@@ -226,8 +205,8 @@ class Array(Nullable, Subscriptable, Emptyable, SchemaType):
     if 'unique' in self._params:
       self._params['predicate'] = predicate_or_items
     else:
-      super().__check_type__(predicate_or_items, [list])
-      super().__check_types__(predicate_or_items, [SchemaType])
+      assert check_type(predicate_or_items, [list])
+      assert check_types(predicate_or_items, [SchemaType])
       self._params['items'] = predicate_or_items
     return self
 
@@ -237,17 +216,17 @@ class Array(Nullable, Subscriptable, Emptyable, SchemaType):
     return self
 
   def contains(self, item):
-    super().__check_type__(item, [SchemaType])
+    assert check_type(item, [SchemaType])
     self._params['contains'] = item
     return self
 
   def contains_one(self, item):
-    super().__check_type__(item, [SchemaType])
+    assert check_type(item, [SchemaType])
     self._params['contains_one'] = item
     return self
 
   def contains_many(self, item):
-    super().__check_type__(item, [SchemaType])
+    assert check_type(item, [SchemaType])
     self._params['contains_many'] = item
     return self
 
@@ -258,7 +237,7 @@ class ArrayOf(Nullable, Subscriptable, Emptyable, SchemaType):
     if 'unique' in self._params:
       self._params['predicate'] = predicate_or_items_schema
     else:
-      super().__check_type__(predicate_or_items_schema, [SchemaType])
+      assert check_type(predicate_or_items_schema, [SchemaType])
       self._params['items_schema'] = predicate_or_items_schema
     return self
 
@@ -276,7 +255,7 @@ class Object(Nullable, Subscriptable, Emptyable, SchemaType):
     return self
 
   def __call__(self, keys):
-    super().__check_type__(keys, [dict])
+    assert check_type(keys, [dict])
     self._params['keys'] = self.__roll_out(keys)
     return self
 
@@ -301,7 +280,7 @@ class Object(Nullable, Subscriptable, Emptyable, SchemaType):
   def __roll_out(self, keys):
     new_keys = {}
     for composite_key, val in keys.items():
-      super().__check_type__(val, [SchemaType])
+      assert check_type(val, [SchemaType])
       parts = composite_key.split('.')
       key = parts[0]
       if key[-1] == '?':
@@ -318,7 +297,7 @@ class Object(Nullable, Subscriptable, Emptyable, SchemaType):
     return new_keys
 
   def extend(self, keys):
-    super().__check_type__(keys, [SchemaType, dict])
+    assert check_type(keys, [SchemaType, dict])
     clone = deepcopy(self)
     clone._params['keys'].update(self.__roll_out(keys))
     return clone
@@ -332,7 +311,7 @@ class AnyOf(SchemaType):
 
   def __call__(self, option1, option2, *options):
     all_options = [option1, option2] + list(options)
-    super().__check_types__(all_options, [SchemaType])
+    assert check_types(all_options, [SchemaType])
     self._params['options'] = all_options
     return self
 
@@ -341,7 +320,7 @@ class OneOf(SchemaType):
 
   def __call__(self, option1, option2, *options):
     all_options = [option1, option2] + list(options)
-    super().__check_types__(all_options, [SchemaType])
+    assert check_types(all_options, [SchemaType])
     self._params['options'] = all_options
     return self
 
