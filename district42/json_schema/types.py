@@ -3,6 +3,7 @@ from copy import deepcopy
 
 import delorean
 
+from ..errors import DeclarationError
 from ..helpers import check_type, check_types
 from .modifiers import Comparable, Emptyable, Nullable, Subscriptable, Valuable
 
@@ -205,8 +206,9 @@ class Array(Nullable, Subscriptable, Emptyable, SchemaType):
     if 'unique' in self._params:
       self._params['predicate'] = predicate_or_items
     else:
-      assert check_type(predicate_or_items, [list])
-      assert check_types(predicate_or_items, [SchemaType])
+      error = check_type(predicate_or_items, [list]) or check_types(predicate_or_items, [SchemaType])
+      if error:
+        raise DeclarationError(error)
       self._params['items'] = predicate_or_items
     return self
 
@@ -216,17 +218,23 @@ class Array(Nullable, Subscriptable, Emptyable, SchemaType):
     return self
 
   def contains(self, item):
-    assert check_type(item, [SchemaType])
+    error = check_type(item, [SchemaType])
+    if error:
+      raise DeclarationError(error)
     self._params['contains'] = item
     return self
 
   def contains_one(self, item):
-    assert check_type(item, [SchemaType])
+    error = check_type(item, [SchemaType])
+    if error:
+      raise DeclarationError(error)
     self._params['contains_one'] = item
     return self
 
   def contains_many(self, item):
-    assert check_type(item, [SchemaType])
+    error = check_type(item, [SchemaType])
+    if error:
+      raise DeclarationError(error)
     self._params['contains_many'] = item
     return self
 
@@ -237,7 +245,9 @@ class ArrayOf(Nullable, Subscriptable, Emptyable, SchemaType):
     if 'unique' in self._params:
       self._params['predicate'] = predicate_or_items_schema
     else:
-      assert check_type(predicate_or_items_schema, [SchemaType])
+      error = check_type(predicate_or_items_schema, [SchemaType])
+      if error:
+        raise DeclarationError(error)
       self._params['items_schema'] = predicate_or_items_schema
     return self
 
@@ -255,7 +265,9 @@ class Object(Nullable, Subscriptable, Emptyable, SchemaType):
     return self
 
   def __call__(self, keys):
-    assert check_type(keys, [dict])
+    error = check_type(keys, [dict])
+    if error:
+      raise DeclarationError(error)
     self._params['keys'] = self.__roll_out(keys)
     return self
 
@@ -280,7 +292,9 @@ class Object(Nullable, Subscriptable, Emptyable, SchemaType):
   def __roll_out(self, keys):
     new_keys = {}
     for composite_key, val in keys.items():
-      assert check_type(val, [SchemaType])
+      error = check_type(val, [SchemaType])
+      if error:
+        raise DeclarationError(error)
       parts = composite_key.split('.')
       key = parts[0]
       if key[-1] == '?':
@@ -297,7 +311,9 @@ class Object(Nullable, Subscriptable, Emptyable, SchemaType):
     return new_keys
 
   def extend(self, keys):
-    assert check_type(keys, [SchemaType, dict])
+    error = check_type(keys, [SchemaType, dict])
+    if error:
+      raise DeclarationError(error)
     clone = deepcopy(self)
     clone._params['keys'].update(self.__roll_out(keys))
     return clone
@@ -311,7 +327,11 @@ class AnyOf(SchemaType):
 
   def __call__(self, option1, option2, *options):
     all_options = [option1, option2] + list(options)
-    assert check_types(all_options, [SchemaType])
+
+    error = check_types(all_options, [SchemaType])
+    if error:
+      raise DeclarationError(error)
+
     self._params['options'] = all_options
     return self
 
@@ -320,7 +340,11 @@ class OneOf(SchemaType):
 
   def __call__(self, option1, option2, *options):
     all_options = [option1, option2] + list(options)
-    assert check_types(all_options, [SchemaType])
+
+    error = check_types(all_options, [SchemaType])
+    if error:
+      raise DeclarationError(error)
+
     self._params['options'] = all_options
     return self
 

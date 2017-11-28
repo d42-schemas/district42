@@ -13,7 +13,9 @@ class Nullable:
 class Valuable:
 
   def __call__(self, value):
-    assert check_type(value, self._valuable_types)
+    error = check_type(value, self._valuable_types)
+    if error:
+      raise DeclarationError(error)
     self._params['value'] = value
     return self
 
