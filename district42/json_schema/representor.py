@@ -263,9 +263,6 @@ class Representor(AbstractVisitor):
 
     res += '({})'.format(', '.join(map(repr, schema._params['options'])))
 
-    if 'nullable' in schema._params:
-      res += '.nullable'
-
     return res
 
   def visit_one_of(self, schema, indent = 0):
@@ -273,18 +270,12 @@ class Representor(AbstractVisitor):
 
     res += '({})'.format(', '.join(map(repr, schema._params['options'])))
 
-    if 'nullable' in schema._params:
-      res += '.nullable'
-
     return res
 
   def visit_enum(self, schema):
     res = 'schema.enum'
 
     res += '({})'.format(', '.join(map(repr, schema._params['enumerators'])))
-
-    if 'nullable' in schema._params:
-      res += '.nullable'
 
     return res
 

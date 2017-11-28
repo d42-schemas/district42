@@ -328,7 +328,7 @@ class Any(Nullable, SchemaType):
   pass
 
 
-class AnyOf(Nullable, SchemaType):
+class AnyOf(SchemaType):
 
   def __call__(self, option1, option2, *options):
     all_options = [option1, option2] + list(options)
@@ -337,7 +337,7 @@ class AnyOf(Nullable, SchemaType):
     return self
 
 
-class OneOf(Nullable, SchemaType):
+class OneOf(SchemaType):
 
   def __call__(self, option1, option2, *options):
     all_options = [option1, option2] + list(options)
@@ -346,7 +346,7 @@ class OneOf(Nullable, SchemaType):
     return self
 
 
-class Enum(Nullable, SchemaType):
+class Enum(SchemaType):
 
   def __call__(self, enumerator1, enumerator2, *enumerators):
     self._params['enumerators'] = [enumerator1, enumerator2] + list(enumerators)

@@ -269,23 +269,23 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.any.nullable, 'schema.any.nullable')
 
   def test_any_of_type_representation(self):
-    self.assertRepr(schema.any_of(schema.integer, schema.string.numeric),
-                   'schema.any_of(schema.integer, schema.string.numeric)')
+    self.assertRepr(schema.any_of(schema.integer, schema.string.numeric, schema.null),
+                   'schema.any_of(schema.integer, schema.string.numeric, schema.null)')
 
-    self.assertRepr(schema.any_of(schema.integer(0), schema.integer(1)).nullable,
-                   'schema.any_of(schema.integer(0), schema.integer(1)).nullable')
+    self.assertRepr(schema.any_of(schema.integer(0), schema.integer(1)),
+                   'schema.any_of(schema.integer(0), schema.integer(1))')
 
   def test_one_of_type_representation(self):
-    self.assertRepr(schema.one_of(schema.integer, schema.string.numeric),
-                   'schema.one_of(schema.integer, schema.string.numeric)')
+    self.assertRepr(schema.one_of(schema.integer, schema.string.numeric, schema.null),
+                   'schema.one_of(schema.integer, schema.string.numeric, schema.null)')
 
-    self.assertRepr(schema.one_of(schema.integer(0), schema.integer(1)).nullable,
-                   'schema.one_of(schema.integer(0), schema.integer(1)).nullable')
+    self.assertRepr(schema.one_of(schema.integer(0), schema.integer(1)),
+                   'schema.one_of(schema.integer(0), schema.integer(1))')
 
   def test_enum_type_representation(self):
     self.assertRepr(schema.enum(1, 2, 3),       'schema.enum(1, 2, 3)')
     self.assertRepr(schema.enum('a', 'b', 'c'), "schema.enum('a', 'b', 'c')")
-    self.assertRepr(schema.enum(0, 1).nullable, 'schema.enum(0, 1).nullable')
+    self.assertRepr(schema.enum(0, 1, None), 'schema.enum(0, 1, None)')
 
   def test_undefined_type_representation(self):
     self.assertRepr(schema.undefined, 'schema.undefined')
