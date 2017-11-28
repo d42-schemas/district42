@@ -5,7 +5,7 @@ Data description language (DDL) for defining data models.
 ### Usage
 
 ```python
-import district42.json_schema as schema
+from district42 import json_schema as schema
 
 BlogPost = schema.object({
   'id':         schema.integer.positive,

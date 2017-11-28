@@ -1,6 +1,6 @@
 import unittest
 
-import district42.json_schema as schema
+from district42 import json_schema as schema
 
 from .representation_testcase import RepresentationTestCase
 

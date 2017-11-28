@@ -26,6 +26,8 @@ class Schema:
       return self.array([self.from_native(elem) for elem in value])
     elif datatype is dict:
       return self.object({k: self.from_native(v) for k, v in value.items()})
+    elif datatype is tuple:
+      return self.enum(*value)
 
     raise DeclarationError('Unknown type "{}"'.format(datatype))
 
