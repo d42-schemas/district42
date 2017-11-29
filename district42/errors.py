@@ -1,5 +1,5 @@
 class Error(Exception):
-  pass
+    pass
 
 class DeclarationError(Error):
-  pass
+    pass
