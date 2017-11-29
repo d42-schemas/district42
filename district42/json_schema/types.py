@@ -55,7 +55,7 @@ class Null(SchemaType):
 
 
 class Boolean(Nullable, Valuable, SchemaType):
-  
+
   _valuable_types = [bool]
 
 
@@ -171,10 +171,13 @@ class String(Nullable, Valuable, Subscriptable, Emptyable, SchemaType):
 
 class Timestamp(Nullable, Valuable, Comparable, SchemaType):
 
-  _valuable_types = [str]
+  _valuable_types = [str, delorean.Delorean]
 
-  def __call__(self, value):
-    self._params['value'] = delorean.parse(value)
+  def val(self, value):
+    try:
+      super().val(value if isinstance(value, delorean.Delorean) else delorean.parse(value))
+    except ValueError as e:
+      raise DeclarationError(e)
     return self
 
   def min(self, value):
@@ -202,15 +205,18 @@ class Timestamp(Nullable, Valuable, Comparable, SchemaType):
 
 class Array(Nullable, Subscriptable, Emptyable, SchemaType):
 
+  def val(self, value):
+    error = check_type(value, [list]) or check_types(value, [SchemaType])
+    if error:
+      raise DeclarationError(error)
+    self._params['items'] = value
+    return self
+
   def __call__(self, predicate_or_items):
     if 'unique' in self._params:
       self._params['predicate'] = predicate_or_items
-    else:
-      error = check_type(predicate_or_items, [list]) or check_types(predicate_or_items, [SchemaType])
-      if error:
-        raise DeclarationError(error)
-      self._params['items'] = predicate_or_items
-    return self
+      return self
+    return self.val(predicate_or_items)
 
   @property
   def unique(self):
@@ -246,16 +252,19 @@ class Array(Nullable, Subscriptable, Emptyable, SchemaType):
 
 
 class ArrayOf(Nullable, Subscriptable, Emptyable, SchemaType):
-  
+
+  def val(self, value):
+    error = check_type(value, [SchemaType])
+    if error:
+      raise DeclarationError(error)
+    self._params['items_schema'] = value
+    return self
+
   def __call__(self, predicate_or_items_schema):
     if 'unique' in self._params:
       self._params['predicate'] = predicate_or_items_schema
-    else:
-      error = check_type(predicate_or_items_schema, [SchemaType])
-      if error:
-        raise DeclarationError(error)
-      self._params['items_schema'] = predicate_or_items_schema
-    return self
+      return self
+    return self.val(predicate_or_items_schema)
 
   @property
   def unique(self):
@@ -270,12 +279,15 @@ class Object(Nullable, Subscriptable, Emptyable, SchemaType):
     self._params['strict'] = True
     return self
 
-  def __call__(self, keys):
-    error = check_type(keys, [dict])
+  def val(self, value):
+    error = check_type(value, [dict])
     if error:
       raise DeclarationError(error)
-    self._params['keys'] = self.__roll_out(keys)
+    self._params['keys'] = self.__roll_out(value)
     return self
+
+  def __call__(self, keys):
+    return self.val(keys)
 
   def __add__(self, keys):
     return self.extend(keys)
@@ -331,35 +343,41 @@ class Any(Nullable, SchemaType):
 
 class AnyOf(SchemaType):
 
-  def __call__(self, option1, option2, *options):
-    all_options = [option1, option2] + list(options)
-
-    error = check_types(all_options, [SchemaType])
+  def val(self, value):
+    error = check_types(value, [SchemaType])
     if error:
       raise DeclarationError(error)
-
-    self._params['options'] = all_options
+    self._params['options'] = value
     return self
+
+  def __call__(self, option1, option2, *options):
+    all_options = [option1, option2] + list(options)
+    return self.val(all_options)
 
 
 class OneOf(SchemaType):
 
-  def __call__(self, option1, option2, *options):
-    all_options = [option1, option2] + list(options)
-
-    error = check_types(all_options, [SchemaType])
+  def val(self, value):
+    error = check_types(value, [SchemaType])
     if error:
       raise DeclarationError(error)
-
-    self._params['options'] = all_options
+    self._params['options'] = value
     return self
+
+  def __call__(self, option1, option2, *options):
+    all_options = [option1, option2] + list(options)
+    return self.val(all_options)
 
 
 class Enum(SchemaType):
 
-  def __call__(self, enumerator1, enumerator2, *enumerators):
-    self._params['enumerators'] = [enumerator1, enumerator2] + list(enumerators)
+  def val(self, value):
+    self._params['enumerators'] = value
     return self
+
+  def __call__(self, enumerator1, enumerator2, *enumerators):
+    all_enumerators = [enumerator1, enumerator2] + list(enumerators)
+    return self.val(all_enumerators)
 
 
 class Undefined(SchemaType):

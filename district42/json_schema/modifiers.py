@@ -12,12 +12,15 @@ class Nullable:
 
 class Valuable:
 
-  def __call__(self, value):
+  def val(self, value):
     error = check_type(value, self._valuable_types)
     if error:
       raise DeclarationError(error)
     self._params['value'] = value
     return self
+
+  def __call__(self, value):
+    return self.val(value)
 
 
 class Comparable:
