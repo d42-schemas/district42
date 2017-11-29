@@ -110,7 +110,10 @@ class TestRepresentation(RepresentationTestCase):
     self.assertRepr(schema.array.max_length(10), 'schema.array.max_length(10)')
     self.assertRepr(schema.array.empty,          'schema.array.empty')
     self.assertRepr(schema.array.non_empty,      'schema.array.non_empty')
-    
+
+    self.assertRepr(schema.array.of(schema.string), 'schema.array_of(schema.string)')
+    self.assertRepr(schema.array.of(schema.string).nullable, 'schema.array_of(schema.string).nullable')
+
     self.assertRepr(schema.array.unique,
                    'schema.array.unique')
     self.assertRepr(schema.array.unique(lambda a, b: a != b),

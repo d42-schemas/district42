@@ -217,6 +217,12 @@ class Array(Nullable, Subscriptable, Emptyable, SchemaType):
     self._params['unique'] = True
     return self
 
+  @property
+  def of(self):
+    array_of = ArrayOf()
+    array_of._params = deepcopy(self._params)
+    return array_of
+
   def contains(self, item):
     error = check_type(item, [SchemaType])
     if error:
