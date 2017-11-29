@@ -113,11 +113,6 @@ class TestRepresentation(RepresentationTestCase):
         self.assertRepr(schema.array.empty,          'schema.array.empty')
         self.assertRepr(schema.array.non_empty,      'schema.array.non_empty')
 
-        self.assertRepr(schema.array.of(schema.string),
-                       'schema.array_of(schema.string)')
-        self.assertRepr(schema.array.of(schema.string).nullable,
-                       'schema.array_of(schema.string).nullable')
-
         self.assertRepr(schema.array.unique,
                        'schema.array.unique')
         self.assertRepr(schema.array.unique(lambda a, b: a != b),
@@ -142,11 +137,6 @@ class TestRepresentation(RepresentationTestCase):
             "}))"
         )
 
-        print(schema.array([
-            schema.integer(1),
-            schema.integer(2),
-            schema.integer(3)
-        ]))
         self.assertRepr(
             schema.array([
                 schema.integer(1),
@@ -191,41 +181,41 @@ class TestRepresentation(RepresentationTestCase):
         )
 
     def test_array_of_type_representation(self):
-        self.assertRepr(schema.array_of(schema.number),
-                       'schema.array_of(schema.number)')
+        self.assertRepr(schema.array.of(schema.number),
+                       'schema.array.of(schema.number)')
 
-        self.assertRepr(schema.array_of(schema.boolean).nullable,
-                       'schema.array_of(schema.boolean).nullable')
+        self.assertRepr(schema.array.of(schema.boolean).nullable,
+                       'schema.array.of(schema.boolean).nullable')
 
-        self.assertRepr(schema.array_of(schema.number).empty,
-                       'schema.array_of(schema.number).empty')
+        self.assertRepr(schema.array.of(schema.number).empty,
+                       'schema.array.of(schema.number).empty')
 
-        self.assertRepr(schema.array_of(schema.number).non_empty,
-                       'schema.array_of(schema.number).non_empty')
+        self.assertRepr(schema.array.of(schema.number).non_empty,
+                       'schema.array.of(schema.number).non_empty')
 
-        self.assertRepr(schema.array_of(schema.number).length(2),
-                       'schema.array_of(schema.number).length(2)')
+        self.assertRepr(schema.array.of(schema.number).length(2),
+                       'schema.array.of(schema.number).length(2)')
 
-        self.assertRepr(schema.array_of(schema.number).length(1, 10),
-                       'schema.array_of(schema.number).length(1, 10)')
+        self.assertRepr(schema.array.of(schema.number).length(1, 10),
+                       'schema.array.of(schema.number).length(1, 10)')
 
-        self.assertRepr(schema.array_of(schema.number).min_length(1),
-                       'schema.array_of(schema.number).min_length(1)')
+        self.assertRepr(schema.array.of(schema.number).min_length(1),
+                       'schema.array.of(schema.number).min_length(1)')
 
-        self.assertRepr(schema.array_of(schema.number).max_length(10),
-                       'schema.array_of(schema.number).max_length(10)')
+        self.assertRepr(schema.array.of(schema.number).max_length(10),
+                       'schema.array.of(schema.number).max_length(10)')
 
-        self.assertRepr(schema.array_of(schema.string).unique,
-                       'schema.array_of(schema.string).unique')
+        self.assertRepr(schema.array.of(schema.string).unique,
+                       'schema.array.of(schema.string).unique')
 
-        self.assertRepr(schema.array_of(schema.string).unique(lambda a, b: a != b),
-                       'schema.array_of(schema.string).unique(<predicate>)')
+        self.assertRepr(schema.array.of(schema.string).unique(lambda a, b: a != b),
+                       'schema.array.of(schema.string).unique(<predicate>)')
 
         self.assertRepr(
-            schema.array_of(schema.object({
+            schema.array.of(schema.object({
                 'id': schema.string.numeric
             })),
-            "schema.array_of(schema.object({" + "\n" +
+            "schema.array.of(schema.object({" + "\n" +
             "    'id': schema.string.numeric" + "\n" +
             "}))"
         )

@@ -210,7 +210,7 @@ class Representor(AbstractVisitor):
         return res
 
     def visit_array_of(self, schema, indent = 0):
-        res = 'schema.array_of'
+        res = 'schema.array.of'
 
         items_schema = schema._params['items_schema']
         if self.__is_indentable(items_schema):

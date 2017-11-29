@@ -1,3 +1,4 @@
+import warnings
 from copy import deepcopy
 
 from ..errors import DeclarationError
@@ -66,6 +67,7 @@ class Schema:
 
     @property
     def array_of(self):
+        warnings.warn('deprecated', DeprecationWarning, stacklevel=2)
         return ArrayOf()
 
     @property
