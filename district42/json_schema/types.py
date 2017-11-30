@@ -341,7 +341,7 @@ class Any(Nullable, SchemaType):
     pass
 
 
-class AnyOf(SchemaType):
+class AnyOf(Nullable, SchemaType):
 
     def val(self, value):
         error = check_types(value, [SchemaType])
@@ -355,7 +355,7 @@ class AnyOf(SchemaType):
         return self.val(all_options)
 
 
-class OneOf(SchemaType):
+class OneOf(Nullable, SchemaType):
 
     def val(self, value):
         error = check_types(value, [SchemaType])
@@ -369,7 +369,7 @@ class OneOf(SchemaType):
         return self.val(all_options)
 
 
-class Enum(SchemaType):
+class Enum(Nullable, SchemaType):
 
     def val(self, value):
         self._params['enumerators'] = value

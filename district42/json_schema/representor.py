@@ -32,6 +32,9 @@ class Representor(AbstractVisitor):
     def __to_iso_format(self, timestamp):
         return timestamp.datetime.isoformat()
 
+    def __format_nullable(self, res):
+        return 'schema.one_of({}, schema.null)'.format(res)
+
     def visit_null(self, schema):
         res = 'schema.null'
         return res
@@ -42,10 +45,7 @@ class Representor(AbstractVisitor):
         if 'value' in schema._params:
             res += '({})'.format(schema._params['value'])
 
-        if 'nullable' in schema._params:
-            res += '.nullable'
-
-        return res
+        return self.__format_nullable(res) if 'nullable' in schema._params else res
 
     def visit_number(self, schema):
         if 'integer' in schema._params and schema._params['integer']:
@@ -78,10 +78,7 @@ class Representor(AbstractVisitor):
         if 'multiple' in schema._params:
             res += '.multiple({})'.format(schema._params['multiple'])
 
-        if 'nullable' in schema._params:
-            res += '.nullable'
-
-        return res
+        return self.__format_nullable(res) if 'nullable' in schema._params else res
 
     def visit_string(self, schema):
         res = 'schema.string'
@@ -120,10 +117,7 @@ class Representor(AbstractVisitor):
         elif 'max_length' in schema._params:
             res += '.max_length({})'.format(schema._params['max_length'])
 
-        if 'nullable' in schema._params:
-            res += '.nullable'
-
-        return res
+        return self.__format_nullable(res) if 'nullable' in schema._params else res
 
     def visit_timestamp(self, schema):
         res = 'schema.timestamp'
@@ -146,10 +140,7 @@ class Representor(AbstractVisitor):
         elif 'max_value' in schema._params:
             res += '.max({})'.format(repr(self.__to_iso_format(schema._params['max_value'])))
 
-        if 'nullable' in schema._params:
-            res += '.nullable'
-
-        return res
+        return self.__format_nullable(res) if 'nullable' in schema._params else res
 
     def visit_array(self, schema, indent = 0):
         res = 'schema.array'
@@ -204,10 +195,7 @@ class Representor(AbstractVisitor):
         if 'unique' in schema._params:
             res += '.unique(<predicate>)' if 'predicate' in schema._params else '.unique'
 
-        if 'nullable' in schema._params:
-            res += '.nullable'
-
-        return res
+        return self.__format_nullable(res) if 'nullable' in schema._params else res
 
     def visit_array_of(self, schema, indent = 0):
         res = 'schema.array.of'
@@ -235,10 +223,7 @@ class Representor(AbstractVisitor):
         if 'unique' in schema._params:
             res += '.unique(<predicate>)' if 'predicate' in schema._params else '.unique'
 
-        if 'nullable' in schema._params:
-            res += '.nullable'
-
-        return res
+        return self.__format_nullable(res) if 'nullable' in schema._params else res
 
     def visit_object(self, schema, indent = 0):
         res = 'schema.object'
@@ -269,39 +254,33 @@ class Representor(AbstractVisitor):
         if 'strict' in schema._params:
             res += '.strict'
 
-        if 'nullable' in schema._params:
-            res += '.nullable'
-
-        return res
+        return self.__format_nullable(res) if 'nullable' in schema._params else res
 
     def visit_any(self, schema):
         res = 'schema.any'
 
-        if 'nullable' in schema._params:
-            res += '.nullable'
-
-        return res
+        return self.__format_nullable(res) if 'nullable' in schema._params else res
 
     def visit_any_of(self, schema):
         res = 'schema.any_of'
 
         res += '({})'.format(', '.join(map(repr, schema._params['options'])))
 
-        return res
+        return self.__format_nullable(res) if 'nullable' in schema._params else res
 
     def visit_one_of(self, schema, indent = 0):
         res = 'schema.one_of'
 
         res += '({})'.format(', '.join(map(repr, schema._params['options'])))
 
-        return res
+        return self.__format_nullable(res) if 'nullable' in schema._params else res
 
     def visit_enum(self, schema):
         res = 'schema.enum'
 
         res += '({})'.format(', '.join(map(repr, schema._params['enumerators'])))
 
-        return res
+        return self.__format_nullable(res) if 'nullable' in schema._params else res
 
     def visit_undefined(self, schema):
         res = 'schema.undefined'

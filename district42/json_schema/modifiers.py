@@ -1,3 +1,5 @@
+import warnings
+
 from ..errors import DeclarationError
 from ..helpers import check_type
 
@@ -6,6 +8,8 @@ class Nullable:
 
     @property
     def nullable(self):
+        message = 'nullable is deprecated, use schema.one_of instead'
+        warnings.warn(message, DeprecationWarning, stacklevel=2)
         self._params['nullable'] = True
         return self
 
