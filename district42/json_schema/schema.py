@@ -67,7 +67,8 @@ class Schema:
 
     @property
     def array_of(self):
-        warnings.warn('deprecated', DeprecationWarning, stacklevel=2)
+        message = 'schema.array_of is deprecated, use schema.array.of instead'
+        warnings.warn(message, DeprecationWarning, stacklevel=2)
         return ArrayOf()
 
     @property
