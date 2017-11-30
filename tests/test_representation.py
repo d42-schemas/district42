@@ -15,22 +15,6 @@ class TestRepresentation(RepresentationTestCase):
         self.assertRepr(schema.boolean(True),    'schema.boolean(True)')
         self.assertRepr(schema.boolean.nullable, 'schema.boolean.nullable')
 
-    def test_number_type_representation(self):
-        self.assertRepr(schema.number,               'schema.number')
-        self.assertRepr(schema.number(42),           'schema.number(42)')
-        self.assertRepr(schema.number(3.14),         'schema.number(3.14)')
-        self.assertRepr(schema.number.min(0),        'schema.number.min(0)')
-        self.assertRepr(schema.number.max(1),        'schema.number.max(1)')
-        self.assertRepr(schema.number.between(0, 1), 'schema.number.between(0, 1)')
-        self.assertRepr(schema.number.positive,      'schema.number.positive')
-        self.assertRepr(schema.number.non_positive,  'schema.number.non_positive')
-        self.assertRepr(schema.number.negative,      'schema.number.negative')
-        self.assertRepr(schema.number.non_negative,  'schema.number.non_negative')
-        self.assertRepr(schema.number.unsigned,      'schema.number.unsigned')
-        self.assertRepr(schema.number.zero,          'schema.number.zero')
-        self.assertRepr(schema.number.multiple(5),   'schema.number.multiple(5)')
-        self.assertRepr(schema.number.nullable,      'schema.number.nullable')
-
     def test_integer_type_representation(self):
         self.assertRepr(schema.integer,               'schema.integer')
         self.assertRepr(schema.integer(42),           'schema.integer(42)')
@@ -181,29 +165,29 @@ class TestRepresentation(RepresentationTestCase):
         )
 
     def test_array_of_type_representation(self):
-        self.assertRepr(schema.array.of(schema.number),
-                       'schema.array.of(schema.number)')
+        self.assertRepr(schema.array.of(schema.integer),
+                       'schema.array.of(schema.integer)')
 
         self.assertRepr(schema.array.of(schema.boolean).nullable,
                        'schema.array.of(schema.boolean).nullable')
 
-        self.assertRepr(schema.array.of(schema.number).empty,
-                       'schema.array.of(schema.number).empty')
+        self.assertRepr(schema.array.of(schema.integer).empty,
+                       'schema.array.of(schema.integer).empty')
 
-        self.assertRepr(schema.array.of(schema.number).non_empty,
-                       'schema.array.of(schema.number).non_empty')
+        self.assertRepr(schema.array.of(schema.integer).non_empty,
+                       'schema.array.of(schema.integer).non_empty')
 
-        self.assertRepr(schema.array.of(schema.number).length(2),
-                       'schema.array.of(schema.number).length(2)')
+        self.assertRepr(schema.array.of(schema.integer).length(2),
+                       'schema.array.of(schema.integer).length(2)')
 
-        self.assertRepr(schema.array.of(schema.number).length(1, 10),
-                       'schema.array.of(schema.number).length(1, 10)')
+        self.assertRepr(schema.array.of(schema.integer).length(1, 10),
+                       'schema.array.of(schema.integer).length(1, 10)')
 
-        self.assertRepr(schema.array.of(schema.number).min_length(1),
-                       'schema.array.of(schema.number).min_length(1)')
+        self.assertRepr(schema.array.of(schema.integer).min_length(1),
+                       'schema.array.of(schema.integer).min_length(1)')
 
-        self.assertRepr(schema.array.of(schema.number).max_length(10),
-                       'schema.array.of(schema.number).max_length(10)')
+        self.assertRepr(schema.array.of(schema.integer).max_length(10),
+                       'schema.array.of(schema.integer).max_length(10)')
 
         self.assertRepr(schema.array.of(schema.string).unique,
                        'schema.array.of(schema.string).unique')

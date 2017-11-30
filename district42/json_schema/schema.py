@@ -43,6 +43,8 @@ class Schema:
 
     @property
     def number(self):
+        message = 'schema.number is deprecated, use schema.one_of(schema.integer, schema.float) instead'
+        warnings.warn(message, DeprecationWarning, stacklevel=2)
         return Number()
 
     @property
