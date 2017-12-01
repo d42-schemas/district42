@@ -70,7 +70,7 @@ class TestRollOut(unittest.TestCase):
                 'key6.key7': 'val-4-5-6-7',
                 'key8.key9': 'val-4-5-8-9',
                 'key10': 'val-4-5-10',
-                'key11': {}
+                'key11': {},
             },
             'key12.key13': {},
             'key14': {},
@@ -78,25 +78,38 @@ class TestRollOut(unittest.TestCase):
         expected = {
           'key1': {
             'key2': {
-              'key3': 'val-1-2-3'
+              'key3': 'val-1-2-3',
             }
           },
           'key4': {
             'key5': {
               'key6': {
-                'key7': 'val-4-5-6-7'
+                'key7': 'val-4-5-6-7',
               },
               'key8': {
-                'key9': 'val-4-5-8-9'
+                'key9': 'val-4-5-8-9',
               },
               'key10': 'val-4-5-10',
-              'key11': {}
+              'key11': {},
             }
           },
           'key12': {
-            'key13': {}
+            'key13': {},
           },
-          'key14': {}
+          'key14': {},
+        }
+        self.assertDictEqual(roll_out(keys), expected)
+
+    def test_roll_out_dotted_keys(self):
+        keys = {
+            'key1.key2': 'val-1-2',
+            'key3\.key4': 'val-3-4',
+        }
+        expected = {
+            'key1': {
+                'key2': 'val-1-2',
+            },
+            'key3\.key4': 'val-3-4',
         }
         self.assertDictEqual(roll_out(keys), expected)
 

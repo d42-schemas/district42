@@ -1,3 +1,6 @@
+import re
+
+
 def check_type(value, expected_types):
     for expected_type in expected_types:
         if isinstance(value, expected_type):
@@ -25,18 +28,10 @@ def check_types(values, expected_types):
     return None
 
 
-def roll_out_key(composite_key, val):
-    parts = composite_key.split('.')
-    key = parts[0]
-    if len(parts) == 1:
-        return val
-    new_composite_key = '.'.join(parts[1:])
-    return roll_out({new_composite_key: val})
-
 def roll_out(keys):
     new_keys = {}
     for composite_key, val in keys.items():
-        parts = composite_key.split('.') if isinstance(composite_key, str) else [composite_key]
+        parts = re.split(r'(?<!\\)\.', composite_key) if isinstance(composite_key, str) else [composite_key]
         key = parts[0]
         if len(parts) == 1:
             new_keys[key] = val
