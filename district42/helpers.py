@@ -16,9 +16,33 @@ def check_type(value, expected_types):
         actual_type=type(value)
     )
 
+
 def check_types(values, expected_types):
     for value in values:
         error = check_type(value, expected_types)
         if error:
             return error
     return None
+
+
+def roll_out_key(composite_key, val):
+    parts = composite_key.split('.')
+    key = parts[0]
+    if len(parts) == 1:
+        return val
+    new_composite_key = '.'.join(parts[1:])
+    return roll_out({new_composite_key: val})
+
+def roll_out(keys):
+    new_keys = {}
+    for composite_key, val in keys.items():
+        parts = composite_key.split('.') if isinstance(composite_key, str) else [composite_key]
+        key = parts[0]
+        if len(parts) == 1:
+            new_keys[key] = val
+        else:
+            new_composite_key = '.'.join(parts[1:])
+            if key not in new_keys:
+                new_keys[key] = {}
+            new_keys[key][new_composite_key] = val
+    return {k: (roll_out(v) if type(v) is dict else v) for k, v in new_keys.items()}
