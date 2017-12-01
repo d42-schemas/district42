@@ -33,7 +33,7 @@ class Representor(AbstractVisitor):
         return timestamp.datetime.isoformat()
 
     def __format_nullable(self, res):
-        return 'schema.one_of({}, schema.null)'.format(res)
+        return '{}.nullable'.format(res)
 
     def visit_null(self, schema):
         res = 'schema.null'
@@ -198,7 +198,7 @@ class Representor(AbstractVisitor):
         return self.__format_nullable(res) if 'nullable' in schema._params else res
 
     def visit_array_of(self, schema, indent = 0):
-        res = 'schema.array.of'
+        res = 'schema.array_of'
 
         items_schema = schema._params['items_schema']
         if self.__is_indentable(items_schema):

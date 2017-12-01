@@ -17,8 +17,7 @@ class TestRepresentation(RepresentationTestCase):
 
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
-            self.assertRepr(schema.boolean.nullable,
-                           'schema.one_of(schema.boolean, schema.null)')
+            self.assertRepr(schema.boolean.nullable, 'schema.boolean.nullable')
 
     def test_number_type_representation(self):
         with warnings.catch_warnings():
@@ -42,8 +41,7 @@ class TestRepresentation(RepresentationTestCase):
 
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
-            self.assertRepr(schema.integer.nullable,
-                           'schema.one_of(schema.integer, schema.null)')
+            self.assertRepr(schema.integer.nullable, 'schema.integer.nullable')
 
     def test_float_type_representation(self):
         self.assertRepr(schema.float,                   'schema.float')
@@ -59,8 +57,7 @@ class TestRepresentation(RepresentationTestCase):
 
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
-            self.assertRepr(schema.float.nullable,
-                           'schema.one_of(schema.float, schema.null)')
+            self.assertRepr(schema.float.nullable, 'schema.float.nullable')
 
     def test_string_type_representation(self):
         self.assertRepr(schema.string,                      'schema.string')
@@ -81,8 +78,7 @@ class TestRepresentation(RepresentationTestCase):
 
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
-            self.assertRepr(schema.string.nullable,
-                           'schema.one_of(schema.string, schema.null)')
+            self.assertRepr(schema.string.nullable, 'schema.string.nullable')
 
     def test_timestamp_type_representation(self):
         self.assertRepr(schema.timestamp,     'schema.timestamp')
@@ -110,8 +106,7 @@ class TestRepresentation(RepresentationTestCase):
 
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
-            self.assertRepr(schema.timestamp.nullable,
-                           'schema.one_of(schema.timestamp, schema.null)')
+            self.assertRepr(schema.timestamp.nullable, 'schema.timestamp.nullable')
 
 
     def test_array_type_representation(self):
@@ -193,52 +188,51 @@ class TestRepresentation(RepresentationTestCase):
 
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
-            self.assertRepr(schema.array.nullable,
-                           'schema.one_of(schema.array, schema.null)')
+            self.assertRepr(schema.array.nullable, 'schema.array.nullable')
 
     def test_array_of_type_representation(self):
         self.assertRepr(schema.array.of(schema.integer),
-                       'schema.array.of(schema.integer)')
-
+                       'schema.array_of(schema.integer)')
 
         self.assertRepr(schema.array.of(schema.integer).empty,
-                       'schema.array.of(schema.integer).empty')
+                       'schema.array_of(schema.integer).empty')
 
         self.assertRepr(schema.array.of(schema.integer).non_empty,
-                       'schema.array.of(schema.integer).non_empty')
+                       'schema.array_of(schema.integer).non_empty')
 
         self.assertRepr(schema.array.of(schema.integer).length(2),
-                       'schema.array.of(schema.integer).length(2)')
+                       'schema.array_of(schema.integer).length(2)')
 
         self.assertRepr(schema.array.of(schema.integer).length(1, 10),
-                       'schema.array.of(schema.integer).length(1, 10)')
+                       'schema.array_of(schema.integer).length(1, 10)')
 
         self.assertRepr(schema.array.of(schema.integer).min_length(1),
-                       'schema.array.of(schema.integer).min_length(1)')
+                       'schema.array_of(schema.integer).min_length(1)')
 
         self.assertRepr(schema.array.of(schema.integer).max_length(10),
-                       'schema.array.of(schema.integer).max_length(10)')
+                       'schema.array_of(schema.integer).max_length(10)')
 
         self.assertRepr(schema.array.of(schema.string).unique,
-                       'schema.array.of(schema.string).unique')
+                       'schema.array_of(schema.string).unique')
 
         self.assertRepr(schema.array.of(schema.string).unique(lambda a, b: a != b),
-                       'schema.array.of(schema.string).unique(<predicate>)')
+                       'schema.array_of(schema.string).unique(<predicate>)')
 
         self.assertRepr(
             schema.array.of(schema.object({
                 'id': schema.string.numeric
             })),
-            "schema.array.of(schema.object({" + "\n" +
+            "schema.array_of(schema.object({" + "\n" +
             "    'id': schema.string.numeric" + "\n" +
             "}))"
         )
 
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
-            self.assertRepr(schema.array_of(schema.integer), 'schema.array.of(schema.integer)')
+            self.assertRepr(schema.array_of(schema.integer),
+                           'schema.array_of(schema.integer)')
             self.assertRepr(schema.array.of(schema.integer).nullable,
-                           'schema.one_of(schema.array.of(schema.integer), schema.null)')
+                           'schema.array_of(schema.integer).nullable')
 
     def test_object_type_representation(self):
         self.assertRepr(schema.object,               'schema.object')
@@ -287,16 +281,14 @@ class TestRepresentation(RepresentationTestCase):
 
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
-            self.assertRepr(schema.object.nullable,
-                           'schema.one_of(schema.object, schema.null)')
+            self.assertRepr(schema.object.nullable, 'schema.object.nullable')
 
     def test_any_type_representation(self):
         self.assertRepr(schema.any, 'schema.any')
 
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
-            self.assertRepr(schema.any.nullable,
-                           'schema.one_of(schema.any, schema.null)')
+            self.assertRepr(schema.any.nullable, 'schema.any.nullable')
 
     def test_any_of_type_representation(self):
         self.assertRepr(schema.any_of(schema.integer, schema.string.numeric, schema.null),
@@ -308,7 +300,7 @@ class TestRepresentation(RepresentationTestCase):
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
             self.assertRepr(schema.any_of(schema.integer, schema.string.numeric).nullable,
-                           'schema.one_of(schema.any_of(schema.integer, schema.string.numeric), schema.null)')
+                           'schema.any_of(schema.integer, schema.string.numeric).nullable')
 
     def test_one_of_type_representation(self):
         self.assertRepr(schema.one_of(schema.integer, schema.string.numeric, schema.null),
@@ -320,7 +312,7 @@ class TestRepresentation(RepresentationTestCase):
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
             self.assertRepr(schema.one_of(schema.integer, schema.string.numeric).nullable,
-                           'schema.one_of(schema.one_of(schema.integer, schema.string.numeric), schema.null)')
+                           'schema.one_of(schema.integer, schema.string.numeric).nullable')
 
     def test_enum_type_representation(self):
         self.assertRepr(schema.enum(1, 2, 3),       'schema.enum(1, 2, 3)')
@@ -330,7 +322,7 @@ class TestRepresentation(RepresentationTestCase):
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
             self.assertRepr(schema.enum(0, 1).nullable,
-                           'schema.one_of(schema.enum(0, 1), schema.null)')
+                           'schema.enum(0, 1).nullable')
 
     def test_undefined_type_representation(self):
         self.assertRepr(schema.undefined, 'schema.undefined')
