@@ -72,6 +72,8 @@ class TestRepresentation(RepresentationTestCase):
         self.assertRepr(schema.string.uri,                  'schema.string.uri')
         self.assertRepr(schema.string.alphabetic,           'schema.string.alphabetic')
         self.assertRepr(schema.string.numeric,              'schema.string.numeric')
+        self.assertRepr(schema.string.numeric(1),           'schema.string.numeric(1)')
+        self.assertRepr(schema.string.numeric(0, 1),        'schema.string.numeric(0, 1)')
         self.assertRepr(schema.string.alpha_num,            'schema.string.alpha_num')
         self.assertRepr(schema.string.lowercase,            'schema.string.lowercase')
         self.assertRepr(schema.string.uppercase,            'schema.string.uppercase')

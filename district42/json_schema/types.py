@@ -134,6 +134,17 @@ class String(Nullable, Valuable, Subscriptable, Emptyable, SchemaType):
 
     _valuable_types = [str]
 
+    def __call__(self, value_or_numeric_min, numeric_max=None):
+        if 'numeric' in self._params:
+            error = check_type(value_or_numeric_min, [int]) or check_type(numeric_max, [int, type(None)])
+            if error:
+                raise DeclarationError(error)
+            self._params['numeric_min'] = value_or_numeric_min
+            if numeric_max is not None:
+                self._params['numeric_max'] = numeric_max
+            return self
+        return self.val(value_or_numeric_min)
+
     def pattern(self, pattern):
         self._params['pattern'] = pattern
         return self

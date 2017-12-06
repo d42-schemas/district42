@@ -94,7 +94,15 @@ class Representor(AbstractVisitor):
         if 'alphabetic' in schema._params:
             res += '.alphabetic'
         elif 'numeric' in schema._params:
-            res += '.numeric'
+            if ('numeric_min' in schema._params) and ('numeric_max' in schema._params):
+                res += '.numeric({}, {})'.format(
+                    schema._params['numeric_min'],
+                    schema._params['numeric_max']
+                )
+            elif 'numeric_min' in schema._params:
+                res += '.numeric({})'.format(schema._params['numeric_min'])
+            else:
+                res += '.numeric'    
         elif 'alpha_num' in schema._params:
             res += '.alpha_num'
 
