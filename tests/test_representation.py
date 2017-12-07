@@ -49,6 +49,7 @@ class TestRepresentation(RepresentationTestCase):
         self.assertRepr(schema.float.min(0.0),          'schema.float.min(0.0)')
         self.assertRepr(schema.float.max(1.0),          'schema.float.max(1.0)')
         self.assertRepr(schema.float.between(0.0, 1.0), 'schema.float.between(0.0, 1.0)')
+        self.assertRepr(schema.float.precision(9),      'schema.float.precision(9)')
         self.assertRepr(schema.float.positive,          'schema.float.positive')
         self.assertRepr(schema.float.non_positive,      'schema.float.non_positive')
         self.assertRepr(schema.float.negative,          'schema.float.negative')

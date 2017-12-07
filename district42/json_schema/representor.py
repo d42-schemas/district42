@@ -55,6 +55,9 @@ class Representor(AbstractVisitor):
         else:
             res = 'schema.number'
 
+        if 'precision' in schema._params:
+            res += '.precision({})'.format(schema._params['precision'])
+
         if 'zero' in schema._params:
             res += '.zero'
         elif 'value' in schema._params:

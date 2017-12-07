@@ -129,6 +129,12 @@ class Number(Nullable, Valuable, Comparable, SchemaType):
         self._params['multiple'] = base
         return self
 
+    def precision(self, places):
+        from sys import float_info
+        assert places <= float_info.dig
+        self._params['precision'] = places
+        return self
+
 
 class String(Nullable, Valuable, Subscriptable, Emptyable, SchemaType):
 
