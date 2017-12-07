@@ -271,10 +271,10 @@ class Array(Nullable, Subscriptable, Emptyable, SchemaType):
         return self
 
     def contains_all(self, items):
-        error = check_type(items, [list]) or check_types(items, [SchemaType])
+        self._params['contains_all'] = list(items)
+        error = check_types(items, [SchemaType])
         if error:
             raise DeclarationError(error)
-        self._params['contains_all'] = items
         return self
 
 
