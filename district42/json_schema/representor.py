@@ -188,6 +188,9 @@ class Representor(AbstractVisitor):
                 res += '({})'.format(item.accept(self, indent))
             else:
                 res += '({})'.format(item.accept(self))
+        elif 'contains_all' in schema._params:
+            items = schema._params['contains_all']
+            res += '.contains_all([{}])'.format(', '.join(item.accept(self) for item in items))
 
         if 'empty' in schema._params:
             res += '.empty' if schema._params['empty'] else '.non_empty'

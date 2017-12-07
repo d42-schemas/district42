@@ -136,6 +136,8 @@ class TestRepresentation(RepresentationTestCase):
                        'schema.array.contains_one(schema.boolean)')
         self.assertRepr(schema.array.contains_many(schema.string('banana')),
                        "schema.array.contains_many(schema.string('banana'))")
+        self.assertRepr(schema.array.contains_all([schema.string('banana'), schema.string('')]),
+                       "schema.array.contains_all([schema.string('banana'), schema.string('')])")
 
         self.assertRepr(
             schema.array.contains(schema.object({

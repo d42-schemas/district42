@@ -270,6 +270,13 @@ class Array(Nullable, Subscriptable, Emptyable, SchemaType):
         self._params['contains_many'] = item
         return self
 
+    def contains_all(self, items):
+        error = check_type(items, [list]) or check_types(items, [SchemaType])
+        if error:
+            raise DeclarationError(error)
+        self._params['contains_all'] = items
+        return self
+
 
 class ArrayOf(Nullable, Subscriptable, Emptyable, SchemaType):
 
