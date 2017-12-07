@@ -286,6 +286,36 @@ class TestRepresentation(RepresentationTestCase):
             warnings.simplefilter('ignore')
             self.assertRepr(schema.object.nullable, 'schema.object.nullable')
 
+    def test_object_type_with_renamed_keys_representation(self):
+        self.assertRepr(schema.object @ {},                  'schema.object')
+        self.assertRepr(schema.object.empty @ {},             'schema.object.empty')
+        self.assertRepr(schema.object.empty @ {'key': 'val'}, 'schema.object.empty')
+
+        self.assertRepr(
+            schema.object({
+                'id': schema.string,
+                'project_id': schema.integer,
+                'user': schema.object({
+                    'user_id': schema.string.numeric,
+                    'name': schema.string.non_empty
+                }).strict
+            }) @ {
+                'project_id': 'region_id',
+                'user.user_id': 'id',
+                'key': 'new_key'
+            },
+            '\n'.join([
+                "schema.object({",
+                "    'id': schema.string,",
+                "    'region_id': schema.integer,",
+                "    'user': schema.object({",
+                "        'id': schema.string.numeric,",
+                "        'name': schema.string.non_empty",
+                "    }).strict",
+                "})"
+            ])
+        )
+
     def test_any_type_representation(self):
         self.assertRepr(schema.any, 'schema.any')
 

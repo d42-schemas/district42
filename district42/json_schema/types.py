@@ -4,7 +4,7 @@ from copy import deepcopy
 import delorean
 
 from ..errors import DeclarationError
-from ..helpers import check_type, check_types
+from ..helpers import check_type, check_types, roll_out
 from .modifiers import Comparable, Emptyable, Nullable, Subscriptable, Valuable
 
 
@@ -305,6 +305,22 @@ class Object(Nullable, Subscriptable, Emptyable, SchemaType):
             raise DeclarationError(error)
         self._params['keys'] = self.__roll_out(value)
         return self
+
+    def __rename_keys(self, keys, new_keys):
+        renamed = {}
+        for key, val in keys.items():
+            new_key = new_keys.get(key, key)
+            if isinstance(new_key, dict):
+                renamed[key] = val.__matmul__(new_key)
+            else:
+                renamed[new_key] = val
+        return renamed
+
+    def __matmul__(self, other):
+        clone = deepcopy(self)
+        if 'keys' in clone._params:
+            clone._params['keys'] = self.__rename_keys(clone._params['keys'], roll_out(other))
+        return clone
 
     def __call__(self, keys):
         return self.val(keys)
