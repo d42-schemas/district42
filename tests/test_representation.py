@@ -312,6 +312,12 @@ class TestRepresentation(RepresentationTestCase):
         self.assertRepr(schema.one_of(schema.integer(0), schema.integer(1)),
                        'schema.one_of(schema.integer(0), schema.integer(1))')
 
+        self.assertRepr(schema.boolean(True) | schema.null,
+                       'schema.one_of(schema.boolean(True), schema.null)')
+
+        self.assertRepr(schema.boolean(False) | schema.string('false') | schema.null,
+                       "schema.one_of(schema.boolean(False), schema.string('false'), schema.null)")
+
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
             self.assertRepr(schema.one_of(schema.integer, schema.string.numeric).nullable,

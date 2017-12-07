@@ -8,7 +8,7 @@ class Nullable:
 
     @property
     def nullable(self):
-        message = 'nullable is deprecated, use schema.one_of instead'
+        message = '.nullable is deprecated, use "{} | schema.null" instead'.format(self)
         warnings.warn(message, DeprecationWarning, stacklevel=2)
         self._params['nullable'] = True
         return self

@@ -27,6 +27,9 @@ class SchemaType:
             setattr(clone, attr, deepcopy(val, memo))
         return clone
 
+    def __or__(self, other):
+        return OneOf()(deepcopy(self), other)
+
     @property
     def required(self):
         self._params['required'] = True
@@ -384,6 +387,11 @@ class OneOf(Nullable, SchemaType):
     def __call__(self, option1, option2, *options):
         all_options = [option1, option2] + list(options)
         return self.val(all_options)
+
+    def __or__(self, other):
+        clone = deepcopy(self)
+        clone(*clone._params['options'], other)
+        return clone
 
 
 class Enum(Nullable, SchemaType):
