@@ -158,6 +158,10 @@ class String(Nullable, Valuable, Subscriptable, Emptyable, SchemaType):
         self._params['pattern'] = pattern
         return self
 
+    def contains(self, substring):
+        self._params['contains'] = substring
+        return self
+
     @property
     def uri(self):
         self._params['uri'] = True

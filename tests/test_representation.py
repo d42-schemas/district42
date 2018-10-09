@@ -78,6 +78,7 @@ class TestRepresentation(RepresentationTestCase):
         self.assertRepr(schema.string.alpha_num,            'schema.string.alpha_num')
         self.assertRepr(schema.string.lowercase,            'schema.string.lowercase')
         self.assertRepr(schema.string.uppercase,            'schema.string.uppercase')
+        self.assertRepr(schema.string.contains('substr'),   "schema.string.contains('substr')")
 
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')

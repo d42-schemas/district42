@@ -114,6 +114,9 @@ class Representor(AbstractVisitor):
         elif 'uppercase' in schema._params:
             res += '.uppercase'
 
+        if 'contains' in schema._params:
+            res += '.contains({})'.format(repr(schema._params['contains']))
+
         if 'empty' in schema._params:
             res += '.empty' if schema._params['empty'] else '.non_empty'
         elif 'length' in schema._params:
