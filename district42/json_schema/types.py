@@ -197,24 +197,29 @@ class Timestamp(Nullable, Valuable, Comparable, SchemaType):
 
     _valuable_types = [str, delorean.Delorean]
 
-    def val(self, value):
+    def __parse_value(self, value):
+        if isinstance(value, delorean.Delorean):
+            return value
         try:
-            super().val(value if isinstance(value, delorean.Delorean) else delorean.parse(value))
+            return delorean.parse(value)
         except ValueError as e:
             raise DeclarationError(e)
+
+    def val(self, value):
+        super().val(self.__parse_value(value))
         return self
 
     def min(self, value):
-        self._params['min_value'] = delorean.parse(value)
+        self._params['min_value'] = self.__parse_value(value)
         return self
 
     def max(self, value):
-        self._params['max_value'] = delorean.parse(value)
+        self._params['max_value'] = self.__parse_value(value)
         return self
 
     def between(self, min_value, max_value):
-        self._params['min_value'] = delorean.parse(min_value)
-        self._params['max_value'] = delorean.parse(max_value)
+        self._params['min_value'] = self.__parse_value(min_value)
+        self._params['max_value'] = self.__parse_value(max_value)
         return self
 
     @property
