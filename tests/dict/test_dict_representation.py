@@ -1,0 +1,131 @@
+from baby_steps import given, then, when
+
+from district42 import represent, schema
+
+
+def test_dict_representation():
+    with given:
+        sch = schema.dict
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "schema.dict"
+
+
+def test_dict_empty_representation():
+    with given:
+        sch = schema.dict({})
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "schema.dict({})"
+
+
+def test_dict_one_key_representation():
+    with given:
+        sch = schema.dict({"id": schema.int})
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "\n".join([
+            "schema.dict({",
+            "    'id': schema.int",
+            "})"
+        ])
+
+
+def test_dict_many_keys_representation():
+    with given:
+        sch = schema.dict({"id": schema.int, "name": schema.str("banana")})
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "\n".join([
+            "schema.dict({",
+            "    'id': schema.int,",
+            "    'name': schema.str('banana')",
+            "})",
+        ])
+
+
+def test_dict_nested_keys_representation():
+    with given:
+        sch = schema.dict({
+            "id": schema.int,
+            "user": schema.dict({
+                "id": schema.int,
+                "name": schema.str("banana")
+            }),
+            "is_deleted": schema.bool
+        })
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "\n".join([
+            "schema.dict({",
+            "    'id': schema.int,",
+            "    'user': schema.dict({",
+            "        'id': schema.int,",
+            "        'name': schema.str('banana')",
+            "    }),",
+            "    'is_deleted': schema.bool",
+            "})",
+        ])
+
+
+def test_dict_relaxed_empty_representation():
+    with given:
+        sch = schema.dict({...: ...})
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "schema.dict({...: ...})"
+
+
+def test_dict_relaxed_one_key_representation():
+    with given:
+        sch = schema.dict({"id": schema.int, ...: ...})
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "\n".join([
+            "schema.dict({",
+            "    'id': schema.int,",
+            "    ...: ...",
+            "})",
+        ])
+
+
+def test_dict_relaxed_many_keys_representation():
+    with given:
+        sch = schema.dict({
+            "id": schema.int,
+            "name": schema.str("banana"),
+            ...: ...,
+        })
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "\n".join([
+            "schema.dict({",
+            "    'id': schema.int,",
+            "    'name': schema.str('banana'),",
+            "    ...: ...",
+            "})",
+        ])
