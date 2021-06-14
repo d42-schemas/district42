@@ -35,7 +35,7 @@ class Props:
                 return False
 
         for key, other_val in other._registry.items():
-            val = other.get(key)
+            val = self.get(key)
             if other_val != val:
                 return False
 
