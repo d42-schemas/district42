@@ -1,10 +1,10 @@
 # district42
 
-Data description language (DDL) for defining data models.
+(!) Work in progress, breaking changes are possible until v2.0 is released
 
 
 ## Installation
 
 ```sh
-pip3 install district42==0.6.9
+pip3 install district42
 ```
