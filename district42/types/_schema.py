@@ -33,6 +33,9 @@ class Schema(ABC, Generic[PropsType]):
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, self.__class__) and (self.props == other.props)
 
+    def __or__(self, other: Any) -> Any:
+        raise AttributeError("Schema has no attribute '__or__'")
+
     def __invert__(self) -> Any:
         raise AttributeError("Schema has no attribute '__invert__'")
 
