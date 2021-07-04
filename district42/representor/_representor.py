@@ -122,11 +122,11 @@ class Representor(SchemaVisitor[str]):
             return r + "({...: ...})"
 
         pairs = []
-        for key, val in schema.props.keys.items():
-            if key is ...:
+        for key, (val, is_optional) in schema.props.keys.items():
+            if is_ellipsis(key):
                 key_repr = val_repr = "..."
             else:
-                key_repr = repr(key)
+                key_repr = f"optional({key!r})" if is_optional else repr(key)
                 val_repr = val.__accept__(self, indent=indent + self._indent, **kwargs)
             pairs.append("{indent}{key}: {val}".format(
                 indent=" " * (indent + self._indent),

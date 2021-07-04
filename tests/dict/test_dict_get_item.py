@@ -1,13 +1,25 @@
 from baby_steps import given, then, when
 from pytest import raises
 
-from district42 import schema
+from district42 import optional, schema
 
 
 def test_dict_get_item():
     with given:
         id_sch = schema.int
         sch = schema.dict({"id": id_sch})
+
+    with when:
+        res = sch["id"]
+
+    with then:
+        assert res == id_sch
+
+
+def test_dict_get_optinal_item():
+    with given:
+        id_sch = schema.int
+        sch = schema.dict({optional("id"): id_sch})
 
     with when:
         res = sch["id"]

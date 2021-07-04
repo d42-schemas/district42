@@ -1,6 +1,6 @@
 from baby_steps import given, then, when
 
-from district42 import represent, schema
+from district42 import optional, represent, schema
 
 
 def test_dict_representation():
@@ -42,7 +42,10 @@ def test_dict_one_key_representation():
 
 def test_dict_many_keys_representation():
     with given:
-        sch = schema.dict({"id": schema.int, "name": schema.str("banana")})
+        sch = schema.dict({
+            "id": schema.int,
+            "name": schema.str("banana")
+        })
 
     with when:
         res = represent(sch)
@@ -53,6 +56,25 @@ def test_dict_many_keys_representation():
             "    'id': schema.int,",
             "    'name': schema.str('banana')",
             "})",
+        ])
+
+
+def test_dict_optional_key_representation():
+    with given:
+        sch = schema.dict({
+            "id": schema.int,
+            optional("name"): schema.str,
+        })
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "\n".join([
+            "schema.dict({",
+            "    'id': schema.int,",
+            "    optional('name'): schema.str",
+            "})"
         ])
 
 

@@ -3,7 +3,7 @@ from pytest import raises
 
 from district42 import schema
 from district42.errors import DeclarationError
-from district42.types import DictSchema
+from district42.types import DictSchema, optional
 
 
 def test_dict_declaration():
@@ -46,7 +46,27 @@ def test_dict_keys_declaration():
         sch = schema.dict(keys)
 
     with then:
-        assert sch.props.keys == keys
+        assert sch.props.keys == {key: (val, False) for key, val in keys.items()}
+
+
+def test_dict_optional_keys_declaration():
+    with given:
+        keys = {
+            "id": schema.int(42),
+            "name": schema.str("banana"),
+            optional("created_at"): schema.int,
+        }
+        props = {
+            "id": (schema.int(42), False),
+            "name": (schema.str("banana"), False),
+            "created_at": (schema.int, True),
+        }
+
+    with when:
+        sch = schema.dict(keys)
+
+    with then:
+        assert sch.props.keys == props
 
 
 def test_dict_already_declared_declaration_error():

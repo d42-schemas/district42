@@ -1,7 +1,7 @@
 from baby_steps import given, then, when
 from pytest import raises
 
-from district42 import schema
+from district42 import optional, schema
 from district42.errors import DeclarationError
 
 
@@ -13,7 +13,7 @@ def test_dict_relaxed_empty_keys_declaration():
         sch = schema.dict(keys)
 
     with then:
-        assert sch.props.keys == keys
+        assert sch.props.keys == {...: (..., False)}
 
 
 def test_dict_relaxed_keys_declaration():
@@ -28,7 +28,29 @@ def test_dict_relaxed_keys_declaration():
         sch = schema.dict(keys)
 
     with then:
-        assert sch.props.keys == keys
+        assert sch.props.keys == {key: (val, False) for key, val in keys.items()}
+
+
+def test_dict_relaxed_optional_keys_declaration():
+    with given:
+        keys = {
+            "id": schema.int(42),
+            "name": schema.str("banana"),
+            optional("created_at"): schema.int,
+            ...: ...,
+        }
+        props = {
+            "id": (schema.int(42), False),
+            "name": (schema.str("banana"), False),
+            "created_at": (schema.int, True),
+            ...: (..., False),
+        }
+
+    with when:
+        sch = schema.dict(keys)
+
+    with then:
+        assert sch.props.keys == props
 
 
 def test_dict_relaxed_already_declared_declaration_error():

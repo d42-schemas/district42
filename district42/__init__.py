@@ -6,10 +6,10 @@ from ._schema_facade import SchemaFacade
 from ._schema_visitor import SchemaVisitor
 from ._version import version
 from .representor import Representor
-from .types import AnySchema, GenericSchema, Schema
+from .types import AnySchema, GenericSchema, Schema, optional
 
 __version__ = version
-__all__ = ("schema", "GenericSchema", "Props", "SchemaVisitor", "from_native",)
+__all__ = ("schema", "GenericSchema", "Props", "SchemaVisitor", "from_native", "optional",)
 
 
 schema = SchemaFacade()
