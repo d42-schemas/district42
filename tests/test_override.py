@@ -1,5 +1,6 @@
 from unittest.mock import Mock, call
 
+import pytest
 from baby_steps import given, then, when
 from pytest import raises
 
@@ -22,25 +23,18 @@ def test_non_implemented_mod():
         assert exception.type is AttributeError
 
 
-def test_override_invert():
+@pytest.mark.parametrize("method", [
+    "__invert__",
+    "__mod__",
+    "__add__",
+])
+def test_override_invert(method):
     with given:
         mock_ = Mock()
-        Schema.__override__("__invert__", mock_)
+        Schema.__override__(method, mock_)
 
     with when:
-        schema.str.__invert__()
-
-    with then:
-        assert mock_.mock_calls == [call()]
-
-
-def test_override_mod():
-    with given:
-        mock_ = Mock()
-        Schema.__override__("__mod__", mock_)
-
-    with when:
-        schema.str.__mod__()
+        getattr(schema.str, method)()
 
     with then:
         assert mock_.mock_calls == [call()]

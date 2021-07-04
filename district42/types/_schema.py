@@ -42,5 +42,8 @@ class Schema(ABC, Generic[PropsType]):
     def __mod__(self, other: Any) -> Any:
         raise AttributeError("Schema has no attribute '__mod__'")
 
+    def __add__(self, other: Any) -> Any:
+        raise AttributeError("Schema has no attribute '__add__'")
+
 
 GenericSchema = Schema[Any]

@@ -67,3 +67,9 @@ class DictSchema(Schema[DictProps]):
             key_repr = "..." if is_ellipsis(key) else key
             raise KeyError(key_repr)
         return self.props.keys[key][0]
+
+    def __add__(self, /, other: "DictSchema") -> "DictSchema":
+        self_keys = self.props.keys if (self.props.keys is not Nil) else {}
+        other_keys = other.props.keys if (other.props.keys is not Nil) else {}
+        merged_keys = {**self_keys, **other_keys}
+        return self.__class__(self.props.update(keys=merged_keys))
