@@ -69,6 +69,9 @@ class Representor(SchemaVisitor[str]):
         if schema.props.alphabet is not Nil:
             r += f".alphabet({schema.props.alphabet!r})"
 
+        if schema.props.substr is not Nil:
+            r += f".contains({schema.props.substr!r})"
+
         if schema.props.len is not Nil:
             r += f".len({schema.props.len!r})"
         elif (schema.props.min_len is not Nil) and (schema.props.max_len is not Nil):

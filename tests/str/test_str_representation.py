@@ -109,3 +109,25 @@ def test_str_alphabet_with_value_representation():
 
     with then:
         assert res == "schema.str('banana!').alphabet('abn!')"
+
+
+def test_str_contains_representation():
+    with given:
+        sch = schema.str.contains("banana")
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "schema.str.contains('banana')"
+
+
+def test_str_contains_with_value_representation():
+    with given:
+        sch = schema.str("banana").contains("banana")
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "schema.str('banana').contains('banana')"

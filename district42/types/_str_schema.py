@@ -40,6 +40,10 @@ class StrProps(Props):
     def alphabet(self) -> Nilable[str]:
         return self.get("alphabet")
 
+    @property
+    def substr(self) -> Nilable[str]:
+        return self.get("substr")
+
 
 class StrSchema(Schema[StrProps]):
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
@@ -59,6 +63,9 @@ class StrSchema(Schema[StrProps]):
             raise make_already_declared_error(self)
 
         if self.props.alphabet is not Nil:
+            raise make_already_declared_error(self)
+
+        if self.props.substr is not Nil:
             raise make_already_declared_error(self)
 
         return self.__class__(self.props.update(value=value))
@@ -124,3 +131,17 @@ class StrSchema(Schema[StrProps]):
                 raise DeclarationError(message)
 
         return self.__class__(self.props.update(alphabet=letters))
+
+    def contains(self, substr: str) -> "StrSchema":
+        if not isinstance(substr, str):
+            raise make_invalid_type_error(self, substr, (str,))
+
+        if self.props.substr is not Nil:
+            raise make_already_declared_error(self)
+
+        if self.props.value is not Nil:
+            if substr not in self.props.value:
+                message = f"`{self!r}` does not contain {substr!r}"
+                raise DeclarationError(message)
+
+        return self.__class__(self.props.update(substr=substr))
