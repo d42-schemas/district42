@@ -58,3 +58,12 @@ class SchemaVisitor(ABC, Generic[SchemaVisitorReturnType]):
 
     def __getattr__(self, name: Any) -> Any:
         raise AttributeError(f"{self.__class__.__name__!r} object has no attribute {name!r}")
+
+    def __init_subclass__(cls, **kwargs: Any) -> None:
+        if kwargs.get("extend", False) is not True:
+            return
+        parent = cls.__bases__[0]
+        assert issubclass(parent, SchemaVisitor)
+        for name, value in cls.__dict__.items():
+            if callable(value) and not name.startswith("_"):
+                setattr(parent, name, value)

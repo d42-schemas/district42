@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Type, TypeVar, cast
 
 from ._from_native import from_native
 from ._props import Props
@@ -9,11 +9,20 @@ from .representor import Representor
 from .types import AnySchema, GenericSchema, Schema, optional
 
 __version__ = version
-__all__ = ("schema", "GenericSchema", "Props", "SchemaVisitor", "from_native", "optional",)
+__all__ = ("schema", "GenericSchema", "Props", "SchemaVisitor", "from_native", "optional",
+           "register_type",)
 
 
 schema = SchemaFacade()
 _representor = Representor()
+
+_SchemaType = TypeVar("_SchemaType", bound=GenericSchema)
+
+
+def register_type(name: str, schema_type: Type[_SchemaType]) -> _SchemaType:
+    assert issubclass(schema_type, Schema)
+    setattr(SchemaFacade, name, property(lambda self: schema_type()))
+    return cast(_SchemaType, getattr(schema, name))
 
 
 def represent(self: GenericSchema, **kwargs: Any) -> str:

@@ -6,7 +6,6 @@ from .types import (
     ConstSchema,
     DictSchema,
     FloatSchema,
-    GenericSchema,
     IntSchema,
     ListSchema,
     NoneSchema,
@@ -53,5 +52,5 @@ class SchemaFacade:
     def const(self) -> ConstSchema:
         return ConstSchema()
 
-    def __getattr__(self, name: Any) -> GenericSchema:
+    def __getattr__(self, name: Any) -> Any:
         raise AttributeError(f"{self.__class__.__name__!r} object has no attribute {name!r}")
