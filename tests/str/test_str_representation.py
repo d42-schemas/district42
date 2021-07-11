@@ -131,3 +131,25 @@ def test_str_contains_with_value_representation():
 
     with then:
         assert res == "schema.str('banana').contains('banana')"
+
+
+def test_str_regex_representation():
+    with given:
+        sch = schema.str.regex(".*")
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "schema.str.regex('.*')"
+
+
+def test_str_regex_with_value_representation():
+    with given:
+        sch = schema.str("banana").regex(".*")
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "schema.str('banana').regex('.*')"

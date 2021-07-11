@@ -1,3 +1,4 @@
+import re
 from typing import Any
 
 from niltype import Nil, Nilable
@@ -44,6 +45,10 @@ class StrProps(Props):
     def substr(self) -> Nilable[str]:
         return self.get("substr")
 
+    @property
+    def pattern(self) -> Nilable[str]:
+        return self.get("pattern")
+
 
 class StrSchema(Schema[StrProps]):
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
@@ -66,6 +71,9 @@ class StrSchema(Schema[StrProps]):
             raise make_already_declared_error(self)
 
         if self.props.substr is not Nil:
+            raise make_already_declared_error(self)
+
+        if self.props.pattern is not Nil:
             raise make_already_declared_error(self)
 
         return self.__class__(self.props.update(value=value))
@@ -104,6 +112,9 @@ class StrSchema(Schema[StrProps]):
         if (self.props.min_len is not Nil) or (self.props.max_len is not Nil):
             raise make_already_declared_error(self)
 
+        if self.props.pattern is not Nil:
+            raise make_already_declared_error(self)
+
         props = self.props
         if is_ellipsis(val_or_min):
             props = self.__declare_max_len(props, max)
@@ -123,6 +134,9 @@ class StrSchema(Schema[StrProps]):
         if self.props.alphabet is not Nil:
             raise make_already_declared_error(self)
 
+        if self.props.pattern is not Nil:
+            raise make_already_declared_error(self)
+
         if self.props.value is not Nil:
             missing_letters = {x for x in self.props.value if x not in letters}
             if len(missing_letters) > 0:
@@ -139,9 +153,34 @@ class StrSchema(Schema[StrProps]):
         if self.props.substr is not Nil:
             raise make_already_declared_error(self)
 
+        if self.props.pattern is not Nil:
+            raise make_already_declared_error(self)
+
         if self.props.value is not Nil:
             if substr not in self.props.value:
                 message = f"`{self!r}` does not contain {substr!r}"
                 raise DeclarationError(message)
 
         return self.__class__(self.props.update(substr=substr))
+
+    def regex(self, pattern: str) -> "StrSchema":
+        if not isinstance(pattern, str):
+            raise make_invalid_type_error(self, pattern, (str,))
+
+        if (self.props.pattern is not Nil) or (self.props.alphabet is not Nil) or \
+           (self.props.len is not Nil) or (self.props.min_len is not Nil) or \
+           (self.props.len is not Nil) or (self.props.substr is not Nil):
+            raise make_already_declared_error(self)
+
+        try:
+            re.compile(pattern)
+        except re.error as e:
+            message = f"Invalid pattern ({e})"
+            raise DeclarationError(message) from None
+
+        if self.props.value is not Nil:
+            if re.search(pattern, self.props.value) is None:
+                message = f"`{self!r}` does not match {pattern!r}"
+                raise DeclarationError(message)
+
+        return self.__class__(self.props.update(pattern=pattern))
