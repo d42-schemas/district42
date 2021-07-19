@@ -13,10 +13,12 @@ from ..errors import (
     make_incorrect_min_len_error,
     make_invalid_type_error,
 )
-from ..utils import is_ellipsis
+from ..utils import EllipsisType, is_ellipsis
 from ._schema import GenericSchema, Schema
 
 __all__ = ("ListSchema", "ListProps",)
+
+IntOrEllipsis = Union[int, EllipsisType]
 
 
 class ListProps(Props):
@@ -110,7 +112,7 @@ class ListSchema(Schema[ListProps]):
 
         return props.update(max_len=max_length)
 
-    def len(self, /, val_or_min: int, max: Nilable[int] = Nil) -> "ListSchema":
+    def len(self, /, val_or_min: IntOrEllipsis, max: Nilable[IntOrEllipsis] = Nil) -> "ListSchema":
         if self.props.len is not Nil:
             raise make_already_declared_error(self)
 
