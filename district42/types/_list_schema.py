@@ -13,12 +13,13 @@ from ..errors import (
     make_incorrect_min_len_error,
     make_invalid_type_error,
 )
-from ..utils import EllipsisType, is_ellipsis
+from ..utils import TypeOrEllipsis, is_ellipsis
 from ._schema import GenericSchema, Schema
 
 __all__ = ("ListSchema", "ListProps",)
 
-IntOrEllipsis = Union[int, EllipsisType]
+
+ElementType = TypeOrEllipsis[GenericSchema]
 
 
 class ListProps(Props):
@@ -48,7 +49,7 @@ class ListSchema(Schema[ListProps]):
         return visitor.visit_list(self, **kwargs)
 
     def __call__(self, /,
-                 elements_or_type: Union[List[GenericSchema], GenericSchema]) -> "ListSchema":
+                 elements_or_type: Union[List[ElementType], GenericSchema]) -> "ListSchema":
         if not isinstance(elements_or_type, (list, Schema)):
             raise make_invalid_type_error(self, elements_or_type, (list, Schema))
 
@@ -70,7 +71,8 @@ class ListSchema(Schema[ListProps]):
                 if (index != 0) and (index != len(elements_or_type) - 1):
                     raise DeclarationError("`...` must be first or last element")
 
-        if (len(elements_or_type)) == 2 and (elements_or_type[0] == elements_or_type[-1] == ...):
+        if len(elements_or_type) == 2 and \
+           is_ellipsis(elements_or_type[0]) and is_ellipsis(elements_or_type[-1]):
             raise DeclarationError("`...` must be first or last element")
 
         return self.__class__(self.props.update(elements=elements_or_type))
@@ -112,7 +114,8 @@ class ListSchema(Schema[ListProps]):
 
         return props.update(max_len=max_length)
 
-    def len(self, /, val_or_min: IntOrEllipsis, max: Nilable[IntOrEllipsis] = Nil) -> "ListSchema":
+    def len(self, /, val_or_min: TypeOrEllipsis[int],
+            max: Nilable[TypeOrEllipsis[int]] = Nil) -> "ListSchema":
         if self.props.len is not Nil:
             raise make_already_declared_error(self)
 

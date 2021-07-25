@@ -1,5 +1,5 @@
 import re
-from typing import Any, Union
+from typing import Any
 
 from niltype import Nil, Nilable
 
@@ -14,12 +14,10 @@ from ..errors import (
     make_incorrect_min_len_error,
     make_invalid_type_error,
 )
-from ..utils import EllipsisType, is_ellipsis
+from ..utils import TypeOrEllipsis, is_ellipsis
 from ._schema import Schema
 
 __all__ = ("StrSchema", "StrProps",)
-
-IntOrEllipsis = Union[int, EllipsisType]
 
 
 class StrProps(Props):
@@ -107,7 +105,8 @@ class StrSchema(Schema[StrProps]):
 
         return props.update(max_len=max_length)
 
-    def len(self, /, val_or_min: IntOrEllipsis, max: Nilable[IntOrEllipsis] = Nil) -> "StrSchema":
+    def len(self, /, val_or_min: TypeOrEllipsis[int],
+            max: Nilable[TypeOrEllipsis[int]] = Nil) -> "StrSchema":
         if self.props.len is not Nil:
             raise make_already_declared_error(self)
 

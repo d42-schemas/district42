@@ -6,7 +6,7 @@ from .._props import Props
 from .._schema_visitor import SchemaVisitor
 from .._schema_visitor import SchemaVisitorReturnType as ReturnType
 from ..errors import DeclarationError, make_already_declared_error, make_invalid_type_error
-from ..utils import is_ellipsis
+from ..utils import TypeOrEllipsis, is_ellipsis
 from ._schema import GenericSchema, Schema
 
 __all__ = ("DictSchema", "DictProps", "optional",)
@@ -36,7 +36,7 @@ class DictSchema(Schema[DictProps]):
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_dict(self, **kwargs)
 
-    def __call__(self, /, keys: Dict[Any, GenericSchema]) -> "DictSchema":
+    def __call__(self, /, keys: Dict[Any, TypeOrEllipsis[GenericSchema]]) -> "DictSchema":
         if not isinstance(keys, dict):
             raise make_invalid_type_error(self, keys, (dict,))
 
