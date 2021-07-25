@@ -13,7 +13,7 @@ def find_dev_required():
 
 setup(
     name="district42",
-    version="1.3.2",
+    version="1.3.3",
     description="Data description language for defining data models",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
