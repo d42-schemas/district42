@@ -1,4 +1,4 @@
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, KeysView, Tuple
 
 from niltype import Nil, Nilable
 
@@ -73,3 +73,8 @@ class DictSchema(Schema[DictProps]):
         other_keys = other.props.keys if (other.props.keys is not Nil) else {}
         merged_keys = {**self_keys, **other_keys}
         return self.__class__(self.props.update(keys=merged_keys))
+
+    def keys(self) -> KeysView[Any]:
+        if self.props.keys is Nil:
+            return {}.keys()
+        return self.props.keys.keys()
