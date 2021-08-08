@@ -65,5 +65,5 @@ class SchemaVisitor(ABC, Generic[SchemaVisitorReturnType]):
         parent = cls.__bases__[0]
         assert issubclass(parent, SchemaVisitor)
         for name, value in cls.__dict__.items():
-            if callable(value) and not name.startswith("_"):
+            if callable(value) and not name.startswith("__"):
                 setattr(parent, name, value)
