@@ -141,3 +141,25 @@ def test_props_not_eq_more_other():
 
     with then:
         assert res is False
+
+
+def test_props_no_keys():
+    with given:
+        props = Props()
+
+    with when:
+        keys = [key for key in props]
+
+    with then:
+        assert keys == []
+
+
+def test_props_keys():
+    with given:
+        props = Props().update(key1="val1", key2="val2")
+
+    with when:
+        keys = [key for key in props]
+
+    with then:
+        assert keys == ["key1", "key2"]

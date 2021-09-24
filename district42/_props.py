@@ -1,4 +1,4 @@
-from typing import Any, Mapping, TypeVar
+from typing import Any, Iterator, Mapping, TypeVar
 
 from niltype import Nil, Nilable
 
@@ -21,6 +21,9 @@ class Props:
     def update(self: PropsType, **keys: Any) -> PropsType:
         registry = {**self._registry, **keys}
         return self.__class__(registry)
+
+    def __iter__(self) -> Iterator[str]:
+        return iter(self._registry)
 
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} {self._registry}>"
