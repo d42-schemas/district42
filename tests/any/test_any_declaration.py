@@ -20,7 +20,7 @@ def test_any_without_types_declaration_error():
 
     with then:
         assert exception.type is TypeError
-        assert str(exception.value) == "__call__() missing 1 required positional argument: 'type_'"
+        assert "missing 1 required positional argument: 'type_'" in str(exception.value)
 
 
 def test_any_type_declaration():
