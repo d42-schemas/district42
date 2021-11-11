@@ -21,7 +21,7 @@ class AnySchema(Schema[AnyProps]):
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_any(self, **kwargs)
 
-    def __call__(self, /, type_: GenericSchema, *types: Tuple[GenericSchema, ...]) -> "AnySchema":
+    def __call__(self, /, type_: GenericSchema, *types: GenericSchema) -> "AnySchema":
         types_ = (type_,) + types
         for t in types_:
             if not isinstance(t, Schema):
