@@ -106,6 +106,17 @@ def test_dict_value():
         })
 
 
+def test_bytes_value():
+    with given:
+        value = b""
+
+    with when:
+        res = from_native(value)
+
+    with then:
+        assert res == schema.bytes(value)
+
+
 def test_unknown_value():
     with given:
         value = Exception()
