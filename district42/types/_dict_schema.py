@@ -25,6 +25,12 @@ class optional:
     def __repr__(self) -> str:
         return f"optional({self._key!r})"
 
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, self.__class__) and (self._key == other.key)
+
+    def __hash__(self) -> int:
+        return hash((self._key,))
+
 
 class DictProps(Props):
     @property

@@ -33,3 +33,25 @@ def test_optional_repr():
 
     with then:
         assert res == "optional('<key>')"
+
+
+def test_optional_eq():
+    with given:
+        opt = optional("<key>")
+
+    with when:
+        res = opt == optional("<key>")
+
+    with then:
+        assert res is True
+
+
+def test_optional_not_eq():
+    with given:
+        opt = optional("<key>")
+
+    with when:
+        res = opt == optional("<another key>")
+
+    with then:
+        assert res is False
