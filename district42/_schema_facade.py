@@ -3,6 +3,7 @@ from typing import Any
 from .types import (
     AnySchema,
     BoolSchema,
+    BytesSchema,
     ConstSchema,
     DictSchema,
     FloatSchema,
@@ -51,6 +52,10 @@ class SchemaFacade:
     @property
     def const(self) -> ConstSchema:
         return ConstSchema()
+
+    @property
+    def bytes(self) -> BytesSchema:
+        return BytesSchema()
 
     def __getattr__(self, name: Any) -> Any:
         raise AttributeError(f"{self.__class__.__name__!r} object has no attribute {name!r}")

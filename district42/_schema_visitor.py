@@ -5,6 +5,7 @@ if TYPE_CHECKING:
     from .types import (
         AnySchema,
         BoolSchema,
+        BytesSchema,
         ConstSchema,
         DictSchema,
         FloatSchema,
@@ -54,6 +55,10 @@ class SchemaVisitor(ABC, Generic[SchemaVisitorReturnType]):
 
     @abstractmethod
     def visit_const(self, schema: "ConstSchema", **kwargs: Any) -> SchemaVisitorReturnType:
+        pass
+
+    @abstractmethod
+    def visit_bytes(self, schema: "BytesSchema", **kwargs: Any) -> SchemaVisitorReturnType:
         pass
 
     def __getattr__(self, name: Any) -> Any:

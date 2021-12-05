@@ -6,6 +6,7 @@ from .._schema_visitor import SchemaVisitor
 from ..types import (
     AnySchema,
     BoolSchema,
+    BytesSchema,
     ConstSchema,
     DictSchema,
     FloatSchema,
@@ -156,6 +157,13 @@ class Representor(SchemaVisitor[str]):
 
     def visit_const(self, schema: ConstSchema, *, indent: int = 0, **kwargs: Any) -> str:
         r = f"{self._name}.const"
+
+        if schema.props.value is not Nil:
+            r += f"({schema.props.value!r})"
+        return r
+
+    def visit_bytes(self, schema: BytesSchema, *, indent: int = 0, **kwargs: Any) -> str:
+        r = f"{self._name}.bytes"
 
         if schema.props.value is not Nil:
             r += f"({schema.props.value!r})"
