@@ -9,10 +9,12 @@ if TYPE_CHECKING:
         ConstSchema,
         DictSchema,
         FloatSchema,
+        GenericTypeAliasSchema,
         IntSchema,
         ListSchema,
         NoneSchema,
         StrSchema,
+        TypeAliasPropsType,
     )
 
 __all__ = ("SchemaVisitor", "SchemaVisitorReturnType",)
@@ -59,6 +61,11 @@ class SchemaVisitor(ABC, Generic[SchemaVisitorReturnType]):
 
     @abstractmethod
     def visit_bytes(self, schema: "BytesSchema", **kwargs: Any) -> SchemaVisitorReturnType:
+        pass
+
+    @abstractmethod
+    def visit_type_alias(self, schema: "GenericTypeAliasSchema[TypeAliasPropsType]",
+                         **kwargs: Any) -> SchemaVisitorReturnType:
         pass
 
     def __getattr__(self, name: Any) -> Any:
