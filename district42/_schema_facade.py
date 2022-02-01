@@ -1,3 +1,4 @@
+import warnings
 from typing import Any
 
 from .types import (
@@ -58,6 +59,7 @@ class SchemaFacade:
 
     @property
     def const(self) -> ConstSchema:
+        warnings.warn("Deprecated: 'schema.const' may be removed in the future", FutureWarning)
         return ConstSchema()
 
     @property
