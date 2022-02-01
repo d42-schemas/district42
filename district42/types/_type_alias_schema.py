@@ -8,7 +8,8 @@ from .._schema_visitor import SchemaVisitorReturnType as ReturnType
 from ._any_schema import AnySchema
 from ._schema import GenericSchema, Schema
 
-__all__ = ("TypeAliasSchema", "TypeAliasProps", "GenericTypeAliasSchema", "TypeAliasPropsType",)
+__all__ = ("TypeAliasSchema", "TypeAliasProps",
+           "GenericTypeAliasSchema", "TypeAliasPropsType",)
 
 
 class TypeAliasProps(Props):

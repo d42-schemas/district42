@@ -173,6 +173,8 @@ class Representor(SchemaVisitor[str]):
 
     def visit_type_alias(self, schema: GenericTypeAliasSchema[TypeAliasPropsType],
                          *, indent: int = 0, **kwargs: Any) -> str:
-        if schema.props.name is Nil:
-            return f"{schema.__class__.__name__}<{schema.props.type!r}>"
-        return f"{schema.props.name}<{schema.props.type!r}>"
+        type_name = schema.__class__.__name__
+        type_repr = schema.props.type.__accept__(self, indent=indent, **kwargs)
+        if schema.props.name is not Nil:
+            type_name = schema.props.name
+        return f"{type_name}<{type_repr}>"
