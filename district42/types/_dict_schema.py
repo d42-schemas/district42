@@ -75,6 +75,7 @@ class DictSchema(Schema[DictProps]):
         return self.props.keys[key][0]
 
     def __add__(self, /, other: "DictSchema") -> "DictSchema":
+        assert isinstance(other, Schema)
         self_keys = self.props.keys if (self.props.keys is not Nil) else {}
         other_keys = other.props.keys if (other.props.keys is not Nil) else {}
         merged_keys = {**self_keys, **other_keys}
