@@ -1,3 +1,4 @@
+import warnings
 from typing import Any
 
 from .types import (
@@ -7,16 +8,23 @@ from .types import (
     ConstSchema,
     DictSchema,
     FloatSchema,
+    GenericSchema,
     IntSchema,
     ListSchema,
     NoneSchema,
     StrSchema,
+    TypeAliasProps,
+    TypeAliasSchema,
 )
 
 __all__ = ("SchemaFacade",)
 
 
 class SchemaFacade:
+    def alias(self, /, name: str, type_: GenericSchema) -> TypeAliasSchema:
+        props = TypeAliasProps()
+        return TypeAliasSchema(props.update(name=name, type=type_))
+
     @property
     def none(self) -> NoneSchema:
         return NoneSchema()
@@ -51,6 +59,7 @@ class SchemaFacade:
 
     @property
     def const(self) -> ConstSchema:
+        warnings.warn("Deprecated: 'schema.const' may be removed in the future", FutureWarning)
         return ConstSchema()
 
     @property

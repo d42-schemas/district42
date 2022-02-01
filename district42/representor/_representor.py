@@ -10,10 +10,12 @@ from ..types import (
     ConstSchema,
     DictSchema,
     FloatSchema,
+    GenericTypeAliasSchema,
     IntSchema,
     ListSchema,
     NoneSchema,
     StrSchema,
+    TypeAliasPropsType,
 )
 from ..utils import is_ellipsis
 
@@ -168,3 +170,11 @@ class Representor(SchemaVisitor[str]):
         if schema.props.value is not Nil:
             r += f"({schema.props.value!r})"
         return r
+
+    def visit_type_alias(self, schema: GenericTypeAliasSchema[TypeAliasPropsType],
+                         *, indent: int = 0, **kwargs: Any) -> str:
+        type_name = schema.__class__.__name__
+        type_repr = schema.props.type.__accept__(self, indent=indent, **kwargs)
+        if schema.props.name is not Nil:
+            type_name = schema.props.name
+        return f"{type_name}<{type_repr}>"
