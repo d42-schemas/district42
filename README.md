@@ -7,8 +7,6 @@
 
 Data description language for defining data models
 
-(!) Work in progress, breaking changes are possible until v2.0 is released
-
 ## Installation
 
 ```sh
