@@ -174,3 +174,17 @@ def test_float_min_max_with_value_declaration():
         assert sch.props.value == value
         assert sch.props.min == min_value
         assert sch.props.max == max_value
+
+
+def test_float_min_max_with_precision_given():
+    with given:
+        precision = 2
+        min_value, max_value = 3., 4.
+
+    with when:
+        sch = schema.float.min(min_value).max(max_value).precision(precision)
+
+    with then:
+        assert sch.props.precision == precision
+        assert sch.props.min == min_value
+        assert sch.props.max == max_value
