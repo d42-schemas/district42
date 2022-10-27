@@ -1,3 +1,4 @@
+import sys
 from typing import TYPE_CHECKING, Any, Sized, Tuple, Type
 
 if TYPE_CHECKING:
@@ -6,7 +7,7 @@ if TYPE_CHECKING:
 __all__ = ("DeclarationError", "make_invalid_type_error", "make_already_declared_error",
            "make_incorrect_len_error", "make_incorrect_min_error", "make_incorrect_max_error",
            "make_incorrect_min_len_error", "make_incorrect_max_len_error",
-           "make_incorrect_precision_len_error",)
+           "make_value_already_declared_for_precision", "make_incorrect_precision_len_error",)
 
 
 class DeclarationError(Exception):
@@ -69,7 +70,12 @@ def make_incorrect_max_len_error(schema: "GenericSchema",
     return DeclarationError(message)
 
 
+def make_value_already_declared_for_precision(schema: "GenericSchema") -> DeclarationError:
+    message = f"`{schema!r}` value is already declared, no precision needed"
+    return DeclarationError(message)
+
+
 def make_incorrect_precision_len_error(schema: "GenericSchema", value: int) -> DeclarationError:
-    message = (f"`{schema!r}` precision len must be greater than 0 or less than 16, "
+    message = (f"`{schema!r}` precision must be greater than 0 or less than {sys.float_info.dig}, "
                f"{value} given")
     return DeclarationError(message)

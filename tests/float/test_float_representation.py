@@ -56,6 +56,39 @@ def test_float_max_value_representation():
         assert res == "schema.float.max(3.14)"
 
 
+def test_float_precision_value_representation():
+    with given:
+        sch = schema.float.precision(3)
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "schema.float.precision(3)"
+
+
+def test_float_min_precision_value_representation():
+    with given:
+        sch = schema.float.min(3.14).precision(3)
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "schema.float.min(3.14).precision(3)"
+
+
+def test_float_min_max_precision_value_representation():
+    with given:
+        sch = schema.float.min(3.14).max(3.15).precision(3)
+
+    with when:
+        res = represent(sch)
+
+    with then:
+        assert res == "schema.float.min(3.14).max(3.15).precision(3)"
+
+
 def test_float_min_max_value_representation():
     with given:
         sch = schema.float.min(3.14).max(3.15)
