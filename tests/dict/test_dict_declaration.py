@@ -1,7 +1,7 @@
 from baby_steps import given, then, when
 from pytest import raises
 
-from district42 import schema
+from district42 import make_required, schema
 from district42.errors import DeclarationError
 from district42.types import DictSchema, optional
 
@@ -67,6 +67,46 @@ def test_dict_optional_keys_declaration():
 
     with then:
         assert sch.props.keys == props
+
+
+def test_dict_optional_keys_all_made_required_declaration():
+    with given:
+        keys = {
+            "id": schema.int(42),
+            optional("name"): schema.str("banana"),
+            optional("created_at"): schema.int,
+        }
+        props = {
+            "id": (schema.int(42), False),
+            "name": (schema.str("banana"), False),
+            "created_at": (schema.int, False),
+        }
+
+    with when:
+        sch = schema.dict(keys)
+
+    with then:
+        assert make_required(sch).props.keys == props
+
+
+def test_dict_optional_keys_one_made_required_declaration():
+    with given:
+        keys = {
+            "id": schema.int(42),
+            optional("name"): schema.str("banana"),
+            optional("created_at"): schema.int,
+        }
+        props = {
+            "id": (schema.int(42), False),
+            "name": (schema.str("banana"), False),
+            "created_at": (schema.int, True),
+        }
+
+    with when:
+        sch = schema.dict(keys)
+
+    with then:
+        assert make_required(sch, {"name"}).props.keys == props
 
 
 def test_dict_already_declared_declaration_error():

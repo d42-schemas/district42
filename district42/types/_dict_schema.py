@@ -1,4 +1,4 @@
-from typing import Any, Dict, KeysView, Tuple
+from typing import Any, Dict, KeysView, List, Set, Tuple, Union
 
 from niltype import Nil, Nilable
 
@@ -9,7 +9,7 @@ from ..errors import DeclarationError, make_already_declared_error, make_invalid
 from ..utils import TypeOrEllipsis, is_ellipsis
 from ._schema import GenericSchema, Schema
 
-__all__ = ("DictSchema", "DictProps", "optional",)
+__all__ = ("DictSchema", "DictProps", "optional", "make_required", )
 
 
 class optional:
@@ -85,3 +85,26 @@ class DictSchema(Schema[DictProps]):
         if self.props.keys is Nil:
             return {}.keys()
         return self.props.keys.keys()
+
+
+def make_required(schema: DictSchema, keys: Union[Set, List] = None) -> DictSchema:
+    if not isinstance(schema, DictSchema):
+        message = f"Inappropriate type of schema {schema!r} ({type(schema)!r})"
+        raise DeclarationError(message)
+    if keys:
+        if not isinstance(keys, Set) and not isinstance(keys, List):
+            message = f"Inappropriate type of keys {keys!r} ({type(keys)!r})"
+            raise DeclarationError(message)
+
+    actual_keys_list = list(schema.keys())
+    keys_to_be_required = list(keys) if keys else actual_keys_list
+
+    new_keys = {}
+
+    for key in actual_keys_list:
+        key_value = schema.props.keys.get(key)
+        is_optional = False if key in keys_to_be_required and key_value[1] else key_value[1]
+        new_keys.update({key: (key_value[0], is_optional)})
+
+    return DictSchema(DictProps({'keys': new_keys}))
+

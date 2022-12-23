@@ -2,7 +2,7 @@ from ._any_schema import AnyProps, AnySchema
 from ._bool_schema import BoolProps, BoolSchema
 from ._bytes_schema import BytesProps, BytesSchema
 from ._const_schema import ConstProps, ConstSchema
-from ._dict_schema import DictProps, DictSchema, optional
+from ._dict_schema import DictProps, DictSchema, make_required, optional
 from ._float_schema import FloatProps, FloatSchema
 from ._int_schema import IntProps, IntSchema
 from ._list_schema import ListProps, ListSchema
@@ -21,4 +21,4 @@ __all__ = ("AnyProps", "AnySchema", "BoolProps", "BoolSchema", "BytesProps", "By
            "IntProps", "IntSchema", "ListProps", "ListSchema", "NoneProps", "NoneSchema",
            "StrProps", "StrSchema", "TypeAliasSchema", "TypeAliasProps",
            "GenericTypeAliasSchema", "TypeAliasPropsType", "GenericSchema", "Schema",
-           "optional",)
+           "optional", "make_required", )
