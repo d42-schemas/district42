@@ -6,7 +6,7 @@ from ._schema_facade import SchemaFacade
 from ._schema_visitor import SchemaVisitor, SchemaVisitorReturnType
 from ._version import version
 from .representor import Representor
-from .types import AnySchema, GenericSchema, Schema, optional, make_required
+from .types import AnySchema, GenericSchema, Schema, make_required, optional
 
 __version__ = version
 __all__ = ("schema", "GenericSchema", "Props", "SchemaVisitor", "SchemaVisitorReturnType",

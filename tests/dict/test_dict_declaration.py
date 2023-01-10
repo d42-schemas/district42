@@ -83,10 +83,10 @@ def test_dict_optional_keys_all_made_required_declaration():
         }
 
     with when:
-        sch = schema.dict(keys)
+        sch = make_required(schema.dict(keys))
 
     with then:
-        assert make_required(sch).props.keys == props
+        assert sch.props.keys == props
 
 
 def test_dict_optional_keys_one_made_required_declaration():
@@ -103,10 +103,86 @@ def test_dict_optional_keys_one_made_required_declaration():
         }
 
     with when:
-        sch = schema.dict(keys)
+        sch = make_required(schema.dict(keys), {"name"})
 
     with then:
-        assert make_required(sch, {"name"}).props.keys == props
+        assert sch.props.keys == props
+
+
+def test_dict_make_required_invalid_schema_type_declaration_error():
+    with given:
+        sch = schema.list([schema.str("banana")])
+
+    with when, raises(Exception) as exception:
+        make_required(sch)
+
+    with then:
+        assert exception.type is DeclarationError
+        assert str(exception.value) == f"Inappropriate type of schema {sch!r} ({type(sch)!r})"
+
+
+def test_dict_make_required_invalid_keys_type_declaration_error():
+    with given:
+        keys = {
+            "id": schema.int(42),
+            optional("name"): schema.str("banana"),
+            optional("created_at"): schema.int,
+        }
+        keys_req = "name"
+
+    with when, raises(Exception) as exception:
+        make_required(schema.dict(keys), keys_req)
+
+    with then:
+        assert exception.type is DeclarationError
+        assert str(
+            exception.value) == f"Inappropriate type of keys {keys_req!r} ({type(keys_req)!r})"
+
+
+def test_dict_make_required_nonexisting_keys_declaration_error():
+    with given:
+        keys = {
+            "id": schema.int(42),
+            optional("name"): schema.str("banana"),
+            optional("created_at"): schema.int,
+        }
+        keys_req = {"banana"}
+
+    with when, raises(Exception) as exception:
+        make_required(schema.dict(keys), keys_req)
+
+    with then:
+        assert exception.type is DeclarationError
+        assert str(exception.value) == f"Nonexisting key {list(keys_req)[0]!r}"
+
+
+def test_dict_make_required_empty_dict_declaration_error():
+    with given:
+        keys = {}
+
+    with when, raises(Exception) as exception:
+        make_required(schema.dict(keys))
+
+    with then:
+        assert exception.type is DeclarationError
+        assert str(exception.value) == "DictSchema must not be empty"
+
+
+def test_dict_make_required_relaxed_dict_declaration_error():
+    with given:
+        keys = {
+            "id": schema.int(42),
+            optional("name"): schema.str("banana"),
+            optional("created_at"): schema.int,
+            ...: ...
+        }
+
+    with when, raises(Exception) as exception:
+        make_required(schema.dict(keys))
+
+    with then:
+        assert exception.type is DeclarationError
+        assert str(exception.value) == "DictSchema must not be relaxed"
 
 
 def test_dict_already_declared_declaration_error():

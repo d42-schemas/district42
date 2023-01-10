@@ -9,7 +9,7 @@ from ..errors import DeclarationError, make_already_declared_error, make_invalid
 from ..utils import TypeOrEllipsis, is_ellipsis
 from ._schema import GenericSchema, Schema
 
-__all__ = ("DictSchema", "DictProps", "optional", "make_required", )
+__all__ = ("DictSchema", "DictProps", "make_required", "optional",)
 
 
 class optional:
@@ -87,24 +87,36 @@ class DictSchema(Schema[DictProps]):
         return self.props.keys.keys()
 
 
-def make_required(schema: DictSchema, keys: Union[Set, List] = None) -> DictSchema:
+def make_required(schema: DictSchema, keys: Union[Set[str], List[str], None] = None) -> DictSchema:
     if not isinstance(schema, DictSchema):
         message = f"Inappropriate type of schema {schema!r} ({type(schema)!r})"
         raise DeclarationError(message)
-    if keys:
-        if not isinstance(keys, Set) and not isinstance(keys, List):
-            message = f"Inappropriate type of keys {keys!r} ({type(keys)!r})"
-            raise DeclarationError(message)
 
     actual_keys_list = list(schema.keys())
+
+    if not actual_keys_list:
+        message = "DictSchema must not be empty"
+        raise DeclarationError(message)
+    else:
+        for key in actual_keys_list:
+            if is_ellipsis(key):
+                message = "DictSchema must not be relaxed"
+                raise DeclarationError(message)
+
+    if keys:
+        if not isinstance(keys, (set, list)):
+            message = f"Inappropriate type of keys {keys!r} ({type(keys)!r})"
+            raise DeclarationError(message)
+        for key in keys:
+            if key not in actual_keys_list:
+                message = f"Nonexisting key {key!r}"
+                raise DeclarationError(message)
+
     keys_to_be_required = list(keys) if keys else actual_keys_list
 
-    new_keys = {}
+    updated_keys = {}
+    props_keys = {} if (schema.props.keys is Nil) else schema.props.keys
+    for key, (val, is_optional) in props_keys.items():
+        updated_keys[key] = (val, False if key in keys_to_be_required else is_optional)
 
-    for key in actual_keys_list:
-        key_value = schema.props.keys.get(key)
-        is_optional = False if key in keys_to_be_required and key_value[1] else key_value[1]
-        new_keys.update({key: (key_value[0], is_optional)})
-
-    return DictSchema(DictProps({'keys': new_keys}))
-
+    return schema.__class__(schema.props.update(keys=updated_keys))
