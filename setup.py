@@ -13,7 +13,7 @@ def find_dev_required():
 
 setup(
     name="district42",
-    version="1.5.0",
+    version="1.5.1",
     description="Data description language for defining data models",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -22,7 +22,7 @@ setup(
     python_requires=">=3.8",
     url="https://github.com/nikitanovosibirsk/district42",
     license="Apache-2.0",
-    packages=find_packages(exclude=("tests",)),
+    packages=find_packages(exclude=["tests", "tests.*"]),
     package_data={"district42": ["py.typed"]},
     install_requires=find_required(),
     tests_require=find_dev_required(),
@@ -31,6 +31,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Typing :: Typed",
     ],
 )
