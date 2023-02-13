@@ -1,6 +1,6 @@
 # district42
 
-[![Codecov](https://img.shields.io/codecov/c/github/nikitanovosibirsk/district42/master.svg?style=flat-square)](https://codecov.io/gh/nikitanovosibirsk/district42)
+[![Codecov](https://img.shields.io/codecov/c/github/tsv1/district42/master.svg?style=flat-square)](https://codecov.io/gh/tsv1/district42)
 [![PyPI](https://img.shields.io/pypi/v/district42.svg?style=flat-square)](https://pypi.python.org/pypi/district42/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/district42?style=flat-square)](https://pypi.python.org/pypi/district42/)
 [![Python Version](https://img.shields.io/pypi/pyversions/district42.svg?style=flat-square)](https://pypi.python.org/pypi/district42/)
@@ -28,9 +28,9 @@ print(UserSchema)
 ```
 
 More powerful with:
-- [blahblah](https://github.com/nikitanovosibirsk/blahblah) — Fake data generator
-- [valera](https://github.com/nikitanovosibirsk/valera) — Validator
-- [revolt](https://github.com/nikitanovosibirsk/revolt) — Value substitutor
+- [blahblah](https://github.com/tsv1/blahblah) — Fake data generator
+- [valera](https://github.com/tsv1/valera) — Validator
+- [revolt](https://github.com/tsv1/revolt) — Value substitutor
 
 And [more](https://github.com/topics/district42)
 
@@ -334,4 +334,4 @@ print(schema.uuid(uuid4()))
 # schema.uuid(UUID('ce80d2b7-cdce-4e24-ab26-00c75471ce78'))
 ```
 
-Full code available here: [district42_exp_types/uuid](https://github.com/nikitanovosibirsk/district42-exp-types/tree/master/district42_exp_types/uuid)
+Full code available here: [district42_exp_types/uuid](https://github.com/tsv1/district42-exp-types/tree/master/district42_exp_types/uuid)
