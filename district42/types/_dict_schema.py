@@ -1,4 +1,4 @@
-from typing import Any, Dict, Generator, KeysView, List, Set, Tuple, Union
+from typing import Any, Dict, Generator, KeysView, List, Optional, Set, Tuple, Union
 
 from niltype import Nil, Nilable
 
@@ -90,36 +90,31 @@ class DictSchema(Schema[DictProps]):
         yield from self.keys()
 
 
-def make_required(schema: DictSchema, keys: Union[Set[str], List[str], None] = None) -> DictSchema:
+RequiredKeysType = Union[Set[str], List[str], Tuple[str, ...]]
+
+
+def make_required(schema: DictSchema, keys: Optional[RequiredKeysType] = None) -> DictSchema:
     if not isinstance(schema, DictSchema):
         message = f"Inappropriate type of schema {schema!r} ({type(schema)!r})"
         raise DeclarationError(message)
 
-    actual_keys_list = list(schema.keys())
-
-    if not actual_keys_list:
-        message = "DictSchema must not be empty"
+    if not isinstance(keys, (set, list, tuple, type(None))):
+        message = f"Inappropriate type of keys {keys!r} ({type(keys)!r})"
         raise DeclarationError(message)
-    else:
-        for key in actual_keys_list:
-            if is_ellipsis(key):
-                message = "DictSchema must not be relaxed"
-                raise DeclarationError(message)
 
-    if keys:
-        if not isinstance(keys, (set, list)):
-            message = f"Inappropriate type of keys {keys!r} ({type(keys)!r})"
+    if keys is None:
+        keys = set(schema.keys())
+
+    props_keys = schema.props.keys if (schema.props.keys is not Nil) else {}
+    for key in keys:
+        if key not in props_keys:
+            message = f"Nonexisting key {key!r}"
             raise DeclarationError(message)
-        for key in keys:
-            if key not in actual_keys_list:
-                message = f"Nonexisting key {key!r}"
-                raise DeclarationError(message)
 
-    keys_to_be_required = list(keys) if keys else actual_keys_list
-
-    updated_keys = {}
-    props_keys = {} if (schema.props.keys is Nil) else schema.props.keys
-    for key, (val, is_optional) in props_keys.items():
-        updated_keys[key] = (val, False if key in keys_to_be_required else is_optional)
-
-    return schema.__class__(schema.props.update(keys=updated_keys))
+    if schema.props.keys is Nil:
+        return schema
+    else:
+        updated_keys = {}
+        for key, (val, is_optional) in props_keys.items():
+            updated_keys[key] = (val, False if (key in keys) else is_optional)
+        return schema.__class__(schema.props.update(keys=updated_keys))
