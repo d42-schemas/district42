@@ -1,4 +1,4 @@
-from typing import Any, Dict, KeysView, List, Set, Tuple, Union
+from typing import Any, Dict, Generator, KeysView, List, Set, Tuple, Union
 
 from niltype import Nil, Nilable
 
@@ -75,7 +75,7 @@ class DictSchema(Schema[DictProps]):
         return self.props.keys[key][0]
 
     def __add__(self, /, other: "DictSchema") -> "DictSchema":
-        assert isinstance(other, Schema)
+        assert isinstance(other, DictSchema)
         self_keys = self.props.keys if (self.props.keys is not Nil) else {}
         other_keys = other.props.keys if (other.props.keys is not Nil) else {}
         merged_keys = {**self_keys, **other_keys}
@@ -85,6 +85,9 @@ class DictSchema(Schema[DictProps]):
         if self.props.keys is Nil:
             return {}.keys()
         return self.props.keys.keys()
+
+    def __iter__(self) -> Generator[Any, None, None]:
+        yield from self.keys()
 
 
 def make_required(schema: DictSchema, keys: Union[Set[str], List[str], None] = None) -> DictSchema:
