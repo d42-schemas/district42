@@ -61,6 +61,9 @@ class Representor(SchemaVisitor[str]):
         if schema.props.max is not Nil:
             r += f".max({schema.props.max!r})"
 
+        if schema.props.precision is not Nil:
+            r += f".precision({schema.props.precision!r})"
+
         return r
 
     def visit_str(self, schema: StrSchema, *, indent: int = 0, **kwargs: Any) -> str:

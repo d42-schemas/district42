@@ -53,6 +53,7 @@ And [more](https://github.com/topics/district42)
     * [schema.float(`value`)](#schemafloatvalue)
     * [schema.float.min(`value`)](#schemafloatminvalue)
     * [schema.float.max(`value`)](#schemafloatmaxvalue)
+    * [schema.float.precision(`value`)](#schemafloatprecisionvalue)
   * [Str](#str)
     * [schema.str](#schemastr)
     * [schema.str.len(`length`)](#schemastrlenlength)
@@ -149,6 +150,12 @@ sch = schema.float.min(0.0)
 
 ```python
 sch = schema.float.max(0.0)
+```
+
+#### schema.float.precision(`value`)
+
+```python
+sch = schema.float.precision(2)
 ```
 
 ### Str

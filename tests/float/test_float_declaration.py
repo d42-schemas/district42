@@ -174,3 +174,89 @@ def test_float_min_max_with_value_declaration():
         assert sch.props.value == value
         assert sch.props.min == min_value
         assert sch.props.max == max_value
+
+
+def test_float_precision_value_declaration():
+    with given:
+        precision_value = 2
+
+    with when:
+        sch = schema.float.precision(precision_value)
+
+    with then:
+        assert sch.props.precision == precision_value
+
+
+def test_float_invalid_precision_value_type_declaration_error():
+    with when, raises(Exception) as exception:
+        schema.float.precision(3.14)
+
+    with then:
+        assert exception.type is DeclarationError
+        assert str(exception.value) == ("`schema.float` value must be an instance of 'int', "
+                                        "instance of 'float' 3.14 given")
+
+
+def test_float_already_declared_precision_value_declaration_error():
+    with when, raises(Exception) as exception:
+        schema.float.precision(3)(3.14)
+
+    with then:
+        assert exception.type is DeclarationError
+        assert str(exception.value) == "`schema.float.precision(3)` is already declared"
+
+
+def test_float_value_already_declared_precision_declaration_error():
+    with given:
+        sch = schema.float(3.14)
+
+    with when, raises(Exception) as exception:
+        sch.precision(3)
+
+    with then:
+        assert exception.type is DeclarationError
+        assert str(exception.value) == "`schema.float(3.14)` value is already declared, " \
+                                       "no precision needed"
+
+
+def test_float_precision_value_already_declared_precision_declaration_error():
+    with when, raises(Exception) as exception:
+        schema.float.precision(3).precision(3)
+
+    with then:
+        assert exception.type is DeclarationError
+        assert str(exception.value) == "`schema.float.precision(3)` is already declared"
+
+
+def test_float_precision_value_too_big_declaration_error():
+    with when, raises(Exception) as exception:
+        schema.float.precision(500)
+
+    with then:
+        assert exception.type is DeclarationError
+        assert str(exception.value) == "`schema.float` precision must be greater than 0 or " \
+                                       "less than 15, 500 given"
+
+
+def test_float_precision_value_too_small_declaration_error():
+    with when, raises(Exception) as exception:
+        schema.float.precision(-500)
+
+    with then:
+        assert exception.type is DeclarationError
+        assert str(exception.value) == "`schema.float` precision must be greater than 0 or " \
+                                       "less than 15, -500 given"
+
+
+def test_float_min_max_with_precision_given():
+    with given:
+        precision = 2
+        min_value, max_value = 3., 4.
+
+    with when:
+        sch = schema.float.min(min_value).max(max_value).precision(precision)
+
+    with then:
+        assert sch.props.precision == precision
+        assert sch.props.min == min_value
+        assert sch.props.max == max_value
