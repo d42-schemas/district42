@@ -1,4 +1,4 @@
-from typing import Any, Tuple
+from typing import Any, Generator, Tuple
 
 from niltype import Nil, Nilable
 
@@ -31,3 +31,9 @@ class AnySchema(Schema[AnyProps]):
             raise make_already_declared_error(self)
 
         return self.__class__(self.props.update(types=types_))
+
+    def __iter__(self) -> Generator[GenericSchema, None, None]:
+        if self.props.types is not Nil:
+            yield from self.props.types
+        else:
+            yield from ()
