@@ -20,7 +20,8 @@ _SchemaType = TypeVar("_SchemaType", bound=GenericSchema)
 
 
 def register_type(name: str, schema_type: Type[_SchemaType]) -> _SchemaType:
-    assert issubclass(schema_type, Schema)
+    if not issubclass(schema_type, Schema):
+        raise TypeError(f"{schema_type!r} must be a subclass of Schema")
     setattr(SchemaFacade, name, property(lambda self: schema_type()))
     return cast(_SchemaType, getattr(schema, name))
 

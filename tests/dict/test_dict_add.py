@@ -1,4 +1,5 @@
 from baby_steps import given, then, when
+from pytest import raises
 
 from district42 import optional, schema
 
@@ -106,3 +107,17 @@ def test_dict_add_relaxed_right():
         })
         assert sch1 == schema.dict({"id": schema.int})
         assert sch2 == schema.dict({"name": schema.str, ...: ...})
+
+
+def test_dict_add_incorrect_type():
+    with given:
+        sch = schema.dict
+
+    with when, raises(Exception) as exception:
+        sch + {}
+
+    with then:
+        assert exception.type is TypeError
+        assert str(exception.value) == (
+            "Unsupported operand type for +: 'DictSchema' and <class 'dict'>"
+        )

@@ -75,7 +75,6 @@ class SchemaVisitor(ABC, Generic[SchemaVisitorReturnType]):
         if kwargs.get("extend", False) is not True:
             return
         parent = cls.__bases__[0]
-        assert issubclass(parent, SchemaVisitor)
         for name, value in cls.__dict__.items():
             if callable(value) and not name.startswith("__"):
                 setattr(parent, name, value)
