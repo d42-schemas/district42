@@ -7,6 +7,7 @@ if TYPE_CHECKING:
         BoolSchema,
         BytesSchema,
         ConstSchema,
+        DateTimeSchema,
         DictSchema,
         FloatSchema,
         GenericTypeAliasSchema,
@@ -15,6 +16,7 @@ if TYPE_CHECKING:
         NoneSchema,
         StrSchema,
         TypeAliasPropsType,
+        UUID4Schema,
     )
 
 __all__ = ("SchemaVisitor", "SchemaVisitorReturnType",)
@@ -66,6 +68,14 @@ class SchemaVisitor(ABC, Generic[SchemaVisitorReturnType]):
     @abstractmethod
     def visit_type_alias(self, schema: "GenericTypeAliasSchema[TypeAliasPropsType]",
                          **kwargs: Any) -> SchemaVisitorReturnType:
+        pass
+
+    @abstractmethod
+    def visit_uuid4(self, schema: "UUID4Schema", **kwargs: Any) -> SchemaVisitorReturnType:
+        pass
+
+    @abstractmethod
+    def visit_datetime(self, schema: "DateTimeSchema", **kwargs: Any) -> SchemaVisitorReturnType:
         pass
 
     def __getattr__(self, name: Any) -> Any:

@@ -6,6 +6,7 @@ from .types import (
     BoolSchema,
     BytesSchema,
     ConstSchema,
+    DateTimeSchema,
     DictSchema,
     FloatSchema,
     GenericSchema,
@@ -70,6 +71,10 @@ class SchemaFacade:
     @property
     def uuid4(self) -> UUID4Schema:
         return UUID4Schema()
+
+    @property
+    def datetime(self) -> DateTimeSchema:
+        return DateTimeSchema()
 
     def __getattr__(self, name: Any) -> Any:
         raise AttributeError(f"{self.__class__.__name__!r} object has no attribute {name!r}")
