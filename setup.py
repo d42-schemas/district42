@@ -21,6 +21,10 @@ setup(
     author_email="tsv1@fastmail.com",
     python_requires=">=3.8",
     url="https://github.com/tsv1/district42",
+    project_urls={
+        "Docs": "https://d42.vedro.io",
+        "GitHub": "https://github.com/tsv1/district42",
+    },
     license="Apache-2.0",
     packages=find_packages(exclude=["tests", "tests.*"]),
     package_data={"district42": ["py.typed"]},
