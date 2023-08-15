@@ -8,6 +8,7 @@ from ..types import (
     BoolSchema,
     BytesSchema,
     ConstSchema,
+    DateTimeSchema,
     DictSchema,
     FloatSchema,
     GenericTypeAliasSchema,
@@ -185,6 +186,14 @@ class Representor(SchemaVisitor[str]):
 
     def visit_uuid4(self, schema: UUID4Schema, *, indent: int = 0, **kwargs: Any) -> str:
         r = f"{self._name}.uuid4"
+
+        if schema.props.value is not Nil:
+            r += f"({schema.props.value!r})"
+
+        return r
+
+    def visit_datetime(self, schema: DateTimeSchema, *, indent: int = 0, **kwargs: Any) -> str:
+        r = f"{self._name}.datetime"
 
         if schema.props.value is not Nil:
             r += f"({schema.props.value!r})"
