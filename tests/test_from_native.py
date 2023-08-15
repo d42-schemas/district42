@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from baby_steps import given, then, when
 from pytest import raises
 
@@ -115,6 +117,17 @@ def test_bytes_value():
 
     with then:
         assert res == schema.bytes(value)
+
+
+def test_uuid4_value():
+    with given:
+        value = uuid4()
+
+    with when:
+        res = from_native(value)
+
+    with then:
+        assert res == schema.uuid4(value)
 
 
 def test_unknown_value():

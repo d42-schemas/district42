@@ -11,6 +11,8 @@ __all__ = ("Schema", "GenericSchema",)
 
 
 class Schema(ABC, Generic[PropsType]):
+    type = Any
+
     def __init__(self, props: Nilable[PropsType] = Nil) -> None:
         props_type = self.__orig_bases__[0].__args__[0]  # type: ignore
         self._props = cast(PropsType, props_type()) if props is Nil else props

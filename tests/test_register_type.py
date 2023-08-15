@@ -30,4 +30,5 @@ def test_register_incorrect_type():
         register_type("custom_incorrect_type", CustomIncorrectType)
 
     with then:
-        assert exception.type is AssertionError
+        assert exception.type is TypeError
+        assert str(exception.value) == f"{CustomIncorrectType!r} must be a subclass of Schema"

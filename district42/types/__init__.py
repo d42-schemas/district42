@@ -15,10 +15,12 @@ from ._type_alias_schema import (
     TypeAliasPropsType,
     TypeAliasSchema,
 )
+from ._uuid4_schema import UUID4Props, UUID4Schema
 
 __all__ = ("AnyProps", "AnySchema", "BoolProps", "BoolSchema", "BytesProps", "BytesSchema",
            "ConstProps", "ConstSchema", "DictProps", "DictSchema", "FloatProps", "FloatSchema",
            "IntProps", "IntSchema", "ListProps", "ListSchema", "NoneProps", "NoneSchema",
-           "StrProps", "StrSchema", "TypeAliasSchema", "TypeAliasProps",
+           "StrProps", "StrSchema", "UUID4Props", "UUID4Schema",
+           "TypeAliasSchema", "TypeAliasProps",
            "GenericTypeAliasSchema", "TypeAliasPropsType", "GenericSchema", "Schema",
            "optional", "make_required", )

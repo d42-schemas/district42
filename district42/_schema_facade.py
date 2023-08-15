@@ -15,6 +15,7 @@ from .types import (
     StrSchema,
     TypeAliasProps,
     TypeAliasSchema,
+    UUID4Schema,
 )
 
 __all__ = ("SchemaFacade",)
@@ -65,6 +66,10 @@ class SchemaFacade:
     @property
     def bytes(self) -> BytesSchema:
         return BytesSchema()
+
+    @property
+    def uuid4(self) -> UUID4Schema:
+        return UUID4Schema()
 
     def __getattr__(self, name: Any) -> Any:
         raise AttributeError(f"{self.__class__.__name__!r} object has no attribute {name!r}")
