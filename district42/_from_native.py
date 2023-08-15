@@ -1,4 +1,5 @@
 from typing import Any
+from uuid import UUID
 
 from .types import (
     BoolSchema,
@@ -10,6 +11,7 @@ from .types import (
     ListSchema,
     NoneSchema,
     StrSchema,
+    UUID4Schema,
 )
 
 __all__ = ("from_native",)
@@ -32,5 +34,7 @@ def from_native(value: Any) -> GenericSchema:
         return DictSchema()({key: from_native(val) for key, val in value.items()})
     elif isinstance(value, bytes):
         return BytesSchema()(value)
+    elif isinstance(value, UUID) and (value.version == 4):
+        return UUID4Schema()(value)
     else:
         raise ValueError(value)
