@@ -16,6 +16,7 @@ from ..types import (
     NoneSchema,
     StrSchema,
     TypeAliasPropsType,
+    UUID4Schema,
 )
 from ..utils import is_ellipsis
 
@@ -181,3 +182,11 @@ class Representor(SchemaVisitor[str]):
         if schema.props.name is not Nil:
             type_name = schema.props.name
         return f"{type_name}<{type_repr}>"
+
+    def visit_uuid4(self, schema: UUID4Schema, *, indent: int = 0, **kwargs: Any) -> str:
+        r = f"{self._name}.uuid4"
+
+        if schema.props.value is not Nil:
+            r += f"({schema.props.value!r})"
+
+        return r
