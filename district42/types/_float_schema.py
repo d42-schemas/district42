@@ -10,9 +10,8 @@ from ..errors import (
     make_already_declared_error,
     make_incorrect_max_error,
     make_incorrect_min_error,
-    make_incorrect_precision_len_error,
+    make_incorrect_precision_error,
     make_invalid_type_error,
-    make_value_already_declared_for_precision,
 )
 from ._schema import Schema
 
@@ -51,9 +50,6 @@ class FloatSchema(Schema[FloatProps]):
         if (self.props.min is not Nil) or (self.props.max is not Nil):
             raise make_already_declared_error(self)
 
-        if self.props.precision is not Nil:
-            raise make_already_declared_error(self)
-
         return self.__class__(self.props.update(value=value))
 
     def min(self, /, value: float) -> "FloatSchema":
@@ -84,13 +80,10 @@ class FloatSchema(Schema[FloatProps]):
         if not isinstance(value, int):
             raise make_invalid_type_error(self, value, (int,))
 
-        if (0 > value) or (value > sys.float_info.dig):
-            raise make_incorrect_precision_len_error(self, value)
+        if not (1 <= value <= sys.float_info.dig):
+            raise make_incorrect_precision_error(self, value, sys.float_info.dig)
 
         if self.props.precision is not Nil:
             raise make_already_declared_error(self)
-
-        if self.props.value is not Nil:
-            raise make_value_already_declared_for_precision(self)
 
         return self.__class__(self.props.update(precision=value))

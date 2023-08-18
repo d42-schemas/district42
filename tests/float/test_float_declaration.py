@@ -1,3 +1,4 @@
+import pytest
 from baby_steps import given, then, when
 from pytest import raises
 
@@ -178,80 +179,72 @@ def test_float_min_max_with_value_declaration():
 
 def test_float_precision_value_declaration():
     with given:
-        precision_value = 2
+        precision = 2
 
     with when:
-        sch = schema.float.precision(precision_value)
+        sch = schema.float.precision(precision)
 
     with then:
-        assert sch.props.precision == precision_value
+        assert sch.props.precision == precision
 
 
-def test_float_invalid_precision_value_type_declaration_error():
+def test_float_invalid_precision_type_declaration_error():
     with when, raises(Exception) as exception:
-        schema.float.precision(3.14)
+        schema.float.precision("2")
 
     with then:
         assert exception.type is DeclarationError
         assert str(exception.value) == ("`schema.float` value must be an instance of 'int', "
-                                        "instance of 'float' 3.14 given")
+                                        "instance of 'str' '2' given")
 
 
-def test_float_already_declared_precision_value_declaration_error():
-    with when, raises(Exception) as exception:
-        schema.float.precision(3)(3.14)
+def test_float_precision_with_value_declaration():
+    with when:
+        sch = schema.float(3.14).precision(2)
 
     with then:
-        assert exception.type is DeclarationError
-        assert str(exception.value) == "`schema.float.precision(3)` is already declared"
+        assert sch.props.value == 3.14
+        assert sch.props.precision == 2
 
 
-def test_float_value_already_declared_precision_declaration_error():
+def test_float_value_with_precision_declaration():
+    with when:
+        sch = schema.float.precision(2)(3.14)
+
+    with then:
+        assert sch.props.value == 3.14
+        assert sch.props.precision == 2
+
+
+@pytest.mark.parametrize("new_precision", [3, 4])
+def test_float_already_declared_precision_declaration_error(new_precision: int):
     with given:
-        sch = schema.float(3.14)
+        sch = schema.float.precision(3)
 
     with when, raises(Exception) as exception:
-        sch.precision(3)
-
-    with then:
-        assert exception.type is DeclarationError
-        assert str(exception.value) == "`schema.float(3.14)` value is already declared, " \
-                                       "no precision needed"
-
-
-def test_float_precision_value_already_declared_precision_declaration_error():
-    with when, raises(Exception) as exception:
-        schema.float.precision(3).precision(3)
+        sch.precision(new_precision)
 
     with then:
         assert exception.type is DeclarationError
         assert str(exception.value) == "`schema.float.precision(3)` is already declared"
 
 
-def test_float_precision_value_too_big_declaration_error():
+@pytest.mark.parametrize("precision", [0, 16])
+def test_float_precision_incorrect_value_declaration_error(precision: int):
     with when, raises(Exception) as exception:
-        schema.float.precision(500)
+        schema.float.precision(precision)
 
     with then:
         assert exception.type is DeclarationError
-        assert str(exception.value) == "`schema.float` precision must be greater than 0 or " \
-                                       "less than 15, 500 given"
+        assert str(exception.value) == (
+            f"`schema.float` precision must be greater than 0 or less than 15, {precision} given"
+        )
 
 
-def test_float_precision_value_too_small_declaration_error():
-    with when, raises(Exception) as exception:
-        schema.float.precision(-500)
-
-    with then:
-        assert exception.type is DeclarationError
-        assert str(exception.value) == "`schema.float` precision must be greater than 0 or " \
-                                       "less than 15, -500 given"
-
-
-def test_float_min_max_with_precision_given():
+def test_float_min_max_with_precision():
     with given:
         precision = 2
-        min_value, max_value = 3., 4.
+        min_value, max_value = 3.13, 3.15
 
     with when:
         sch = schema.float.min(min_value).max(max_value).precision(precision)
