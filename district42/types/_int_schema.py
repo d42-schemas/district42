@@ -29,6 +29,10 @@ class IntProps(Props):
     def max(self) -> Nilable[int]:
         return self.get("max")
 
+    @property
+    def multiple_of(self) -> Nilable[int]:
+        return self.get("multiple_of")
+
 
 class IntSchema(Schema[IntProps]):
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
@@ -69,3 +73,16 @@ class IntSchema(Schema[IntProps]):
             raise make_incorrect_max_error(self, self.props.value, value)
 
         return self.__class__(self.props.update(max=value))
+
+    def multiple_of(self, /, value: int) -> "IntSchema":
+        if not isinstance(value, int):
+            raise make_invalid_type_error(self, value, (int,))
+
+        if value <= 0:
+            # raise DeclarationError
+            raise ValueError("value must be greater than 0")
+
+        if self.props.multiple_of is not Nil:
+            raise make_already_declared_error(self)
+
+        return self.__class__(self.props.update(multiple_of=value))

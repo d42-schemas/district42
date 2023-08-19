@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 if TYPE_CHECKING:
@@ -24,59 +23,46 @@ __all__ = ("SchemaVisitor", "SchemaVisitorReturnType",)
 SchemaVisitorReturnType = TypeVar("SchemaVisitorReturnType")
 
 
-class SchemaVisitor(ABC, Generic[SchemaVisitorReturnType]):
-    @abstractmethod
+class SchemaVisitor(Generic[SchemaVisitorReturnType]):
     def visit_none(self, schema: "NoneSchema", **kwargs: Any) -> SchemaVisitorReturnType:
-        pass
+        raise NotImplementedError()
 
-    @abstractmethod
     def visit_bool(self, schema: "BoolSchema", **kwargs: Any) -> SchemaVisitorReturnType:
-        pass
+        raise NotImplementedError()
 
-    @abstractmethod
     def visit_int(self, schema: "IntSchema", **kwargs: Any) -> SchemaVisitorReturnType:
-        pass
+        raise NotImplementedError()
 
-    @abstractmethod
     def visit_float(self, schema: "FloatSchema", **kwargs: Any) -> SchemaVisitorReturnType:
-        pass
+        raise NotImplementedError()
 
-    @abstractmethod
     def visit_str(self, schema: "StrSchema", **kwargs: Any) -> SchemaVisitorReturnType:
-        pass
+        raise NotImplementedError()
 
-    @abstractmethod
     def visit_list(self, schema: "ListSchema", **kwargs: Any) -> SchemaVisitorReturnType:
-        pass
+        raise NotImplementedError()
 
-    @abstractmethod
     def visit_dict(self, schema: "DictSchema", **kwargs: Any) -> SchemaVisitorReturnType:
-        pass
+        raise NotImplementedError()
 
-    @abstractmethod
     def visit_any(self, schema: "AnySchema", **kwargs: Any) -> SchemaVisitorReturnType:
-        pass
+        raise NotImplementedError()
 
-    @abstractmethod
     def visit_const(self, schema: "ConstSchema", **kwargs: Any) -> SchemaVisitorReturnType:
-        pass
+        raise NotImplementedError()
 
-    @abstractmethod
     def visit_bytes(self, schema: "BytesSchema", **kwargs: Any) -> SchemaVisitorReturnType:
-        pass
+        raise NotImplementedError()
 
-    @abstractmethod
     def visit_type_alias(self, schema: "GenericTypeAliasSchema[TypeAliasPropsType]",
                          **kwargs: Any) -> SchemaVisitorReturnType:
-        pass
+        raise NotImplementedError()
 
-    @abstractmethod
     def visit_uuid4(self, schema: "UUID4Schema", **kwargs: Any) -> SchemaVisitorReturnType:
-        pass
+        raise NotImplementedError()
 
-    @abstractmethod
     def visit_datetime(self, schema: "DateTimeSchema", **kwargs: Any) -> SchemaVisitorReturnType:
-        pass
+        raise NotImplementedError()
 
     def __getattr__(self, name: Any) -> Any:
         raise AttributeError(f"{self.__class__.__name__!r} object has no attribute {name!r}")
