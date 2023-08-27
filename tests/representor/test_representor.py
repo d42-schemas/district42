@@ -9,11 +9,14 @@ from district42.types import Schema
 
 
 def test_representor_name():
-    with when:
+    with given:
         representor = Representor()
 
+    with when:
+        res = representor.name
+
     with then:
-        assert representor.name == "schema"
+        assert res == "schema"
 
 
 def test_representor_visit():
