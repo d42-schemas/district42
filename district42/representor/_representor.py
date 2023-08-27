@@ -35,7 +35,7 @@ class Representor(SchemaVisitor[str]):
     def visit(self, schema: GenericSchema, *, indent: int = 0, **kwargs: Any) -> str:
         if represent_method := getattr(schema, "__district42__", None):
             return cast(str, represent_method(self, indent=indent, **kwargs))
-        raise NotImplementedError(f"__district42__ is not implemented for {schema.__class__}")
+        raise NotImplementedError(f"{schema.__class__.__name__} has no method '__district42__'")
 
     def visit_none(self, schema: NoneSchema, *, indent: int = 0, **kwargs: Any) -> str:
         return f"{self._name}.none"
