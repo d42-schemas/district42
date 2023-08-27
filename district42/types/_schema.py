@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Any, Generic, cast
 
 from niltype import Nil, Nilable
@@ -21,9 +21,10 @@ class Schema(ABC, Generic[PropsType]):
     def props(self) -> PropsType:
         return self._props
 
-    @abstractmethod
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
-        pass
+        if visit_method := getattr(visitor, "visit", None):
+            return cast(ReturnType, visit_method(self, **kwargs))
+        raise NotImplementedError(f"{visitor.__class__} has no method 'visit'")
 
     @classmethod
     def __override__(cls, method: str, fn: Any) -> None:

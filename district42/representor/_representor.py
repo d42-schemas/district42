@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 
 from niltype import Nil
 
@@ -11,6 +11,7 @@ from ..types import (
     DateTimeSchema,
     DictSchema,
     FloatSchema,
+    GenericSchema,
     GenericTypeAliasSchema,
     IntSchema,
     ListSchema,
@@ -26,6 +27,15 @@ class Representor(SchemaVisitor[str]):
     def __init__(self, name: str = "schema", indent: int = 4) -> None:
         self._name = name
         self._indent = indent
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    def visit(self, schema: GenericSchema, *, indent: int = 0, **kwargs: Any) -> str:
+        if represent_method := getattr(schema, "__district42__", None):
+            return cast(str, represent_method(self, indent=indent, **kwargs))
+        raise NotImplementedError(f"__district42__ is not implemented for {schema.__class__}")
 
     def visit_none(self, schema: NoneSchema, *, indent: int = 0, **kwargs: Any) -> str:
         return f"{self._name}.none"
