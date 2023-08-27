@@ -16,7 +16,7 @@ def test_representor_name():
         assert representor.name == "schema"
 
 
-def test_representor_visit1():
+def test_representor_visit():
     with given:
         mock = Mock(return_value=sentinel.visited)
 
