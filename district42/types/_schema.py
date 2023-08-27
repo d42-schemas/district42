@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Any, Generic, cast
 
 from niltype import Nil, Nilable
@@ -14,6 +14,8 @@ class Schema(ABC, Generic[PropsType]):
     type = Any
 
     def __init__(self, props: Nilable[PropsType] = Nil) -> None:
+        if type(self) is Schema:
+            raise TypeError(f"Cannot instantiate abstract class {self.__class__.__name__}")
         props_type = self.__orig_bases__[0].__args__[0]  # type: ignore
         self._props = cast(PropsType, props_type()) if props is Nil else props
 
@@ -21,9 +23,10 @@ class Schema(ABC, Generic[PropsType]):
     def props(self) -> PropsType:
         return self._props
 
-    @abstractmethod
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
-        pass
+        if visit_method := getattr(visitor, "visit", None):
+            return cast(ReturnType, visit_method(self, **kwargs))
+        raise NotImplementedError(f"{visitor.__class__.__name__} has no method 'visit'")
 
     @classmethod
     def __override__(cls, method: str, fn: Any) -> None:

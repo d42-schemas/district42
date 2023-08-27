@@ -4,7 +4,8 @@ import pytest
 from baby_steps import given, then, when
 from pytest import raises
 
-from district42 import Schema, schema
+from district42 import schema
+from district42.types import Schema
 
 
 def test_non_implemented_invert():
