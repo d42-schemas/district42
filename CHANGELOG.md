@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.7
+
+### v1.7.0 (2023-08-27)
+
+- Add visit method for custom types [#16](https://github.com/tsv1/district42/pull/16)
+
 ## v1.6
 
 ### v1.6.0 (2023-08-18)
