@@ -1,7 +1,7 @@
 from typing import Any, Type, TypeVar, cast
 
 from ._from_native import from_native
-from ._props import Props
+from ._props import Props, PropsType
 from ._schema_facade import SchemaFacade
 from ._schema_visitor import SchemaVisitor, SchemaVisitorReturnType
 from ._version import version
@@ -9,8 +9,9 @@ from .representor import Representor
 from .types import AnySchema, GenericSchema, Schema, make_required, optional
 
 __version__ = version
-__all__ = ("schema", "GenericSchema", "Props", "SchemaVisitor", "SchemaVisitorReturnType",
-           "from_native", "optional", "register_type", "represent", "make_required", )
+__all__ = ("schema", "GenericSchema", "Props", "PropsType", "SchemaVisitor",
+           "SchemaVisitorReturnType", "from_native", "optional", "register_type",
+           "represent", "make_required", )
 
 
 schema = SchemaFacade()
