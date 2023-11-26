@@ -5,6 +5,7 @@ from ._const_schema import ConstProps, ConstSchema
 from ._datetime_schema import DateTimeProps, DateTimeSchema
 from ._dict_schema import DictProps, DictSchema, make_required, optional
 from ._float_schema import FloatProps, FloatSchema
+from ._int32_schema import Int32Schema
 from ._int_schema import IntProps, IntSchema
 from ._list_schema import ListProps, ListSchema
 from ._none_schema import NoneProps, NoneSchema
@@ -22,6 +23,7 @@ __all__ = ("AnyProps", "AnySchema", "BoolProps", "BoolSchema", "BytesProps", "By
            "ConstProps", "ConstSchema", "DictProps", "DictSchema", "FloatProps", "FloatSchema",
            "IntProps", "IntSchema", "ListProps", "ListSchema", "NoneProps", "NoneSchema",
            "StrProps", "StrSchema", "UUID4Props", "UUID4Schema", "DateTimeProps", "DateTimeSchema",
+           "Int32Schema",
            "TypeAliasSchema", "TypeAliasProps",
            "GenericTypeAliasSchema", "TypeAliasPropsType", "GenericSchema", "Schema",
            "optional", "make_required", )

@@ -13,6 +13,7 @@ from ..types import (
     FloatSchema,
     GenericSchema,
     GenericTypeAliasSchema,
+    Int32Schema,
     IntSchema,
     ListSchema,
     NoneSchema,
@@ -57,6 +58,20 @@ class Representor(SchemaVisitor[str]):
             r += f".min({schema.props.min!r})"
 
         if schema.props.max is not Nil:
+            r += f".max({schema.props.max!r})"
+
+        return r
+
+    def visit_int32(self, schema: Int32Schema, *, indent: int = 0, **kwargs: Any) -> str:
+        r = f"{self._name}.int32"
+
+        if schema.props.value is not Nil:
+            r += f"({schema.props.value!r})"
+
+        if (schema.props.min is not Nil) and (schema.props.min != schema._int32_min):
+            r += f".min({schema.props.min!r})"
+
+        if (schema.props.max is not Nil) and (schema.props.max != schema._int32_max):
             r += f".max({schema.props.max!r})"
 
         return r

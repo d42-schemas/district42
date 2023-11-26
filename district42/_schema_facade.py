@@ -10,6 +10,7 @@ from .types import (
     DictSchema,
     FloatSchema,
     GenericSchema,
+    Int32Schema,
     IntSchema,
     ListSchema,
     NoneSchema,
@@ -38,6 +39,10 @@ class SchemaFacade:
     @property
     def int(self) -> IntSchema:
         return IntSchema()
+
+    @property
+    def int32(self) -> Int32Schema:
+        return Int32Schema()
 
     @property
     def float(self) -> FloatSchema:
