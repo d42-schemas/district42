@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, TypeAlias
 
 from niltype import Nil, Nilable
 
@@ -18,6 +18,8 @@ class ConstProps(Props):
 
 
 class ConstSchema(Schema[ConstProps]):
+    type: TypeAlias = Any
+
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_const(self, **kwargs)
 
