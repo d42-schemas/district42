@@ -1,5 +1,5 @@
 import re
-from typing import Any
+from typing import Any, TypeAlias
 
 from niltype import Nil, Nilable
 
@@ -51,6 +51,8 @@ class StrProps(Props):
 
 
 class StrSchema(Schema[StrProps]):
+    type: TypeAlias = str
+
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_str(self, **kwargs)
 

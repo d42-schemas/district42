@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, TypeAlias
 
 from niltype import Nil, Nilable
 
@@ -31,6 +31,8 @@ class IntProps(Props):
 
 
 class IntSchema(Schema[IntProps]):
+    type: TypeAlias = int
+
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_int(self, **kwargs)
 

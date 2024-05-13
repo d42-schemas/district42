@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, TypeAlias
 
 from .._props import Props
 from .._schema_visitor import SchemaVisitor
@@ -13,5 +13,7 @@ class NoneProps(Props):
 
 
 class NoneSchema(Schema[NoneProps]):
+    type: TypeAlias = None
+
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_none(self, **kwargs)

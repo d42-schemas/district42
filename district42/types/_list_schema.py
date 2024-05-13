@@ -1,4 +1,4 @@
-from typing import Any, List, Union
+from typing import Any, List, Union, TypeAlias
 
 from niltype import Nil, Nilable
 
@@ -45,6 +45,8 @@ class ListProps(Props):
 
 
 class ListSchema(Schema[ListProps]):
+    type: TypeAlias = List
+
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_list(self, **kwargs)
 

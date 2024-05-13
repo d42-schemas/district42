@@ -1,4 +1,4 @@
-from typing import Any, Generator, Tuple
+from typing import Any, Generator, Tuple, TypeAlias
 
 from niltype import Nil, Nilable
 
@@ -18,6 +18,7 @@ class AnyProps(Props):
 
 
 class AnySchema(Schema[AnyProps]):
+    type: TypeAlias = Any
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_any(self, **kwargs)
 

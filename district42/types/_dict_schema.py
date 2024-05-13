@@ -1,4 +1,4 @@
-from typing import Any, Dict, Generator, KeysView, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, Generator, KeysView, List, Optional, Set, Tuple, Union, TypeAlias
 
 from niltype import Nil, Nilable
 
@@ -20,6 +20,8 @@ class DictProps(Props):
 
 
 class DictSchema(Schema[DictProps]):
+    type: TypeAlias = dict
+
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_dict(self, **kwargs)
 

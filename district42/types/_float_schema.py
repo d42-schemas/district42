@@ -1,5 +1,5 @@
 import sys
-from typing import Any
+from typing import Any, TypeAlias
 
 from niltype import Nil, Nilable
 
@@ -37,6 +37,8 @@ class FloatProps(Props):
 
 
 class FloatSchema(Schema[FloatProps]):
+    type: TypeAlias = float
+
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_float(self, **kwargs)
 
