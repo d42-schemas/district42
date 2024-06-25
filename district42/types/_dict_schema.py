@@ -20,7 +20,7 @@ class DictProps(Props):
 
 
 class DictSchema(Schema[DictProps]):
-    type: TypeAlias = dict
+    type: TypeAlias = Dict
 
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_dict(self, **kwargs)
