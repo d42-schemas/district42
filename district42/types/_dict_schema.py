@@ -79,7 +79,7 @@ class DictSchema(Schema[DictProps]):
 RequiredKeysType = Union[Set[str], List[str], Tuple[str, ...]]
 
 
-def make_required(schema: DictSchema, keys: Optional[RequiredKeysType] = None) -> DictSchema:
+def make_required(schema: DictSchema | Any, keys: Optional[RequiredKeysType] = None) -> DictSchema:
     if not isinstance(schema, DictSchema):
         message = f"Inappropriate type of schema {schema!r} ({type(schema)!r})"
         raise DeclarationError(message)
