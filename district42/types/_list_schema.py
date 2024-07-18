@@ -1,4 +1,4 @@
-from typing import Any, List, Union, TypeAlias
+from typing import Any, List, Union, TypeAlias, Type
 
 from niltype import Nil, Nilable
 
@@ -51,7 +51,7 @@ class ListSchema(Schema[ListProps]):
         return visitor.visit_list(self, **kwargs)
 
     def __call__(self, /,
-                 elements_or_type: Union[List[ElementType], GenericSchema]) -> "ListSchema":
+                 elements_or_type: Union[List[ElementType], GenericSchema, Any]) -> "ListSchema":
         if not isinstance(elements_or_type, (list, Schema)):
             raise make_invalid_type_error(self, elements_or_type, (list, Schema))
 
