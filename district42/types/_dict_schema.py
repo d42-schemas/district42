@@ -1,4 +1,4 @@
-from typing import Any, Dict, Generator, KeysView, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, Generator, KeysView, List, Optional, Set, Tuple, Union, TypeAlias
 
 from niltype import Nil, Nilable
 
@@ -20,6 +20,8 @@ class DictProps(Props):
 
 
 class DictSchema(Schema[DictProps]):
+    type: TypeAlias = Dict
+
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_dict(self, **kwargs)
 
@@ -77,7 +79,7 @@ class DictSchema(Schema[DictProps]):
 RequiredKeysType = Union[Set[str], List[str], Tuple[str, ...]]
 
 
-def make_required(schema: DictSchema, keys: Optional[RequiredKeysType] = None) -> DictSchema:
+def make_required(schema: DictSchema | Any, keys: Optional[RequiredKeysType] = None) -> DictSchema:
     if not isinstance(schema, DictSchema):
         message = f"Inappropriate type of schema {schema!r} ({type(schema)!r})"
         raise DeclarationError(message)

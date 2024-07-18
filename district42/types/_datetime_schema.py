@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any
+from typing import Any, TypeAlias
 
 from niltype import Nil, Nilable
 
@@ -19,6 +19,8 @@ class DateTimeProps(Props):
 
 
 class DateTimeSchema(Schema[DateTimeProps]):
+    type: TypeAlias = str
+
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_datetime(self, **kwargs)
 
