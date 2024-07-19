@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from uuid import uuid4
 
 from baby_steps import given, then, when
@@ -129,6 +129,17 @@ def test_uuid4_value():
 
     with then:
         assert res == schema.uuid4(value)
+
+
+def test_date_value():
+    with given:
+        value = date.today()
+
+    with when:
+        res = from_native(value)
+
+    with then:
+        assert res == schema.date(value)
 
 
 def test_datetime_value():

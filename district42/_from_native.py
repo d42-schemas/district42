@@ -1,10 +1,11 @@
-from datetime import datetime
+from datetime import date, datetime
 from typing import Any
 from uuid import UUID
 
 from .types import (
     BoolSchema,
     BytesSchema,
+    DateSchema,
     DateTimeSchema,
     DictSchema,
     FloatSchema,
@@ -40,5 +41,7 @@ def from_native(value: Any) -> GenericSchema:
         return UUID4Schema()(value)
     elif isinstance(value, datetime):
         return DateTimeSchema()(value)
+    elif isinstance(value, date):
+        return DateSchema()(value)
     else:
         raise ValueError(value)

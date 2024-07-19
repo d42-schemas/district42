@@ -7,6 +7,7 @@ if TYPE_CHECKING:
         BoolSchema,
         BytesSchema,
         ConstSchema,
+        DateSchema,
         DateTimeSchema,
         DictSchema,
         FloatSchema,
@@ -63,6 +64,9 @@ class SchemaVisitor(ABC, Generic[SchemaVisitorReturnType]):
         raise NotImplementedError()
 
     def visit_datetime(self, schema: "DateTimeSchema", **kwargs: Any) -> SchemaVisitorReturnType:
+        raise NotImplementedError()
+
+    def visit_date(self, schema: "DateSchema", **kwargs: Any) -> SchemaVisitorReturnType:
         raise NotImplementedError()
 
     def __getattr__(self, name: Any) -> Any:

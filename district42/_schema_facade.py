@@ -6,6 +6,7 @@ from .types import (
     BoolSchema,
     BytesSchema,
     ConstSchema,
+    DateSchema,
     DateTimeSchema,
     DictSchema,
     FloatSchema,
@@ -75,6 +76,10 @@ class SchemaFacade:
     @property
     def datetime(self) -> DateTimeSchema:
         return DateTimeSchema()
+
+    @property
+    def date(self) -> DateSchema:
+        return DateSchema()
 
     def __getattr__(self, name: Any) -> Any:
         raise AttributeError(f"{self.__class__.__name__!r} object has no attribute {name!r}")
