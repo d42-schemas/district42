@@ -1,4 +1,5 @@
-from typing import Any, List, Union, TypeAlias, Type
+import sys
+from typing import Any, List, Union, Type
 
 from niltype import Nil, Nilable
 
@@ -45,7 +46,9 @@ class ListProps(Props):
 
 
 class ListSchema(Schema[ListProps]):
-    type: TypeAlias = List
+    if sys.version_info >= (3, 10):
+        from typing import TypeAlias
+        type: TypeAlias = List
 
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_list(self, **kwargs)

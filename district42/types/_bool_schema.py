@@ -1,4 +1,5 @@
-from typing import Any, TypeAlias
+import sys
+from typing import Any
 
 from niltype import Nil, Nilable
 
@@ -18,7 +19,9 @@ class BoolProps(Props):
 
 
 class BoolSchema(Schema[BoolProps]):
-    type: TypeAlias = bool
+    if sys.version_info >= (3, 10):
+        from typing import TypeAlias
+        type: TypeAlias = bool
 
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_bool(self, **kwargs)
