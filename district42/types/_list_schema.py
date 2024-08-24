@@ -1,7 +1,7 @@
-from typing_extensions import TypeAlias
-from typing import Any, List, Union, Type
+from typing import Any, List, Union
 
 from niltype import Nil, Nilable
+from typing_extensions import TypeAlias
 
 from .._props import Props
 from .._schema_visitor import SchemaVisitor

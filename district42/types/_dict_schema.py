@@ -1,7 +1,7 @@
-from typing_extensions import TypeAlias
 from typing import Any, Dict, Generator, KeysView, List, Optional, Set, Tuple, Union
 
 from niltype import Nil, Nilable
+from typing_extensions import TypeAlias
 
 from .._props import Props
 from .._schema_visitor import SchemaVisitor
@@ -80,7 +80,8 @@ class DictSchema(Schema[DictProps]):
 RequiredKeysType = Union[Set[str], List[str], Tuple[str, ...]]
 
 
-def make_required(schema: Union[DictSchema, Any], keys: Optional[RequiredKeysType] = None) -> DictSchema:
+def make_required(schema: Union[DictSchema, Any],
+                  keys: Optional[RequiredKeysType] = None) -> DictSchema:
     if not isinstance(schema, DictSchema):
         message = f"Inappropriate type of schema {schema!r} ({type(schema)!r})"
         raise DeclarationError(message)

@@ -1,8 +1,8 @@
 import sys
-from typing_extensions import TypeAlias
 from typing import Any
 
 from niltype import Nil, Nilable
+from typing_extensions import TypeAlias
 
 from .._props import Props
 from .._schema_visitor import SchemaVisitor
