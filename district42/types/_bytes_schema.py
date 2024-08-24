@@ -1,4 +1,4 @@
-import sys
+from typing_extensions import TypeAlias
 from typing import Any
 
 from niltype import Nil, Nilable
@@ -19,9 +19,7 @@ class BytesProps(Props):
 
 
 class BytesSchema(Schema[BytesProps]):
-    if sys.version_info >= (3, 10):
-        from typing import TypeAlias
-        type: TypeAlias = bytes
+    type: TypeAlias = bytes
 
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_bytes(self, **kwargs)

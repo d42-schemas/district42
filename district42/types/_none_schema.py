@@ -1,4 +1,4 @@
-import sys
+from typing_extensions import TypeAlias
 from typing import Any
 
 from .._props import Props
@@ -14,9 +14,7 @@ class NoneProps(Props):
 
 
 class NoneSchema(Schema[NoneProps]):
-    if sys.version_info >= (3, 10):
-        from typing import TypeAlias
-        type: TypeAlias = None
+    type: TypeAlias = None
 
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_none(self, **kwargs)

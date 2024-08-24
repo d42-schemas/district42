@@ -1,4 +1,4 @@
-import sys
+from typing_extensions import TypeAlias
 from datetime import datetime
 from typing import Any
 
@@ -20,9 +20,7 @@ class DateTimeProps(Props):
 
 
 class DateTimeSchema(Schema[DateTimeProps]):
-    if sys.version_info >= (3, 10):
-        from typing import TypeAlias
-        type: TypeAlias = str
+    type: TypeAlias = str
 
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_datetime(self, **kwargs)

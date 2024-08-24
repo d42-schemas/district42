@@ -1,4 +1,4 @@
-import sys
+from typing_extensions import TypeAlias
 from typing import Any
 
 from niltype import Nil, Nilable
@@ -32,9 +32,7 @@ class IntProps(Props):
 
 
 class IntSchema(Schema[IntProps]):
-    if sys.version_info >= (3, 10):
-        from typing import TypeAlias
-        type: TypeAlias = int
+    type: TypeAlias = int
 
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_int(self, **kwargs)

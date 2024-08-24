@@ -1,4 +1,5 @@
 import sys
+from typing_extensions import TypeAlias
 from typing import Any
 
 from niltype import Nil, Nilable
@@ -37,9 +38,7 @@ class FloatProps(Props):
 
 
 class FloatSchema(Schema[FloatProps]):
-    if sys.version_info >= (3, 10):
-        from typing import TypeAlias
-        type: TypeAlias = float
+    type: TypeAlias = float
 
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_float(self, **kwargs)
