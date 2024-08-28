@@ -1,8 +1,8 @@
 import re
+import sys
 from typing import Any
 
 from niltype import Nil, Nilable
-from typing_extensions import TypeAlias
 
 from .._props import Props
 from .._schema_visitor import SchemaVisitor
@@ -19,6 +19,9 @@ from ..utils import TypeOrEllipsis, is_ellipsis
 from ._schema import Schema
 
 __all__ = ("StrSchema", "StrProps",)
+
+if sys.version_info >= (3, 10):
+    from typing import TypeAlias
 
 
 class StrProps(Props):
@@ -52,7 +55,10 @@ class StrProps(Props):
 
 
 class StrSchema(Schema[StrProps]):
-    type: TypeAlias = str
+    if sys.version_info >= (3, 10):
+        type: TypeAlias = str
+    else:
+        type: Any = str
 
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_str(self, **kwargs)

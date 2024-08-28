@@ -1,7 +1,7 @@
+import sys
 from typing import Any, Dict, Generator, KeysView, List, Optional, Set, Tuple, Union
 
 from niltype import Nil, Nilable
-from typing_extensions import TypeAlias
 
 from .._props import Props
 from .._schema_visitor import SchemaVisitor
@@ -13,6 +13,9 @@ from ._schema import GenericSchema, Schema
 
 __all__ = ("DictSchema", "DictProps", "make_required", "optional",)
 
+if sys.version_info >= (3, 10):
+    from typing import TypeAlias
+
 
 class DictProps(Props):
     @property
@@ -21,7 +24,10 @@ class DictProps(Props):
 
 
 class DictSchema(Schema[DictProps]):
-    type: TypeAlias = Dict
+    if sys.version_info >= (3, 10):
+        type: TypeAlias = Dict
+    else:
+        type: Any = Dict
 
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_dict(self, **kwargs)

@@ -1,8 +1,8 @@
+import sys
 from datetime import datetime
 from typing import Any
 
 from niltype import Nil, Nilable
-from typing_extensions import TypeAlias
 
 from .._props import Props
 from .._schema_visitor import SchemaVisitor
@@ -12,6 +12,9 @@ from ._schema import Schema
 
 __all__ = ("DateTimeSchema", "DateTimeProps",)
 
+if sys.version_info >= (3, 10):
+    from typing import TypeAlias
+
 
 class DateTimeProps(Props):
     @property
@@ -20,7 +23,10 @@ class DateTimeProps(Props):
 
 
 class DateTimeSchema(Schema[DateTimeProps]):
-    type: TypeAlias = str
+    if sys.version_info >= (3, 10):
+        type: TypeAlias = str
+    else:
+        type: Any = str
 
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_datetime(self, **kwargs)
