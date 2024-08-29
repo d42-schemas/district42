@@ -7,4 +7,4 @@
 
 `district42` is a data description language designed for defining data models. It provides a simple and expressive way to define the structure and constraints of your data.
 
-This package serves as the foundation for the [d42 package](https://pypi.org/project/d42/). For a quick-start guide and detailed documentation, please visit the official documentation at [d42.vedro.io/docs/quick-start](https://d42.vedro.io/docs/quick-start)
+This package serves as the foundation for the [d42 package](https://pypi.org/project/d42/). For a quick-start guide and detailed documentation, please visit the official documentation at [d42.sh/docs/quick-start](https://d42.sh/docs/quick-start)
