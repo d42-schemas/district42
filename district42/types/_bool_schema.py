@@ -1,3 +1,4 @@
+import sys
 from typing import Any
 
 from niltype import Nil, Nilable
@@ -10,6 +11,9 @@ from ._schema import Schema
 
 __all__ = ("BoolSchema", "BoolProps",)
 
+if sys.version_info >= (3, 10):
+    from typing import TypeAlias
+
 
 class BoolProps(Props):
     @property
@@ -18,6 +22,11 @@ class BoolProps(Props):
 
 
 class BoolSchema(Schema[BoolProps]):
+    if sys.version_info >= (3, 10):
+        type: TypeAlias = bool
+    else:
+        type: Any = bool
+
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_bool(self, **kwargs)
 

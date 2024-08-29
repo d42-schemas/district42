@@ -1,3 +1,4 @@
+import sys
 from typing import Any
 
 from niltype import Nil, Nilable
@@ -10,6 +11,9 @@ from ._schema import Schema
 
 __all__ = ("ConstSchema", "ConstProps",)
 
+if sys.version_info >= (3, 10):
+    from typing import TypeAlias
+
 
 class ConstProps(Props):
     @property
@@ -18,6 +22,11 @@ class ConstProps(Props):
 
 
 class ConstSchema(Schema[ConstProps]):
+    if sys.version_info >= (3, 10):
+        type: TypeAlias = Any
+    else:
+        type: Any = Any
+
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_const(self, **kwargs)
 

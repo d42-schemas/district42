@@ -1,3 +1,4 @@
+import sys
 from typing import Any, Dict, Generator, KeysView, List, Optional, Set, Tuple, Union
 
 from niltype import Nil, Nilable
@@ -12,6 +13,9 @@ from ._schema import GenericSchema, Schema
 
 __all__ = ("DictSchema", "DictProps", "make_required", "optional",)
 
+if sys.version_info >= (3, 10):
+    from typing import TypeAlias
+
 
 class DictProps(Props):
     @property
@@ -20,6 +24,11 @@ class DictProps(Props):
 
 
 class DictSchema(Schema[DictProps]):
+    if sys.version_info >= (3, 10):
+        type: TypeAlias = Dict
+    else:
+        type: Any = Dict
+
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_dict(self, **kwargs)
 
@@ -77,7 +86,8 @@ class DictSchema(Schema[DictProps]):
 RequiredKeysType = Union[Set[str], List[str], Tuple[str, ...]]
 
 
-def make_required(schema: DictSchema, keys: Optional[RequiredKeysType] = None) -> DictSchema:
+def make_required(schema: Union[DictSchema, Any],
+                  keys: Optional[RequiredKeysType] = None) -> DictSchema:
     if not isinstance(schema, DictSchema):
         message = f"Inappropriate type of schema {schema!r} ({type(schema)!r})"
         raise DeclarationError(message)

@@ -1,3 +1,4 @@
+import sys
 from typing import Any, Generator, Tuple
 
 from niltype import Nil, Nilable
@@ -10,6 +11,9 @@ from ._schema import GenericSchema, Schema
 
 __all__ = ("AnySchema", "AnyProps",)
 
+if sys.version_info >= (3, 10):
+    from typing import TypeAlias
+
 
 class AnyProps(Props):
     @property
@@ -18,6 +22,11 @@ class AnyProps(Props):
 
 
 class AnySchema(Schema[AnyProps]):
+    if sys.version_info >= (3, 10):
+        type: TypeAlias = Any
+    else:
+        type: Any = Any
+
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_any(self, **kwargs)
 

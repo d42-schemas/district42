@@ -17,6 +17,9 @@ from ._schema import Schema
 
 __all__ = ("FloatSchema", "FloatProps",)
 
+if sys.version_info >= (3, 10):
+    from typing import TypeAlias
+
 
 class FloatProps(Props):
     @property
@@ -37,6 +40,11 @@ class FloatProps(Props):
 
 
 class FloatSchema(Schema[FloatProps]):
+    if sys.version_info >= (3, 10):
+        type: TypeAlias = float
+    else:
+        type: Any = float
+
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_float(self, **kwargs)
 

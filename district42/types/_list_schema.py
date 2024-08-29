@@ -1,3 +1,4 @@
+import sys
 from typing import Any, List, Union
 
 from niltype import Nil, Nilable
@@ -17,6 +18,9 @@ from ..utils import TypeOrEllipsis, is_ellipsis
 from ._schema import GenericSchema, Schema
 
 __all__ = ("ListSchema", "ListProps",)
+
+if sys.version_info >= (3, 10):
+    from typing import TypeAlias
 
 
 ElementType = TypeOrEllipsis[GenericSchema]
@@ -45,11 +49,16 @@ class ListProps(Props):
 
 
 class ListSchema(Schema[ListProps]):
+    if sys.version_info >= (3, 10):
+        type: TypeAlias = List
+    else:
+        type: Any = List
+
     def __accept__(self, visitor: SchemaVisitor[ReturnType], **kwargs: Any) -> ReturnType:
         return visitor.visit_list(self, **kwargs)
 
     def __call__(self, /,
-                 elements_or_type: Union[List[ElementType], GenericSchema]) -> "ListSchema":
+                 elements_or_type: Union[List[ElementType], GenericSchema, Any]) -> "ListSchema":
         if not isinstance(elements_or_type, (list, Schema)):
             raise make_invalid_type_error(self, elements_or_type, (list, Schema))
 
